@@ -1,6 +1,6 @@
-﻿namespace reddit_bor
+﻿namespace reddit_bot
 {
-    partial class Form1
+    partial class AccountsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,10 +30,13 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -41,15 +44,8 @@
             this.panel1.Controls.Add(this.dataGridView1);
             this.panel1.Location = new System.Drawing.Point(230, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(738, 328);
+            this.panel1.Size = new System.Drawing.Size(738, 480);
             this.panel1.TabIndex = 0;
-            // 
-            // panel2
-            // 
-            this.panel2.Location = new System.Drawing.Point(12, 12);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(215, 643);
-            this.panel2.TabIndex = 1;
             // 
             // dataGridView1
             // 
@@ -60,23 +56,58 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(732, 322);
+            this.dataGridView1.Size = new System.Drawing.Size(732, 474);
             this.dataGridView1.TabIndex = 0;
             // 
-            // Form1
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.button1);
+            this.panel2.Location = new System.Drawing.Point(12, 12);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(215, 643);
+            this.panel2.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button1.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.button1.Location = new System.Drawing.Point(3, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(209, 50);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Акаунти";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(796, 498);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(172, 50);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "Добавити акаунт";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // AccountsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(980, 667);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "Form1";
+            this.Name = "AccountsForm";
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Button button2;
+
+        private System.Windows.Forms.Button button1;
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;

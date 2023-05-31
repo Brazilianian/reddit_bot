@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace reddit_bor
+namespace reddit_bot
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace reddit_bor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new AccountsForm());
         }
     }
 }

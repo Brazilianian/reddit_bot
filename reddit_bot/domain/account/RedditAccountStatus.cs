@@ -1,6 +1,6 @@
-﻿namespace reddit_bor.domain
+﻿namespace reddit_bot.domain
 {
-    public enum AccountStatus
+    public enum RedditAccountStatus
     {
         Unknown,
         Failed,
