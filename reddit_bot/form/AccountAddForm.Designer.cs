@@ -54,7 +54,7 @@ namespace reddit_bot
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(253, 29);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Username";
+            this.label1.Text = "Ідентифікаційний номер";
             // 
             // label2
             // 
@@ -63,7 +63,7 @@ namespace reddit_bot
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(253, 29);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Password";
+            this.label2.Text = "Секретний ключ";
             // 
             // textBox2
             // 
@@ -79,7 +79,7 @@ namespace reddit_bot
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(130, 34);
             this.button1.TabIndex = 4;
-            this.button1.Text = "Check validity";
+            this.button1.Text = "Додати акаунт";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -89,7 +89,6 @@ namespace reddit_bot
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(253, 23);
             this.label3.TabIndex = 5;
-            this.label3.Text = "label3";
             // 
             // AccountAddForm
             // 

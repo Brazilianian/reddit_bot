@@ -1,43 +1,57 @@
-﻿using System.ComponentModel;
-using Reddit;
-using Reddit.AuthTokenRetriever;
+﻿using System;
 using System.Diagnostics;
+using Reddit;
+using reddit_bot.domain;
+using Reddit.AuthTokenRetriever;
+using Reddit.AuthTokenRetriever.EventArgs;
 
 namespace reddit_bot.service
 {
     public class RedditService
     {
-        private string _id = "7coQmKRHRLtwEIf3-jyQCQ";
-        private string _secret = "sXD-8Sk-tzvmpwPBk1zAmFyZuplOHQ";
+        private AuthTokenRetrieverLib _authTokenRetrieverLib;
+        private string _accessToken;
+        private string _refreshToken;
 
-        private RedditClient _redditClient;
-
-        public RedditService()
+        public RedditClient GetRedditClient(RedditAccount redditAccount, string userAgent)
         {
+            return new RedditClient(
+                redditAccount.AppId,
+                redditAccount.RefreshToken,
+                redditAccount.Secret,
+                redditAccount.AccessToken,
+                userAgent);
         }
 
-        public void Login(string username, string password)
+        public void Login(string redditId, string secret)
         {
-            var authTokenRetrieverLib = new AuthTokenRetrieverLib(_id, _secret);
-            authTokenRetrieverLib.AwaitCallback();
-            OpenBrowser(authTokenRetrieverLib.AuthURL());
+            _authTokenRetrieverLib = new AuthTokenRetrieverLib(redditId, secret, 8080);
+            _authTokenRetrieverLib.AwaitCallback();
+            _authTokenRetrieverLib.AuthSuccess += LoginSuccess;
+            OpenBrowser(_authTokenRetrieverLib.AuthURL());
         }
 
+        private void LoginSuccess(object sender, AuthSuccessEventArgs e)
+        {
+            _accessToken = e.AccessToken;
+            _refreshToken = e.RefreshToken;
+        }
+
+        //TODO open new browser and close it
         private void OpenBrowser(string authUrl)
         {
-            try
-            {
-                var processStartInfo = new ProcessStartInfo(authUrl);
-                Process.Start(processStartInfo);
-            }
-            catch (Win32Exception)
-            {
-                var processStartInfo = new ProcessStartInfo()
-                {
-                    Arguments = authUrl
-                };
-                Process.Start(processStartInfo);
-            }
+            var processStartInfo = new ProcessStartInfo(authUrl);
+            Process.Start(processStartInfo);
+        }
+
+        public string GetAccessToken()
+        {
+            return _authTokenRetrieverLib.AccessToken;
+        }
+
+        public string GetRefreshToken()
+        {
+            return _authTokenRetrieverLib.RefreshToken;
         }
     }
 }

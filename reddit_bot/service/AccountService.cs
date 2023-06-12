@@ -7,15 +7,15 @@ namespace reddit_bot.service
     public class AccountService
     {
         private readonly AccountRepository _accountRepository;
+
         public AccountService()
         {
             _accountRepository = new AccountRepository();
         }
-        
-        public RedditAccount Save(RedditAccount account)
+
+        public void Save(RedditAccount account)
         {
-           _accountRepository.Save(account);
-           return _accountRepository.FindByUsername(account.Username);
+            _accountRepository.Save(account);
         }
 
         public List<RedditAccount> GetAllAccounts()
@@ -23,10 +23,16 @@ namespace reddit_bot.service
             return _accountRepository.FindAll();
         }
 
-        public bool IsAccountAlreadyExists(RedditAccount account)
+        public bool IsAccountAlreadyExists(string accountId)
         {
-            var redditAccount = _accountRepository.FindByUsername(account.Username);
+            var redditAccount = _accountRepository.FindByAccountId(accountId);
             return redditAccount != null;
+        }
+
+        public void UpdateAccountStatus(RedditAccount account)
+        {
+            account.Status = RedditAccountStatus.Connected;
+            //TODO update status
         }
     }
 }
