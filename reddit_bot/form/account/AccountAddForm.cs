@@ -39,10 +39,7 @@ namespace reddit_bot
             redditAccount.AccessToken = _redditService.GetAccessToken();
             redditAccount.RefreshToken = _redditService.GetRefreshToken();
             
-            //FIXME edit user agent
-            RedditClient redditClient = _redditService.GetRedditClient(redditAccount,
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36");
-
+            RedditClient redditClient = _redditService.GetRedditClient(redditAccount, RequestsUtil.GetUserAgent());
             if (_accountService.IsAccountAlreadyExists(redditClient.Account.Me.Id))
             {
                 label3.Text = "Такий користувач вже існує";

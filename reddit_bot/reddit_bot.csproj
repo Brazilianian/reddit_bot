@@ -106,27 +106,43 @@
         <Compile Include="database\DatabaseConnector.cs" />
         <Compile Include="domain\account\RedditAccount.cs" />
         <Compile Include="domain\account\RedditAccountStatus.cs" />
-        <Compile Include="form\AccountAddForm.cs">
+        <Compile Include="form\account\AccountAddForm.cs">
           <SubType>Form</SubType>
         </Compile>
-        <Compile Include="form\AccountAddForm.Designer.cs">
+        <Compile Include="form\account\AccountAddForm.Designer.cs">
           <DependentUpon>AccountAddForm.cs</DependentUpon>
         </Compile>
-        <Compile Include="form\AccountsForm.cs">
+        <Compile Include="form\account\AccountInfoForm.cs">
           <SubType>Form</SubType>
         </Compile>
-        <Compile Include="form\AccountsForm.Designer.cs">
+        <Compile Include="form\account\AccountInfoForm.Designer.cs">
+          <DependentUpon>AccountInfoForm.cs</DependentUpon>
+        </Compile>
+        <Compile Include="form\account\AccountsForm.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="form\account\AccountsForm.Designer.cs">
           <DependentUpon>AccountsForm.cs</DependentUpon>
+        </Compile>
+        <Compile Include="form\task\CreatePostTask.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="form\task\CreatePostTask.Designer.cs">
+          <DependentUpon>CreatePostTask.cs</DependentUpon>
         </Compile>
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="repository\AccountRepository.cs" />
         <Compile Include="service\AccountService.cs" />
         <Compile Include="service\RedditService.cs" />
-        <EmbeddedResource Include="form\AccountAddForm.resx">
+        <Compile Include="util\RequestsUtil.cs" />
+        <EmbeddedResource Include="form\account\AccountAddForm.resx">
           <DependentUpon>AccountAddForm.cs</DependentUpon>
         </EmbeddedResource>
-        <EmbeddedResource Include="form\AccountsForm.resx">
+        <EmbeddedResource Include="form\account\AccountInfoForm.resx">
+          <DependentUpon>AccountInfoForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Include="form\account\AccountsForm.resx">
           <DependentUpon>AccountsForm.cs</DependentUpon>
         </EmbeddedResource>
         <EmbeddedResource Include="Properties\Resources.resx">
@@ -151,6 +167,9 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="App.config" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="domain\task\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Windows.Forms;
 using Reddit;
 using reddit_bot.domain;
@@ -13,14 +12,14 @@ namespace reddit_bot
         private List<RedditAccount> _accounts;
         private readonly AccountService _accountService;
         private readonly RedditService _redditService;
-        
+
         public AccountsForm()
         {
             InitializeComponent();
 
             _accountService = new AccountService();
             _redditService = new RedditService();
-            
+
             _accounts = _accountService.GetAllAccounts();
             FillAccountsDataGrid();
         }
@@ -35,13 +34,13 @@ namespace reddit_bot
             {
                 Name = "Статус"
             });
-            
+
             foreach (var account in _accounts)
             {
                 DataGridViewRow dataGridViewRow = new DataGridViewRow();
                 dataGridViewRow.Tag = account.AccountId;
 
-                RedditClient redditClient = _redditService.GetRedditClient(account, "");
+                RedditClient redditClient = _redditService.GetRedditClient(account, RequestsUtil.GetUserAgent());
                 _accountService.UpdateAccountStatus(account);
 
                 dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
@@ -52,7 +51,7 @@ namespace reddit_bot
                 {
                     Value = account.Status
                 });
-                
+
                 dataGridView1.Rows.Add(dataGridViewRow);
             }
         }
@@ -74,6 +73,14 @@ namespace reddit_bot
         //open account
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
         {
+            var selectedRow = ((DataGridView)sender).SelectedRows[0];
+            
+            var accountId = selectedRow.Tag.ToString();
+            var redditAccount = _accountService.GetAccountByAccountId(accountId);
+            
+            var accountInfoForm = new AccountInfoForm(redditAccount, this);
+            accountInfoForm.Show();
+            Hide();
         }
     }
 }

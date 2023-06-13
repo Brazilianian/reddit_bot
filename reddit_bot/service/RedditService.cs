@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Reddit;
 using reddit_bot.domain;
 using Reddit.AuthTokenRetriever;

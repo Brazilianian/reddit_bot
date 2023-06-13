@@ -31,8 +31,13 @@ namespace reddit_bot.service
 
         public void UpdateAccountStatus(RedditAccount account)
         {
-            account.Status = RedditAccountStatus.Connected;
             //TODO update status
+            account.Status = RedditAccountStatus.Connected;
+        }
+
+        public RedditAccount GetAccountByAccountId(string accountId)
+        {
+            return _accountRepository.FindByAccountId(accountId);
         }
     }
 }

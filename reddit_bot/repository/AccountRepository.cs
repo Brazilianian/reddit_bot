@@ -66,8 +66,9 @@ namespace reddit_bot.repository
             var reader = command.ExecuteReader();
             if (reader.Read())
             {
+                var redditAccount = GetRedditAccountFromMySqlDataReader(reader);
                 _mySqlConnection.Close();
-                return GetRedditAccountFromMySqlDataReader(reader);
+                return redditAccount;
             }
             
             _mySqlConnection.Close();
