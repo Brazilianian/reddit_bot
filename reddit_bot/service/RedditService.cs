@@ -3,6 +3,8 @@ using Reddit;
 using reddit_bot.domain;
 using Reddit.AuthTokenRetriever;
 using Reddit.AuthTokenRetriever.EventArgs;
+using Reddit.Controllers;
+using System;
 
 namespace reddit_bot.service
 {

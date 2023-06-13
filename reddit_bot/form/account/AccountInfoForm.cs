@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Reddit;
 using reddit_bot.domain;
+using reddit_bot.form.task;
 using reddit_bot.service;
 
 namespace reddit_bot
@@ -50,6 +51,13 @@ namespace reddit_bot
             label1.Text = _redditClient.Account.Me.Name;
             label2.Text = _redditClient.Subreddit().Name;
             label4.Text = _redditClient.Account.Me.LinkKarma.ToString();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            CreateTaskForm createTaskForm = new CreateTaskForm(_redditAccount, _accountsForm);
+            createTaskForm.Show();
+            Close();
         }
     }
 }

@@ -70,7 +70,6 @@ namespace reddit_bot
             FillAccountsDataGrid();
         }
 
-        //open account
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
         {
             var selectedRow = ((DataGridView)sender).SelectedRows[0];
@@ -81,6 +80,11 @@ namespace reddit_bot
             var accountInfoForm = new AccountInfoForm(redditAccount, this);
             accountInfoForm.Show();
             Hide();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
