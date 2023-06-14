@@ -33,11 +33,11 @@ namespace reddit_bot.form.task
         {
             this.button1 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
@@ -55,12 +55,31 @@ namespace reddit_bot.form.task
             // 
             // panel1
             // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(873, 79);
             this.panel1.TabIndex = 3;
+            // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Location = new System.Drawing.Point(473, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(397, 72);
+            this.panel4.TabIndex = 3;
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.comboBox1);
+            this.panel3.Controls.Add(this.label2);
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(390, 71);
+            this.panel3.TabIndex = 2;
             // 
             // comboBox1
             // 
@@ -83,26 +102,11 @@ namespace reddit_bot.form.task
             // 
             // panel2
             // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Location = new System.Drawing.Point(13, 97);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(872, 474);
             this.panel2.TabIndex = 4;
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.comboBox1);
-            this.panel3.Controls.Add(this.label2);
-            this.panel3.Location = new System.Drawing.Point(3, 3);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(390, 76);
-            this.panel3.TabIndex = 2;
-            // 
-            // panel4
-            // 
-            this.panel4.Location = new System.Drawing.Point(473, 3);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(397, 72);
-            this.panel4.TabIndex = 3;
             // 
             // CreateTaskForm
             // 
