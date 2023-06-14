@@ -47,7 +47,7 @@ namespace reddit_bot
             // 
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox1.Location = new System.Drawing.Point(195, 38);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(191, 28);
             this.textBox1.TabIndex = 0;
@@ -76,7 +76,7 @@ namespace reddit_bot
             // 
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox2.Location = new System.Drawing.Point(195, 100);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(191, 28);
             this.textBox2.TabIndex = 2;
@@ -84,7 +84,7 @@ namespace reddit_bot
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(195, 167);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(98, 28);
             this.button1.TabIndex = 4;
@@ -132,6 +132,7 @@ namespace reddit_bot
             this.button3.TabIndex = 0;
             this.button3.Text = "Акаунти";
             this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // AccountAddForm
             // 
@@ -148,7 +149,7 @@ namespace reddit_bot
             this.Controls.Add(this.textBox1);
             this.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.Location = new System.Drawing.Point(15, 15);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "AccountAddForm";
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);

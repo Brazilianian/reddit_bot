@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Reddit;
 using Reddit.Controllers;
@@ -45,7 +44,21 @@ namespace reddit_bot.form.task
                 return;
             }
 
-            _subreddit.SelfPost(title: title, selfText: text).Submit();
+            bool isOs = ((CheckBox)Controls.Find("checkBoxOc", true)[0]).Checked;
+            bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
+            bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
+
+            SelfPost post = _subreddit
+                .SelfPost(title: title, selfText: text)
+                .Submit(spoiler: isSpoiler); 
+
+            if (isNsfw)
+            {
+                post.MarkNSFWAsync();
+            }
+
+            //TODO OC tag
+        
             MessageBox.Show("Відправлено");
         }
 
@@ -59,6 +72,12 @@ namespace reddit_bot.form.task
                     FillTaskCreationPanel(postType);
                     break;
             }
+        }
+
+        private void loadSubreddit(object sender, EventArgs e)
+        {
+            var subredditName = ((TextBox)sender).Text;
+            _subreddit = _redditClient.Subreddit(subredditName);
         }
 
         private void FillForm()
@@ -92,9 +111,50 @@ namespace reddit_bot.form.task
                     AddSubredditName();
                     AddTitle();
                     AddText();
+                    AddAttributesInputs();
                     AddSendButton();
                     break;
             }
+        }
+
+        private void AddAttributesInputs()
+        {
+            var checkBoxPanel = new Panel()
+            {
+                Size = new Size(350, 100),
+                BorderStyle = BorderStyle.FixedSingle,
+
+            };
+            checkBoxPanel.Location = new Point(panel2.Width - checkBoxPanel.Width - 5, 260);
+
+            var checkBoxOc = new CheckBox()
+            {
+                Text = "OC (не працює)",
+                Name = "checkBoxOc",
+                AutoSize = true,
+                Location = new Point(5, 5)
+            };
+            checkBoxPanel.Controls.Add(checkBoxOc);
+
+            var checkBoxSpoiler = new CheckBox()
+            {
+                Text = "Спойлер",
+                Name = "checkBoxSpoiler",
+                AutoSize = true,
+                Location = new Point(checkBoxOc.Location.X + checkBoxOc.Width + 5, 5)
+            };
+            checkBoxPanel.Controls.Add(checkBoxSpoiler);
+
+            var checkBoxNsfw = new CheckBox()
+            {
+                Text = "Небезпечний для роботи",
+                Name = "checkBoxNsfw",
+                AutoSize = true,
+                Location = new Point(checkBoxSpoiler.Location.X + checkBoxSpoiler.Width + 5, 5)
+            };
+            checkBoxPanel.Controls.Add(checkBoxNsfw);
+
+            panel2.Controls.Add(checkBoxPanel);
         }
 
         private void AddSubredditName()
@@ -117,12 +177,6 @@ namespace reddit_bot.form.task
 
             panel2.Controls.Add(label);
             panel2.Controls.Add(textBoxSubereddit);
-        }
-
-        private void loadSubreddit(object sender, EventArgs e)
-        {
-            var subredditName = ((TextBox)sender).Text;
-            _subreddit = _redditClient.Subreddit(subredditName);
         }
 
         private void AddSendButton()
@@ -159,7 +213,6 @@ namespace reddit_bot.form.task
             panel2.Controls.Add(labelText);
             panel2.Controls.Add(richTextBoxText);
         }
-    
 
         private void AddTitle()
         {
@@ -183,6 +236,7 @@ namespace reddit_bot.form.task
             panel2.Controls.Add(textBoxTitle);
         }
 
+        //Back
         private void button1_Click(object sender, EventArgs e)
         {
             AccountInfoForm accountInfoForm = new AccountInfoForm(_redditAccount, _accountsForm);

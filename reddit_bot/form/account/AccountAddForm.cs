@@ -9,12 +9,16 @@ namespace reddit_bot
 {
     public partial class AccountAddForm : Form
     {
+        private readonly AccountsForm _accountsForm;
+
         private RedditService _redditService;
         private AccountService _accountService;
 
-        public AccountAddForm()
+        public AccountAddForm(AccountsForm accountsForm)
         {
             InitializeComponent();
+            
+            _accountsForm = accountsForm;
 
             _redditService = new RedditService();
             _accountService = new AccountService();
@@ -49,6 +53,12 @@ namespace reddit_bot
             redditAccount.AccountId = redditClient.Account.Me.Id;
             _accountService.Save(redditAccount);
             label3.Text = "Акаунт успішно збережено";
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            _accountsForm.Show();
+            Close();
         }
     }
 }

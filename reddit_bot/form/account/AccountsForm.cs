@@ -58,7 +58,7 @@ namespace reddit_bot
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var accountAddForm = new AccountAddForm();
+            var accountAddForm = new AccountAddForm(this);
             accountAddForm.ShowDialog();
             RefreshDataGrid();
         }
