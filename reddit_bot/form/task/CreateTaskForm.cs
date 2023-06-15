@@ -6,9 +6,11 @@ using System.Windows.Forms;
 using Reddit;
 using Reddit.Controllers;
 using Reddit.Exceptions;
+using Reddit.Inputs.LinksAndComments;
 using reddit_bor.domain.task;
 using reddit_bot.domain;
 using reddit_bot.service;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace reddit_bot.form.task
 {
@@ -33,6 +35,19 @@ namespace reddit_bot.form.task
             _redditClient = _reddditService.GetRedditClient(_redditAccount, RequestsUtil.GetUserAgent());
 
             FillForm();
+        }
+
+        //Task Type
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var postType = (TaskType)int.Parse(((ComboBox)sender).SelectedIndex.ToString());
+
+            switch (postType)
+            {
+                case TaskType.POST:
+                    FillTaskCreationPanel(postType);
+                    break;
+            }
         }
 
         private void createPost_Post(object sender, EventArgs e)
@@ -68,18 +83,39 @@ namespace reddit_bot.form.task
             }
 
             //TODO OC tag
-        
+
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void createPost_Link(object sender, EventArgs e)
         {
-            var postType = (TaskType)int.Parse(((ComboBox)sender).SelectedIndex.ToString());
+            string title = Controls.Find("textBoxTitle", true).First().Text;
+            string link = Controls.Find("textBoxLink", true).First().Text;
 
-            switch (postType)
+            if (_subreddit == null)
             {
-                case TaskType.POST:
-                    FillTaskCreationPanel(postType);
-                    break;
+                MessageBox.Show("Невірне ім'я сабредіту");
+                return;
+            }
+
+            bool isOs = ((CheckBox)Controls.Find("checkBoxOc", true)[0]).Checked;
+            bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
+            bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
+
+            try
+            {
+                LinkPost post = _subreddit
+                    .LinkPost(title: title, url: link)
+                    .Submit(spoiler: isSpoiler);
+
+                if (isNsfw)
+                {
+                    post.MarkNSFWAsync();
+                }
+                MessageBox.Show("Відправлено");
+            }
+            catch (RedditControllerException exception)
+            {
+                MessageBox.Show(exception.Message);
             }
         }
 
@@ -87,6 +123,67 @@ namespace reddit_bot.form.task
         {
             comboBox1.Items.AddRange(Enum.GetNames(typeof(TaskType)));
         }
+
+        private void fillInputPanel(object sender, EventArgs e)
+        {
+            TaskPostType taskPostType = (TaskPostType)((ComboBox)sender).SelectedIndex;
+            switch (taskPostType)
+            {
+                case TaskPostType.POST:
+                    panel2.Controls.Clear();
+                    AddSubredditName();
+                    AddTitle();
+                    AddText();
+                    AddAttributesInputs();
+                    AddSendButtonPost();
+                    break;
+
+                case TaskPostType.LINK:
+                    panel2.Controls.Clear();
+                    AddSubredditName();
+                    AddTitle();
+                    AddLink();
+                    AddAttributesInputs();
+                    AddSendButtonLink();
+                    break;
+            }
+        }
+
+        private void loadSubreddit(object sender, EventArgs e)
+        {
+            var comboBoxSubereddits = (ComboBox)Controls.Find("comboBoxSubereddits", true)[0];
+            _subreddit = _redditClient.Subreddit(comboBoxSubereddits.Text);
+        }
+
+        private void loadSubredditsByName(object sender, EventArgs e)
+        {
+            var comboBoxSubereddits = (ComboBox)Controls.Find("comboBoxSubereddits", true)[0];
+
+            List<Subreddit> subreddits = _redditClient.SearchSubreddits(comboBoxSubereddits.Text, limit: 10);
+
+            comboBoxSubereddits.Items.Clear();
+            foreach (var subreddit in subreddits)
+            {
+                comboBoxSubereddits.Items.Add(subreddit.Name);
+            }
+            comboBoxSubereddits.DroppedDown = true;
+
+            Label labelSubredditName = (Label)Controls.Find("labelSubredditName", true)[0];
+            Button buttonSend = (Button)Controls.Find("buttonSend", true)[0];
+
+            if (subreddits.Count == 0)
+            {
+                labelSubredditName.Text = "Жодних сабреддітів не знайдено";
+                buttonSend.Enabled = false;
+            }
+            else
+            {
+                labelSubredditName.Text = "";
+                buttonSend.Enabled = true;
+            }
+        }
+
+        #region Input Controls
 
         private void FillTaskCreationPanel(TaskType postType)
         {
@@ -104,22 +201,6 @@ namespace reddit_bot.form.task
             comboBox.SelectedIndexChanged += fillInputPanel;
             panel4.Controls.Add(comboBox);
         }
-
-        private void fillInputPanel(object sender, EventArgs e)
-        {
-            TaskPostType taskPostType = (TaskPostType)((ComboBox)sender).SelectedIndex;
-            switch (taskPostType)
-            {
-                case TaskPostType.POST:
-                    AddSubredditName();
-                    AddTitle();
-                    AddText();
-                    AddAttributesInputs();
-                    AddSendButton();
-                    break;
-            }
-        }
-
 
         private void AddSubredditName()
         {
@@ -162,77 +243,6 @@ namespace reddit_bot.form.task
             panel2.Controls.Add(labelSubredditName);
         }
 
-        private void loadSubreddit(object sender, EventArgs e)
-        {
-            var comboBoxSubereddits = (ComboBox)Controls.Find("comboBoxSubereddits", true)[0];
-            _subreddit = _redditClient.Subreddit(comboBoxSubereddits.Text);
-        }
-
-        private void loadSubredditsByName(object sender, EventArgs e)
-        {
-            var comboBoxSubereddits = (ComboBox)Controls.Find("comboBoxSubereddits", true)[0];
-
-            List<Subreddit> subreddits = _redditClient.SearchSubreddits(comboBoxSubereddits.Text, limit: 10);
-
-            comboBoxSubereddits.Items.Clear();
-            foreach (var subreddit in subreddits)
-            {
-                comboBoxSubereddits.Items.Add(subreddit.Name);
-            }
-            comboBoxSubereddits.DroppedDown = true;
-
-            Label labelSubredditName = (Label)Controls.Find("labelSubredditName", true)[0];
-            Button buttonSend = (Button)Controls.Find("buttonSend", true)[0];
-
-            if (subreddits.Count == 0)
-            {
-                labelSubredditName.Text = "Жодних сабреддітів не знайдено";
-                buttonSend.Enabled = false;
-            }
-            else
-            {
-                labelSubredditName.Text = "";
-                buttonSend.Enabled = true;
-            }
-        }
-
-        private void AddSendButton()
-        {
-            Button buttonSend = new Button()
-            {
-                Text = "Опублікувати",
-                Size = new Size(80, 45),
-                Name = "buttonSend",
-                Enabled = false,
-            };
-
-            buttonSend.Location = new Point(panel2.Width - buttonSend.Width - 5, panel2.Height - buttonSend.Height - 5);
-           
-            buttonSend.Click += createPost_Post;
-            panel2.Controls.Add(buttonSend);
-        }
-
-        private void AddText()
-        {
-            Label labelText = new Label()
-            {
-                Location = new Point(5, 160),
-                Text = "Текст (необов'язково):",
-                AutoSize = true
-            };
-
-            RichTextBox richTextBoxText = new RichTextBox()
-            {
-                Name = "richTextBoxText",
-                Height = 80,
-                Width = panel2.Width - 10,
-                Location = new Point(labelText.Location.X, labelText.Location.Y + labelText.Height + 5)
-            };
-
-            panel2.Controls.Add(labelText);
-            panel2.Controls.Add(richTextBoxText);
-        }
-
         private void AddTitle()
         {
             Label labelTitle = new Label()
@@ -250,7 +260,7 @@ namespace reddit_bot.form.task
                 Location = new Point(labelTitle.Location.X, labelTitle.Location.Y + labelTitle.Height + 5)
             };
 
-        
+
             panel2.Controls.Add(labelTitle);
             panel2.Controls.Add(textBoxTitle);
         }
@@ -294,6 +304,89 @@ namespace reddit_bot.form.task
 
             panel2.Controls.Add(checkBoxPanel);
         }
+
+        #region Link
+
+        private void AddLink()
+        {
+            Label labelLink = new Label()
+            {
+                Text = "Посилання:",
+                AutoSize = true,
+                Location = new Point(5, 160)
+            };
+
+            TextBox textBoxLink = new TextBox()
+            {
+                Size = new Size(panel2.Width - 10, 35),
+                Location = new Point(labelLink.Location.X, labelLink.Location.Y + labelLink.Height + 5),
+                Name = "textBoxLink"
+            };
+
+            panel2.Controls.Add(labelLink);
+            panel2.Controls.Add(textBoxLink);
+        }
+
+        private void AddSendButtonLink()
+        {
+            Button buttonSend = new Button()
+            {
+                Text = "Опублікувати",
+                Size = new Size(80, 45),
+                Name = "buttonSend",
+                Enabled = false,
+            };
+
+            buttonSend.Location = new Point(panel2.Width - buttonSend.Width - 5, panel2.Height - buttonSend.Height - 5);
+
+            buttonSend.Click += createPost_Link;
+            panel2.Controls.Add(buttonSend);
+        }
+
+        #endregion
+
+        #region Post
+
+        private void AddSendButtonPost()
+        {
+            Button buttonSend = new Button()
+            {
+                Text = "Опублікувати",
+                Size = new Size(80, 45),
+                Name = "buttonSend",
+                Enabled = false,
+            };
+
+            buttonSend.Location = new Point(panel2.Width - buttonSend.Width - 5, panel2.Height - buttonSend.Height - 5);
+           
+            buttonSend.Click += createPost_Post;
+            panel2.Controls.Add(buttonSend);
+        }
+
+        private void AddText()
+        {
+            Label labelText = new Label()
+            {
+                Location = new Point(5, 160),
+                Text = "Текст (необов'язково):",
+                AutoSize = true
+            };
+
+            RichTextBox richTextBoxText = new RichTextBox()
+            {
+                Name = "richTextBoxText",
+                Height = 80,
+                Width = panel2.Width - 10,
+                Location = new Point(labelText.Location.X, labelText.Location.Y + labelText.Height + 5)
+            };
+
+            panel2.Controls.Add(labelText);
+            panel2.Controls.Add(richTextBoxText);
+        }
+
+        #endregion
+
+        #endregion
 
         //Back
         private void button1_Click(object sender, EventArgs e)
