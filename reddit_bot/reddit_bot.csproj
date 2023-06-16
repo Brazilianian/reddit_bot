@@ -136,6 +136,7 @@
     <Compile Include="repository\AccountRepository.cs" />
     <Compile Include="service\AccountService.cs" />
     <Compile Include="service\RedditService.cs" />
+    <Compile Include="util\EnumUtil.cs" />
     <Compile Include="util\RequestsUtil.cs" />
     <EmbeddedResource Include="form\account\AccountAddForm.resx">
       <DependentUpon>AccountAddForm.cs</DependentUpon>

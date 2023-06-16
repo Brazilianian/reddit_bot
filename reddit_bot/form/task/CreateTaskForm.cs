@@ -7,6 +7,7 @@ using Reddit;
 using Reddit.Controllers;
 using Reddit.Exceptions;
 using reddit_bor.domain.task;
+using reddit_bor.util;
 using reddit_bot.domain;
 using reddit_bot.service;
 
@@ -119,7 +120,13 @@ namespace reddit_bot.form.task
 
         private void FillForm()
         {
-            comboBox1.Items.AddRange(Enum.GetNames(typeof(TaskType)));
+            comboBox1.SelectedIndexChanged -= comboBox1_SelectedIndexChanged;
+            comboBox1.DataSource = Enum.GetValues(typeof(TaskType))
+                              .Cast<TaskType>()
+                              .Select(e => e.GetDescription())
+                              .ToList();
+            comboBox1.SelectedIndex = -1;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
         }
 
         private void fillInputPanel(object sender, EventArgs e)
@@ -194,12 +201,17 @@ namespace reddit_bot.form.task
             panel4.Controls.Add(label);
 
             ComboBox comboBox = new ComboBox();
-            comboBox.Items.AddRange(Enum.GetNames(typeof(TaskPostType)));
+         
             comboBox.Location = new Point(label.Location.X, label.Location.Y + label.Height + 5);
             comboBox.Width = panel4.Width - 10;
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox.SelectedIndexChanged += fillInputPanel;
+            comboBox.DataSource = Enum.GetValues(typeof(TaskPostType))
+                            .Cast<TaskPostType>()
+                            .Select(e => EnumUtil.GetDescription(e))
+                            .ToList();
             panel4.Controls.Add(comboBox);
+            comboBox.SelectedIndex = -1;
         }
 
         private void AddSubredditName()
