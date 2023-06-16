@@ -21,10 +21,11 @@ namespace reddit_bot
             _redditService = new RedditService();
 
             _accounts = _accountService.GetAllAccounts();
+            InitDataGrid();
             FillAccountsDataGrid();
         }
 
-        private void FillAccountsDataGrid()
+        private void InitDataGrid()
         {
             dataGridView1.Columns.Add(new DataGridViewColumn()
             {
@@ -34,7 +35,10 @@ namespace reddit_bot
             {
                 Name = "Статус"
             });
+        }
 
+        private void FillAccountsDataGrid()
+        {
             foreach (var account in _accounts)
             {
                 DataGridViewRow dataGridViewRow = new DataGridViewRow();

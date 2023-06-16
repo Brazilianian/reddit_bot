@@ -6,11 +6,9 @@ using System.Windows.Forms;
 using Reddit;
 using Reddit.Controllers;
 using Reddit.Exceptions;
-using Reddit.Inputs.LinksAndComments;
 using reddit_bor.domain.task;
 using reddit_bot.domain;
 using reddit_bot.service;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace reddit_bot.form.task
 {
@@ -127,23 +125,25 @@ namespace reddit_bot.form.task
         private void fillInputPanel(object sender, EventArgs e)
         {
             TaskPostType taskPostType = (TaskPostType)((ComboBox)sender).SelectedIndex;
+            panel2.Controls.Clear();
+
             switch (taskPostType)
             {
                 case TaskPostType.POST:
-                    panel2.Controls.Clear();
                     AddSubredditName();
                     AddTitle();
                     AddText();
                     AddAttributesInputs();
+                    AddFlairs();
                     AddSendButtonPost();
                     break;
 
                 case TaskPostType.LINK:
-                    panel2.Controls.Clear();
                     AddSubredditName();
                     AddTitle();
                     AddLink();
                     AddAttributesInputs();
+                    AddFlairs();
                     AddSendButtonLink();
                     break;
             }
@@ -250,13 +250,14 @@ namespace reddit_bot.form.task
                 Location = new Point(5, 90),
                 Text = "Заголовок:",
                 AutoSize = true,
+                Name = "labelTitle"
             };
 
             TextBox textBoxTitle = new TextBox()
             {
                 Name = "textBoxTitle",
                 Height = 30,
-                Width = panel2.Width - 10,
+                Width = panel2.Width / 2 - 10,
                 Location = new Point(labelTitle.Location.X, labelTitle.Location.Y + labelTitle.Height + 5)
             };
 
@@ -267,13 +268,15 @@ namespace reddit_bot.form.task
 
         private void AddAttributesInputs()
         {
+            Label labelTitle = (Label)Controls.Find("labelTitle", true)[0];
+
             var checkBoxPanel = new Panel()
             {
-                Size = new Size(350, 100),
+                Size = new Size(350, 50),
                 BorderStyle = BorderStyle.FixedSingle,
-
+                Name = "checkBoxPanel"
             };
-            checkBoxPanel.Location = new Point(panel2.Width - checkBoxPanel.Width - 5, 290);
+            checkBoxPanel.Location = new Point(panel2.Width - checkBoxPanel.Width - 5, labelTitle.Location.Y);
 
             var checkBoxOc = new CheckBox()
             {
@@ -305,6 +308,38 @@ namespace reddit_bot.form.task
             panel2.Controls.Add(checkBoxPanel);
         }
 
+        private void AddFlairs()
+        {
+            var checkBoxPanel = (Panel)Controls.Find("checkBoxPanel", true)[0];
+
+            var panelFlair = new Panel()
+            {
+                Size = checkBoxPanel.Size,
+                Location = new Point(checkBoxPanel.Location.X, checkBoxPanel.Location.Y + checkBoxPanel.Height + 5),
+                BorderStyle = BorderStyle.FixedSingle,
+                AutoSize = true,
+            };
+
+            var labelFlair = new Label()
+            {
+                Text = "Виберіть флаєр",
+                AutoSize = true,
+                Location = new Point(5, 5)
+            };
+
+            var comboBoxFlair = new ComboBox()
+            {
+                Name = "comboBoxFlair",
+                Size = new Size(panelFlair.Width - 10, 35),
+                Location = new Point(5, labelFlair.Location.Y + labelFlair.Height + 5)
+            };
+
+            panelFlair.Controls.Add(labelFlair);
+            panelFlair.Controls.Add(comboBoxFlair);
+
+            panel2.Controls.Add(panelFlair);
+        }
+
         #region Link
 
         private void AddLink()
@@ -318,7 +353,7 @@ namespace reddit_bot.form.task
 
             TextBox textBoxLink = new TextBox()
             {
-                Size = new Size(panel2.Width - 10, 35),
+                Size = new Size(panel2.Width / 2 - 10, 35),
                 Location = new Point(labelLink.Location.X, labelLink.Location.Y + labelLink.Height + 5),
                 Name = "textBoxLink"
             };
@@ -376,7 +411,7 @@ namespace reddit_bot.form.task
             {
                 Name = "richTextBoxText",
                 Height = 80,
-                Width = panel2.Width - 10,
+                Width = panel2.Width / 2 - 10,
                 Location = new Point(labelText.Location.X, labelText.Location.Y + labelText.Height + 5)
             };
 

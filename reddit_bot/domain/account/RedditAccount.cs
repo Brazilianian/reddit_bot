@@ -2,7 +2,6 @@
 {
     public class RedditAccount
     {
-        public int Id { get; set; }
         public string AccountId { get; set; }
         public string AppId { get; set; }
         public string Secret { get; set; }
