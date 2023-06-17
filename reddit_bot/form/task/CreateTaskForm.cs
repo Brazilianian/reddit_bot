@@ -63,17 +63,23 @@ namespace reddit_bot.form.task
             bool isOs = ((CheckBox)Controls.Find("checkBoxOc", true)[0]).Checked;
             bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
             bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
+            string flair = ((ComboBox)Controls.Find("comboBoxFlair", true)[0]).Text;
 
             try
             {
                 SelfPost post = _subreddit
-                    .SelfPost(title: title, selfText: text)
-                    .Submit(spoiler: isSpoiler);
+                    .SelfPost(title: title, selfText: text);
+
+                post.Subreddit = _subreddit.Name;
+
+                post.Submit(spoiler: isSpoiler, flairText: flair);  
 
                 if (isNsfw)
                 {
-                    post.MarkNSFWAsync();
+                    post.MarkNSFW();
                 }
+
+
                 MessageBox.Show("Відправлено");
             }
             catch (RedditControllerException exception)
@@ -99,34 +105,34 @@ namespace reddit_bot.form.task
             bool isOs = ((CheckBox)Controls.Find("checkBoxOc", true)[0]).Checked;
             bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
             bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
+            string flair = ((ComboBox)Controls.Find("comboBoxFlair", true)[0]).Text;
 
             try
             {
                 LinkPost post = _subreddit
-                    .LinkPost(title: title, url: link)
-                    .Submit(spoiler: isSpoiler);
+                    .LinkPost(title: title, url: link);
 
-                if (isNsfw)
+                try
                 {
-                    post.MarkNSFWAsync();
-                }
-                MessageBox.Show("Відправлено");
+                    post.Submit(spoiler: isSpoiler)
+                        .SetFlair(flair);
+
+                    if (isNsfw)
+                    {
+                        post.MarkNSFWAsync();
+                    }
+                    MessageBox.Show("Відправлено");
+                } catch (RedditAlreadySubmittedException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                } 
             }
             catch (RedditControllerException exception)
             {
                 MessageBox.Show(exception.Message);
             }
-        }
 
-        private void FillForm()
-        {
-            comboBox1.SelectedIndexChanged -= comboBox1_SelectedIndexChanged;
-            comboBox1.DataSource = Enum.GetValues(typeof(TaskType))
-                              .Cast<TaskType>()
-                              .Select(e => e.GetDescription())
-                              .ToList();
-            comboBox1.SelectedIndex = -1;
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            //TODO OC tag
         }
 
         private void fillInputPanel(object sender, EventArgs e)
@@ -155,6 +161,8 @@ namespace reddit_bot.form.task
                     break;
             }
         }
+
+        #region Load Subreddit/Flairs
 
         private void loadSubreddit(object sender, EventArgs e)
         {
@@ -189,6 +197,73 @@ namespace reddit_bot.form.task
                 buttonSend.Enabled = true;
             }
         }
+
+        // Fill flairs combobox 
+        // If there is no items, block it
+        // Calls on button to load flairs
+        private void loadFlairs(object sender, EventArgs e)
+        {
+            if (_subreddit == null)
+            {
+                return;
+            }
+
+            Flairs flairs = _subreddit.Flairs;
+            Label labelFlair = (Label)Controls.Find("labelFlair", true)[0];
+            ComboBox comboBoxFlair = (ComboBox)Controls.Find("comboBoxFlair", true)[0];
+          
+            comboBoxFlair.Items.Clear();
+
+            try
+            {
+                labelFlair.Text = "";
+                comboBoxFlair.DropDownStyle = ComboBoxStyle.DropDownList;
+                
+                List<Reddit.Things.FlairV2> flairList = flairs.LinkFlairV2;
+                foreach (var flair in flairList)
+                {
+                    comboBoxFlair.Items.Add(flair.Text);
+                }
+            } catch(Exception ex)
+            {
+                labelFlair.Text = "Флаєри не знайдено";
+            }
+        }
+
+        // Get flair of subreddit by it name
+        // Block combobox from editing depending on Subreddit settings
+        // Calls on combobox selected index changing
+        private void loadFlair(object sender, EventArgs e)
+        {
+            if (_subreddit == null)
+            {
+                return;
+            }
+
+            var flairText = ((ComboBox)sender).Text;
+
+            ComboBox comboBoxFlair = (ComboBox)Controls.Find("comboBoxFlair", true)[0];
+
+            Reddit.Things.FlairV2 flair = _subreddit.Flairs.GetLinkFlairV2()
+                .Where(f => f.Text.Equals(flairText))
+                .FirstOrDefault();
+            
+            if (flair == null)
+            {
+                MessageBox.Show("Flair is null");
+                return;
+            }
+            if (flair.TextEditable)
+            {
+                comboBoxFlair.DropDownStyle = ComboBoxStyle.DropDown;
+            }
+            else
+            {
+                comboBoxFlair.DropDownStyle = ComboBoxStyle.DropDownList;
+            }
+        }
+
+        #endregion
 
         #region Input Controls
 
@@ -231,6 +306,7 @@ namespace reddit_bot.form.task
             };
 
             comboBoxSubreddits.TextChanged += loadSubreddit;
+            comboBoxSubreddits.SelectedIndexChanged += loadFlairs;
 
             Button searchButton = new Button()
             {
@@ -240,6 +316,7 @@ namespace reddit_bot.form.task
             };
 
             searchButton.Click += loadSubredditsByName;
+            searchButton.Click += loadFlairs;
 
             Label labelSubredditName = new Label()
             {
@@ -332,7 +409,7 @@ namespace reddit_bot.form.task
                 AutoSize = true,
             };
 
-            var labelFlair = new Label()
+            var labelFlairTitle = new Label()
             {
                 Text = "Виберіть флаєр",
                 AutoSize = true,
@@ -343,13 +420,47 @@ namespace reddit_bot.form.task
             {
                 Name = "comboBoxFlair",
                 Size = new Size(panelFlair.Width - 10, 35),
-                Location = new Point(5, labelFlair.Location.Y + labelFlair.Height + 5)
+                Location = new Point(5, labelFlairTitle.Location.Y + labelFlairTitle.Height + 5),
+                DropDownStyle = ComboBoxStyle.DropDownList
             };
 
-            panelFlair.Controls.Add(labelFlair);
+            var labelFlair = new Label()
+            {
+                Name = "labelFlair",
+                AutoSize = true,
+                Location = new Point(comboBoxFlair.Location.X, comboBoxFlair.Location.Y + comboBoxFlair.Height + 2),
+                ForeColor = Color.Red
+            };
+
+            var buttonFlairSearch = new Button()
+            {
+                Name = "buttonFlairSearch",
+                AutoSize = true,
+                Location = new Point(labelFlairTitle.Location.X + labelFlairTitle.Width + 10),
+                Text = "Підгрузити"
+            };
+
+            buttonFlairSearch.Click += loadFlairs;
+
+            comboBoxFlair.SelectedIndexChanged += loadFlair;
+
+            panelFlair.Controls.Add(labelFlairTitle);
             panelFlair.Controls.Add(comboBoxFlair);
+            panelFlair.Controls.Add(labelFlair);
+            panelFlair.Controls.Add(buttonFlairSearch);
 
             panel2.Controls.Add(panelFlair);
+        }
+
+        private void FillForm()
+        {
+            comboBox1.SelectedIndexChanged -= comboBox1_SelectedIndexChanged;
+            comboBox1.DataSource = Enum.GetValues(typeof(TaskType))
+                              .Cast<TaskType>()
+                              .Select(e => e.GetDescription())
+                              .ToList();
+            comboBox1.SelectedIndex = -1;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
         }
 
         #region Link

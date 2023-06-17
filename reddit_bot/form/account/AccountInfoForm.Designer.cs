@@ -37,11 +37,11 @@ namespace reddit_bot
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -77,10 +77,10 @@ namespace reddit_bot
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(2, 58);
+            this.label3.Location = new System.Drawing.Point(0, 58);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 14);
+            this.label3.Size = new System.Drawing.Size(44, 14);
             this.label3.TabIndex = 5;
             this.label3.Text = "Карма: ";
             // 
@@ -107,6 +107,24 @@ namespace reddit_bot
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(634, 164);
             this.panel1.TabIndex = 8;
+            // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(68, 72);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(47, 20);
+            this.label8.TabIndex = 9;
+            this.label8.Text = "label8";
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(68, 58);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(111, 14);
+            this.label7.TabIndex = 8;
+            this.label7.Text = "День народження:";
             // 
             // panel2
             // 
@@ -137,24 +155,6 @@ namespace reddit_bot
             this.label6.Size = new System.Drawing.Size(47, 16);
             this.label6.TabIndex = 0;
             this.label6.Text = "Задачі: ";
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(68, 58);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(111, 14);
-            this.label7.TabIndex = 8;
-            this.label7.Text = "День народження:";
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(68, 72);
-            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(47, 20);
-            this.label8.TabIndex = 9;
-            this.label8.Text = "label8";
             // 
             // AccountInfoForm
             // 
