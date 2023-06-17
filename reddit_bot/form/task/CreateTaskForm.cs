@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Reddit;
 using Reddit.Controllers;
 using Reddit.Exceptions;
+using reddit_bor.domain.forms;
 using reddit_bor.domain.task;
 using reddit_bor.util;
 using reddit_bot.domain;
@@ -18,6 +19,8 @@ namespace reddit_bot.form.task
         private readonly RedditAccount _redditAccount;
         private readonly AccountsForm _accountsForm;
         private readonly RedditService _reddditService;
+
+        private ComboBoxItem currentPostFlair = null;
 
         private Subreddit _subreddit = null;
 
@@ -49,6 +52,35 @@ namespace reddit_bot.form.task
             }
         }
 
+        private void fillInputPanel(object sender, EventArgs e)
+        {
+            TaskPostType taskPostType = (TaskPostType)((ComboBox)sender).SelectedIndex;
+            panel2.Controls.Clear();
+
+            switch (taskPostType)
+            {
+                case TaskPostType.POST:
+                    AddSubredditName();
+                    AddTitle();
+                    AddText();
+                    AddAttributesInputs();
+                    AddFlairs();
+                    //AddUserFlairs();
+                    AddSendButtonPost();
+                    break;
+
+                case TaskPostType.LINK:
+                    AddSubredditName();
+                    AddTitle();
+                    AddLink();
+                    AddAttributesInputs();
+                    AddFlairs();
+                    //AddUserFlairs();
+                    AddSendButtonLink();
+                    break;
+            }
+        }
+
         private void createPost_Post(object sender, EventArgs e)
         {
             string title = Controls.Find("textBoxTitle", true).First().Text;
@@ -63,22 +95,35 @@ namespace reddit_bot.form.task
             bool isOs = ((CheckBox)Controls.Find("checkBoxOc", true)[0]).Checked;
             bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
             bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
-            string flair = ((ComboBox)Controls.Find("comboBoxFlair", true)[0]).Text;
+
+            ComboBox comboBoxFlair = ((ComboBox)Controls.Find("comboBoxFlair", true)[0]);
+            ComboBoxItem flairItem = comboBoxFlair.SelectedItem as ComboBoxItem;
+
+            if (flairItem == null)
+            {
+                flairItem = currentPostFlair;
+                flairItem.Text = comboBoxFlair.Text;
+            }
+
+            //string flairUser = ((ComboBox)Controls.Find("comboBoxUserFlair", true)[0]).Text;
 
             try
             {
+                //if (string.IsNullOrEmpty(flairUser)) 
+                //{
+                //    _subreddit.Flairs.CreateUserFlair(_subreddit.Name, flairUser);
+                //}
+
                 SelfPost post = _subreddit
                     .SelfPost(title: title, selfText: text);
 
-                post.Subreddit = _subreddit.Name;
-
-                post.Submit(spoiler: isSpoiler, flairText: flair);  
+                //TODO add flair to post
+                post.Submit(spoiler: isSpoiler, flairText: flairItem.Text, flairId: flairItem.Tag);  
 
                 if (isNsfw)
                 {
-                    post.MarkNSFW();
+                    post.MarkNSFWAsync();
                 }
-
 
                 MessageBox.Show("Відправлено");
             }
@@ -106,9 +151,15 @@ namespace reddit_bot.form.task
             bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
             bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
             string flair = ((ComboBox)Controls.Find("comboBoxFlair", true)[0]).Text;
+            //string flairUser = ((ComboBox)Controls.Find("comboBoxUserFlair", true)[0]).Text;
 
             try
             {
+                //if (string.IsNullOrEmpty(flairUser))
+                //{
+                //    _subreddit.Flairs.CreateUserFlair(_redditClient.Account.Me.Name, flairUser);
+                //}
+
                 LinkPost post = _subreddit
                     .LinkPost(title: title, url: link);
 
@@ -135,33 +186,6 @@ namespace reddit_bot.form.task
             //TODO OC tag
         }
 
-        private void fillInputPanel(object sender, EventArgs e)
-        {
-            TaskPostType taskPostType = (TaskPostType)((ComboBox)sender).SelectedIndex;
-            panel2.Controls.Clear();
-
-            switch (taskPostType)
-            {
-                case TaskPostType.POST:
-                    AddSubredditName();
-                    AddTitle();
-                    AddText();
-                    AddAttributesInputs();
-                    AddFlairs();
-                    AddSendButtonPost();
-                    break;
-
-                case TaskPostType.LINK:
-                    AddSubredditName();
-                    AddTitle();
-                    AddLink();
-                    AddAttributesInputs();
-                    AddFlairs();
-                    AddSendButtonLink();
-                    break;
-            }
-        }
-
         #region Load Subreddit/Flairs
 
         private void loadSubreddit(object sender, EventArgs e)
@@ -174,17 +198,23 @@ namespace reddit_bot.form.task
         {
             var comboBoxSubereddits = (ComboBox)Controls.Find("comboBoxSubereddits", true)[0];
 
-            List<Subreddit> subreddits = _redditClient.SearchSubreddits(comboBoxSubereddits.Text, limit: 10);
+            Label labelSubredditName = (Label)Controls.Find("labelSubredditName", true)[0];
+            Button buttonSend = (Button)Controls.Find("buttonSend", true)[0];
 
+            if (string.IsNullOrEmpty(comboBoxSubereddits.Text))
+            {
+                labelSubredditName.Text = "Жодних сабреддітів не знайдено";
+                buttonSend.Enabled = false;
+                return;
+            }
+
+            List<Subreddit> subreddits = _redditClient.SearchSubreddits(comboBoxSubereddits.Text, limit: 10);
             comboBoxSubereddits.Items.Clear();
             foreach (var subreddit in subreddits)
             {
                 comboBoxSubereddits.Items.Add(subreddit.Name);
             }
             comboBoxSubereddits.DroppedDown = true;
-
-            Label labelSubredditName = (Label)Controls.Find("labelSubredditName", true)[0];
-            Button buttonSend = (Button)Controls.Find("buttonSend", true)[0];
 
             if (subreddits.Count == 0)
             {
@@ -195,6 +225,67 @@ namespace reddit_bot.form.task
             {
                 labelSubredditName.Text = "";
                 buttonSend.Enabled = true;
+            }
+        }
+
+        private void loadUserFlair(object sender, EventArgs e)
+        {
+            if (_subreddit == null)
+            {
+                return;
+            }
+
+            var flairText = ((ComboBox)sender).Text;
+
+            ComboBox comboBoxUserFlair = (ComboBox)Controls.Find("comboBoxUserFlair", true)[0];
+
+            Reddit.Things.FlairV2 flair = _subreddit.Flairs.UserFlairV2
+                .Where(f => f.Text.Equals(flairText))
+                .FirstOrDefault();
+
+            if (flair == null)
+            {
+                MessageBox.Show("Flair is null");
+                return;
+            }
+            if (flair.TextEditable)
+            {
+                comboBoxUserFlair.DropDownStyle = ComboBoxStyle.DropDown;
+            }
+            else
+            {
+                comboBoxUserFlair.DropDownStyle = ComboBoxStyle.DropDownList;
+            }
+        }
+
+        private void loadUserFlairs(object sender, EventArgs e)
+        {
+            if (_subreddit == null)
+            {
+                return;
+            }
+
+            Flairs flairs = _subreddit.Flairs;
+
+            Label labelUserFlair = (Label)Controls.Find("labelUserFlair", true)[0];
+            ComboBox comboBoxUserFlair = (ComboBox)Controls.Find("comboBoxUserFlair", true)[0];
+
+            comboBoxUserFlair.Items.Clear();
+
+            try
+            {
+                labelUserFlair.Text = "";
+                comboBoxUserFlair.DropDownStyle = ComboBoxStyle.DropDownList;
+
+                List<Reddit.Things.FlairV2> flairList = flairs.UserFlairV2;
+                foreach (var flair in flairList)
+                {
+                    comboBoxUserFlair.Items.Add(flair.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                labelUserFlair.Text = "Флаєри не знайдено";
             }
         }
 
@@ -222,7 +313,7 @@ namespace reddit_bot.form.task
                 List<Reddit.Things.FlairV2> flairList = flairs.LinkFlairV2;
                 foreach (var flair in flairList)
                 {
-                    comboBoxFlair.Items.Add(flair.Text);
+                    comboBoxFlair.Items.Add(new ComboBoxItem(flair.Text, flair.Id));
                 }
             } catch(Exception ex)
             {
@@ -255,6 +346,7 @@ namespace reddit_bot.form.task
             }
             if (flair.TextEditable)
             {
+                currentPostFlair = new ComboBoxItem(flair.Text, flair.Id);
                 comboBoxFlair.DropDownStyle = ComboBoxStyle.DropDown;
             }
             else
@@ -307,6 +399,7 @@ namespace reddit_bot.form.task
 
             comboBoxSubreddits.TextChanged += loadSubreddit;
             comboBoxSubreddits.SelectedIndexChanged += loadFlairs;
+            //comboBoxSubreddits.SelectedIndexChanged += loadUserFlairs;
 
             Button searchButton = new Button()
             {
@@ -317,6 +410,7 @@ namespace reddit_bot.form.task
 
             searchButton.Click += loadSubredditsByName;
             searchButton.Click += loadFlairs;
+            //searchButton.Click += loadUserFlairs;
 
             Label labelSubredditName = new Label()
             {
@@ -401,17 +495,18 @@ namespace reddit_bot.form.task
         {
             var checkBoxPanel = (Panel)Controls.Find("checkBoxPanel", true)[0];
 
-            var panelFlair = new Panel()
+            var panelFlairPost = new Panel()
             {
                 Size = checkBoxPanel.Size,
                 Location = new Point(checkBoxPanel.Location.X, checkBoxPanel.Location.Y + checkBoxPanel.Height + 5),
                 BorderStyle = BorderStyle.FixedSingle,
                 AutoSize = true,
+                Name = "panelFlairPost"
             };
 
             var labelFlairTitle = new Label()
             {
-                Text = "Виберіть флаєр",
+                Text = "Виберіть флаєр для посту",
                 AutoSize = true,
                 Location = new Point(5, 5)
             };
@@ -419,7 +514,7 @@ namespace reddit_bot.form.task
             var comboBoxFlair = new ComboBox()
             {
                 Name = "comboBoxFlair",
-                Size = new Size(panelFlair.Width - 10, 35),
+                Size = new Size(panelFlairPost.Width - 10, 35),
                 Location = new Point(5, labelFlairTitle.Location.Y + labelFlairTitle.Height + 5),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
@@ -436,20 +531,76 @@ namespace reddit_bot.form.task
             {
                 Name = "buttonFlairSearch",
                 AutoSize = true,
-                Location = new Point(labelFlairTitle.Location.X + labelFlairTitle.Width + 10),
                 Text = "Підгрузити"
             };
+            buttonFlairSearch.Location = new Point(panelFlairPost.Width - buttonFlairSearch.Width - 5, labelFlairTitle.Location.Y);
 
             buttonFlairSearch.Click += loadFlairs;
 
             comboBoxFlair.SelectedIndexChanged += loadFlair;
 
-            panelFlair.Controls.Add(labelFlairTitle);
-            panelFlair.Controls.Add(comboBoxFlair);
-            panelFlair.Controls.Add(labelFlair);
-            panelFlair.Controls.Add(buttonFlairSearch);
+            panelFlairPost.Controls.Add(labelFlairTitle);
+            panelFlairPost.Controls.Add(comboBoxFlair);
+            panelFlairPost.Controls.Add(labelFlair);
+            panelFlairPost.Controls.Add(buttonFlairSearch);
 
-            panel2.Controls.Add(panelFlair);
+            panel2.Controls.Add(panelFlairPost);
+        }
+
+        private void AddUserFlairs()
+        {
+            var panelFlairPost = (Panel)Controls.Find("panelFlairPost", true)[0];
+
+            var panelUserFlair = new Panel()
+            {
+                Size = panelFlairPost.Size,
+                Location = new Point(panelFlairPost.Location.X, panelFlairPost.Location.Y + panelFlairPost.Height + 5),
+                BorderStyle = BorderStyle.FixedSingle,
+                AutoSize = true,
+            };
+
+            var labelFlairTitle = new Label()
+            {
+                Text = "Виберіть флаєр для користувача",
+                AutoSize = true,
+                Location = new Point(5, 5)
+            };
+
+            var comboBoxUserFlair = new ComboBox()
+            {
+                Name = "comboBoxUserFlair",
+                Size = new Size(panelUserFlair.Width - 10, 35),
+                Location = new Point(5, labelFlairTitle.Location.Y + labelFlairTitle.Height + 5),
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+
+            var labelUserFlair = new Label()
+            {
+                Name = "labelUserFlair",
+                AutoSize = true,
+                Location = new Point(comboBoxUserFlair.Location.X, comboBoxUserFlair.Location.Y + comboBoxUserFlair.Height + 2),
+                ForeColor = Color.Red
+            };
+
+            var buttonFlairUserSearch = new Button()
+            {
+                Name = "buttonFlairUserSearch",
+                AutoSize = true,
+                Text = "Підгрузити"
+            };
+
+            buttonFlairUserSearch.Location = new Point(panelUserFlair.Width - buttonFlairUserSearch.Width - 5, labelFlairTitle.Location.Y);
+
+            buttonFlairUserSearch.Click += loadUserFlairs;
+
+            comboBoxUserFlair.SelectedIndexChanged += loadUserFlair;
+
+            panelUserFlair.Controls.Add(labelFlairTitle);
+            panelUserFlair.Controls.Add(comboBoxUserFlair);
+            panelUserFlair.Controls.Add(labelUserFlair);
+            panelUserFlair.Controls.Add(buttonFlairUserSearch);
+
+            panel2.Controls.Add(panelUserFlair);
         }
 
         private void FillForm()

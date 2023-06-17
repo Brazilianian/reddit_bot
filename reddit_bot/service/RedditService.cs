@@ -26,7 +26,10 @@ namespace reddit_bot.service
 
         public void Login(string redditId, string secret)
         {
-            _authTokenRetrieverLib = new AuthTokenRetrieverLib(redditId, secret, 8080);
+            _accessToken = null;
+            _refreshToken = null;
+
+            _authTokenRetrieverLib = new AuthTokenRetrieverLib(redditId, 8080, "localhost", "http://localhost", secret);
             _authTokenRetrieverLib.AwaitCallback();
             _authTokenRetrieverLib.AuthSuccess += LoginSuccess;
             OpenBrowser(_authTokenRetrieverLib.AuthURL());

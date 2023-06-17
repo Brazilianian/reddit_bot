@@ -105,6 +105,7 @@
   <ItemGroup>
     <Compile Include="domain\account\RedditAccount.cs" />
     <Compile Include="domain\account\RedditAccountStatus.cs" />
+    <Compile Include="domain\forms\ComboBoxItem.cs" />
     <Compile Include="domain\task\TaskPostType.cs" />
     <Compile Include="domain\task\TaskType.cs" />
     <Compile Include="form\account\AccountAddForm.cs">

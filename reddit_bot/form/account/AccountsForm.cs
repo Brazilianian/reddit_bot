@@ -69,7 +69,7 @@ namespace reddit_bot
 
         private void RefreshDataGrid()
         {
-            dataGridView1.DataSource = null;
+            dataGridView1.Rows.Clear();
             _accounts = _accountService.GetAllAccounts();
             FillAccountsDataGrid();
         }
