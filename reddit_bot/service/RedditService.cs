@@ -3,13 +3,8 @@ using Reddit;
 using reddit_bot.domain;
 using Reddit.AuthTokenRetriever;
 using Reddit.AuthTokenRetriever.EventArgs;
-using Reddit.Controllers;
 using System;
-using SQLitePCL;
-using System.Collections.Generic;
-using System.Linq;
 using reddit_bor.util;
-using System.Windows.Forms;
 
 namespace reddit_bot.service
 {

@@ -2,7 +2,7 @@
 
 namespace reddit_bor.domain.task
 {
-    internal enum TaskPostType
+    public enum TaskPostType
     {
         [Description("Пост")]
         POST,

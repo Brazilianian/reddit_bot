@@ -66,7 +66,7 @@ namespace reddit_bot.form.task
                     AddAttributesInputs();
                     AddFlairs();
                     //AddUserFlairs();
-                    AddSendButtonPost();
+                    AddCreateTaskButton();
                     break;
 
                 case TaskPostType.LINK:
@@ -76,11 +76,17 @@ namespace reddit_bot.form.task
                     AddAttributesInputs();
                     AddFlairs();
                     //AddUserFlairs();
-                    AddSendButtonLink();
+                    AddCreateTaskButton();
                     break;
             }
         }
 
+        private void createTask(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO transfer
         private void createPost_Post(object sender, EventArgs e)
         {
             string title = Controls.Find("textBoxTitle", true).First().Text;
@@ -108,15 +114,9 @@ namespace reddit_bot.form.task
                 }
             }
 
-            //string flairUser = ((ComboBox)Controls.Find("comboBoxUserFlair", true)[0]).Text;
 
             try
             {
-                //if (string.IsNullOrEmpty(flairUser)) 
-                //{
-                //    _subreddit.Flairs.CreateUserFlair(_subreddit.Name, flairUser);
-                //}
-
                 SelfPost post = _subreddit
                     .SelfPost(title: title, selfText: text);
 
@@ -160,15 +160,9 @@ namespace reddit_bot.form.task
             bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
             bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
             string flair = ((ComboBox)Controls.Find("comboBoxFlair", true)[0]).Text;
-            //string flairUser = ((ComboBox)Controls.Find("comboBoxUserFlair", true)[0]).Text;
 
             try
             {
-                //if (string.IsNullOrEmpty(flairUser))
-                //{
-                //    _subreddit.Flairs.CreateUserFlair(_redditClient.Account.Me.Name, flairUser);
-                //}
-
                 LinkPost post = _subreddit
                     .LinkPost(title: title, url: link);
 
@@ -562,62 +556,6 @@ namespace reddit_bot.form.task
             panel2.Controls.Add(panelFlairPost);
         }
 
-        private void AddUserFlairs()
-        {
-            var panelFlairPost = (Panel)Controls.Find("panelFlairPost", true)[0];
-
-            var panelUserFlair = new Panel()
-            {
-                Size = panelFlairPost.Size,
-                Location = new Point(panelFlairPost.Location.X, panelFlairPost.Location.Y + panelFlairPost.Height + 5),
-                BorderStyle = BorderStyle.FixedSingle,
-                AutoSize = true,
-            };
-
-            var labelFlairTitle = new Label()
-            {
-                Text = "Виберіть флаєр для користувача",
-                AutoSize = true,
-                Location = new Point(5, 5)
-            };
-
-            var comboBoxUserFlair = new ComboBox()
-            {
-                Name = "comboBoxUserFlair",
-                Size = new Size(panelUserFlair.Width - 10, 35),
-                Location = new Point(5, labelFlairTitle.Location.Y + labelFlairTitle.Height + 5),
-                DropDownStyle = ComboBoxStyle.DropDownList
-            };
-
-            var labelUserFlair = new Label()
-            {
-                Name = "labelUserFlair",
-                AutoSize = true,
-                Location = new Point(comboBoxUserFlair.Location.X, comboBoxUserFlair.Location.Y + comboBoxUserFlair.Height + 2),
-                ForeColor = Color.Red
-            };
-
-            var buttonFlairUserSearch = new Button()
-            {
-                Name = "buttonFlairUserSearch",
-                AutoSize = true,
-                Text = "Підгрузити"
-            };
-
-            buttonFlairUserSearch.Location = new Point(panelUserFlair.Width - buttonFlairUserSearch.Width - 5, labelFlairTitle.Location.Y);
-
-            buttonFlairUserSearch.Click += loadUserFlairs;
-
-            comboBoxUserFlair.SelectedIndexChanged += loadUserFlair;
-
-            panelUserFlair.Controls.Add(labelFlairTitle);
-            panelUserFlair.Controls.Add(comboBoxUserFlair);
-            panelUserFlair.Controls.Add(labelUserFlair);
-            panelUserFlair.Controls.Add(buttonFlairUserSearch);
-
-            panel2.Controls.Add(panelUserFlair);
-        }
-
         private void FillForm()
         {
             comboBox1.SelectedIndexChanged -= comboBox1_SelectedIndexChanged;
@@ -627,6 +565,20 @@ namespace reddit_bot.form.task
                               .ToList();
             comboBox1.SelectedIndex = -1;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+        }
+
+        private void AddCreateTaskButton()
+        {
+            Button createTaskButton = new Button()
+            {
+                Size = new Size(200, 45),
+                Text = "Додати шаблон"
+            };
+            createTaskButton.Location = new Point(panel2.Width - createTaskButton.Width - 5, panel2.Height - createTaskButton.Height - 5);
+
+            createTaskButton.Click += createTask;
+
+            panel2.Controls.Add(createTaskButton);
         }
 
         #region Link
@@ -651,41 +603,9 @@ namespace reddit_bot.form.task
             panel2.Controls.Add(textBoxLink);
         }
 
-        private void AddSendButtonLink()
-        {
-            Button buttonSend = new Button()
-            {
-                Text = "Опублікувати",
-                Size = new Size(80, 45),
-                Name = "buttonSend",
-                Enabled = false,
-            };
-
-            buttonSend.Location = new Point(panel2.Width - buttonSend.Width - 5, panel2.Height - buttonSend.Height - 5);
-
-            buttonSend.Click += createPost_Link;
-            panel2.Controls.Add(buttonSend);
-        }
-
         #endregion
 
         #region Post
-
-        private void AddSendButtonPost()
-        {
-            Button buttonSend = new Button()
-            {
-                Text = "Опублікувати",
-                Size = new Size(80, 45),
-                Name = "buttonSend",
-                Enabled = false,
-            };
-
-            buttonSend.Location = new Point(panel2.Width - buttonSend.Width - 5, panel2.Height - buttonSend.Height - 5);
-           
-            buttonSend.Click += createPost_Post;
-            panel2.Controls.Add(buttonSend);
-        }
 
         private void AddText()
         {

@@ -12,7 +12,7 @@ namespace reddit_bor.form.task
 {
     public partial class TaskManagerForm : Form
     {
-        public TaskManagerForm()
+        public TaskManagerForm(reddit_bot.domain.RedditAccount _redditAccount, reddit_bot.AccountsForm _accountsForm)
         {
             InitializeComponent();
         }
