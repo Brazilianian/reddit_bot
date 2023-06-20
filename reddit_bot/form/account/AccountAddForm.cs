@@ -14,6 +14,8 @@ namespace reddit_bot
         private RedditService _redditService;
         private AccountService _accountService;
 
+        private Thread _loginThread;
+
         public AccountAddForm(AccountsForm accountsForm)
         {
             InitializeComponent();
@@ -26,6 +28,14 @@ namespace reddit_bot
 
         private void button1_Click(object sender, EventArgs e)
         {
+            label3.Text = "Тепер підтвердіть використання акаунта в браузері";
+
+            _loginThread = new Thread(LoginNewAccount);
+            _loginThread.Start();
+        }
+
+        private void LoginNewAccount()
+        {
             var redditAccount = new RedditAccount
             {
                 AppId = textBox1.Text,
@@ -34,31 +44,70 @@ namespace reddit_bot
 
             _redditService.Login(redditAccount.AppId, redditAccount.Secret);
 
-            label3.Text = "Тепер підтвердіть використання акаунта в браузері";
-            while (_redditService.GetAccessToken() == null || _redditService.GetRefreshToken() == null)
+            //Crutch. Waits 10sec or suspend login
+            for (int i = 0; i < 10; i++)
             {
-                Thread.Sleep(500);
+                if (_redditService.GetAccessToken() == null || _redditService.GetRefreshToken() == null)
+                {
+                    Thread.Sleep(500);
+                } else
+                {
+                    break;
+                }
             }
 
             redditAccount.AccessToken = _redditService.GetAccessToken();
             redditAccount.RefreshToken = _redditService.GetRefreshToken();
-            
+
+            if (redditAccount.AccessToken == null || redditAccount.RefreshToken == null)
+            {
+                Invoke(new Action(() =>
+                {
+                    label3.Text = "Помилка авторизації (очікування 20 сек.)";
+                }));
+                _redditService.StopListen();
+                return;
+            }
+
             RedditClient redditClient = _redditService.GetRedditClient(redditAccount, RequestsUtil.GetUserAgent());
             if (_accountService.IsAccountAlreadyExists(redditClient.Account.Me.Id))
             {
-                label3.Text = "Такий користувач вже існує";
+                Invoke(new Action(() =>
+                {
+                    label3.Text = "Такий користувач вже існує";
+                }));
+                _redditService.StopListen();
                 return;
             }
 
             redditAccount.AccountId = redditClient.Account.Me.Id;
             _accountService.Save(redditAccount);
-            label3.Text = "Акаунт успішно збережено";
+
+            Invoke(new Action(() =>
+            {
+                label3.Text = "Акаунт успішно збережено";
+            }));
+            _redditService.StopListen();
         }
 
+        [Obsolete]
         private void button3_Click(object sender, EventArgs e)
         {
-            _accountsForm.Show();
             Close();
+        }
+
+        [Obsolete]
+        private void AccountAddForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _redditService.StopListen();
+
+            if (_loginThread != null)
+            {
+                if(_loginThread.IsAlive)
+                {
+                    _loginThread.Suspend();
+                }
+            }
         }
     }
 }

@@ -49,7 +49,7 @@ namespace reddit_bot
             this.textBox1.Location = new System.Drawing.Point(195, 38);
             this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(191, 28);
+            this.textBox1.Size = new System.Drawing.Size(488, 28);
             this.textBox1.TabIndex = 0;
             // 
             // label1
@@ -58,7 +58,7 @@ namespace reddit_bot
             this.label1.Location = new System.Drawing.Point(195, 12);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(190, 24);
+            this.label1.Size = new System.Drawing.Size(240, 24);
             this.label1.TabIndex = 1;
             this.label1.Text = "Ідентифікаційний номер";
             // 
@@ -78,12 +78,12 @@ namespace reddit_bot
             this.textBox2.Location = new System.Drawing.Point(195, 100);
             this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(191, 28);
+            this.textBox2.Size = new System.Drawing.Size(488, 28);
             this.textBox2.TabIndex = 2;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(195, 167);
+            this.button1.Location = new System.Drawing.Point(585, 146);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(98, 28);
@@ -151,6 +151,7 @@ namespace reddit_bot
             this.Location = new System.Drawing.Point(15, 15);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "AccountAddForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AccountAddForm_FormClosing);
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

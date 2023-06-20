@@ -47,10 +47,21 @@ namespace reddit_bot
                 RedditClient redditClient = _redditService.GetRedditClient(account, RequestsUtil.GetUserAgent());
                 _accountService.UpdateAccountStatus(account);
 
-                dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
+                try
                 {
-                    Value = redditClient.Account.Me.Name
-                });
+                    dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
+                    {
+                        Value = redditClient.Account.Me.Name
+                    });
+                } catch (Exception ex)
+                {
+                    dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
+                    {
+                        Value = account.AppId
+                    });
+                    account.Status = RedditAccountStatus.Failed;
+                }
+
                 dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
                 {
                     Value = account.Status

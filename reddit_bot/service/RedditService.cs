@@ -5,12 +5,20 @@ using Reddit.AuthTokenRetriever;
 using Reddit.AuthTokenRetriever.EventArgs;
 using Reddit.Controllers;
 using System;
+using SQLitePCL;
+using System.Collections.Generic;
+using System.Linq;
+using reddit_bor.util;
+using System.Windows.Forms;
 
 namespace reddit_bot.service
 {
     public class RedditService
     {
         private AuthTokenRetrieverLib _authTokenRetrieverLib;
+
+        private const int port = 8080;
+
         private string _accessToken;
         private string _refreshToken;
 
@@ -28,17 +36,43 @@ namespace reddit_bot.service
         {
             _accessToken = null;
             _refreshToken = null;
+            
+            StopListen();
 
-            _authTokenRetrieverLib = new AuthTokenRetrieverLib(redditId, 8080, "localhost", "http://localhost", secret);
-            _authTokenRetrieverLib.AwaitCallback();
-            _authTokenRetrieverLib.AuthSuccess += LoginSuccess;
-            OpenBrowser(_authTokenRetrieverLib.AuthURL());
+            _authTokenRetrieverLib = new AuthTokenRetrieverLib(redditId, port, "localhost", "http://localhost", secret);
+
+            //FIXME and this shoud be removed after fixing the proccess killing
+            try
+            {
+                _authTokenRetrieverLib.AwaitCallback();
+                _authTokenRetrieverLib.AuthSuccess += LoginSuccess;
+                OpenBrowser(_authTokenRetrieverLib.AuthURL());
+            }
+                catch (Exception ex)
+            {
+                Console.WriteLine("Error");
+            }
+
         }
 
         private void LoginSuccess(object sender, AuthSuccessEventArgs e)
         {
             _accessToken = e.AccessToken;
             _refreshToken = e.RefreshToken;
+            StopListen();
+        }
+
+
+        //FIXME im not working. Killing the proccess stops the whole program. why?
+        public void StopListen()
+        {
+            if (_authTokenRetrieverLib != null )
+            {
+                _authTokenRetrieverLib.StopListening();
+            }
+          
+            ProccessUtil.KillByPort(port);
+
         }
 
         //TODO open new browser and close it

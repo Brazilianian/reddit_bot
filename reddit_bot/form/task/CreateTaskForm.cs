@@ -101,8 +101,11 @@ namespace reddit_bot.form.task
 
             if (flairItem == null)
             {
-                flairItem = currentPostFlair;
-                flairItem.Text = comboBoxFlair.Text;
+                if (currentPostFlair != null)
+                {
+                    flairItem = currentPostFlair;
+                    flairItem.Text = comboBoxFlair.Text;
+                }
             }
 
             //string flairUser = ((ComboBox)Controls.Find("comboBoxUserFlair", true)[0]).Text;
@@ -118,7 +121,13 @@ namespace reddit_bot.form.task
                     .SelfPost(title: title, selfText: text);
 
                 //TODO add flair to post
-                post.Submit(spoiler: isSpoiler, flairText: flairItem.Text, flairId: flairItem.Tag);  
+                if (flairItem != null)
+                {
+                    post.Submit(spoiler: isSpoiler, flairText: flairItem.Text, flairId: flairItem.Tag);
+                } else
+                {
+                    post.Submit(spoiler: isSpoiler);
+                }
 
                 if (isNsfw)
                 {
@@ -165,8 +174,14 @@ namespace reddit_bot.form.task
 
                 try
                 {
-                    post.Submit(spoiler: isSpoiler)
+                    if (!string.IsNullOrEmpty(flair))
+                    {
+                        post.Submit(spoiler: isSpoiler)
                         .SetFlair(flair);
+                    } else
+                    {
+                        post.Submit(spoiler: isSpoiler);
+                    }
 
                     if (isNsfw)
                     {

@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Reddit;
+using reddit_bor.form.task;
 using reddit_bot.domain;
 using reddit_bot.form.task;
 using reddit_bot.service;
@@ -54,7 +55,14 @@ namespace reddit_bot
             label8.Text = _redditClient.Account.Me.Created.ToString("D") + " д.";
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
+        {
+           TaskManagerForm taskManagerForm = new TaskManagerForm(_redditAccount, _accountsForm);
+           taskManagerForm.Show();
+            Close();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
         {
             CreateTaskForm createTaskForm = new CreateTaskForm(_redditAccount, _accountsForm);
             createTaskForm.Show();
