@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace reddit_bor.domain.task
+﻿namespace reddit_bor.domain.task
 {
     public class RedditPostTaskLink : RedditPostTask
     {
-        public RedditPostTaskLink(string subredditName, string title, string link) : base(subredditName, title)
+        public RedditPostTaskLink(string taskName, string subredditName, string title, string link) 
+            : base(taskName, subredditName, title)
         {
             Link = link;
         }

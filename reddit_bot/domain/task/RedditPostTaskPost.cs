@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace reddit_bor.domain.task
+﻿namespace reddit_bor.domain.task
 {
-    internal class RedditPostTaskPost
+    public class RedditPostTaskPost : RedditPostTask
     {
+        public RedditPostTaskPost(string taskName, string subredditName, string title, string text) 
+            : base(taskName, subredditName, title)
+        {
+            Text = text;
+        }
+
+        public string Text { get; set; }
     }
 }

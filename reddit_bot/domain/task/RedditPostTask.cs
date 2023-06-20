@@ -2,6 +2,15 @@
 {
     public abstract class RedditPostTask
     {
+        public RedditPostTask(string taskName, string subredditName, string title)
+        {
+            TaskName = taskName;
+            SubredditName = subredditName;
+            Title = title;
+        }
+
+        public string TaskName { get; set; }
+
         public string SubredditName { get; set; }
         public string Title { get; set; }
         public bool IsSpoiler { get; set; }

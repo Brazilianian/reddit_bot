@@ -108,8 +108,10 @@
     <Compile Include="domain\forms\ComboBoxItem.cs" />
     <Compile Include="domain\task\PostFlair.cs" />
     <Compile Include="domain\task\RedditPostTask.cs" />
-    <Compile Include="domain\task\TaskPostType.cs" />
-    <Compile Include="domain\task\TaskType.cs" />
+    <Compile Include="domain\task\RedditPostTaskLink.cs" />
+    <Compile Include="domain\task\RedditPostTaskPost.cs" />
+    <Compile Include="enum\task\TaskPostType.cs" />
+    <Compile Include="enum\task\TaskType.cs" />
     <Compile Include="form\account\AccountAddForm.cs">
       <SubType>Form</SubType>
     </Compile>

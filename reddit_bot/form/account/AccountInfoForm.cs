@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using Reddit;
-using reddit_bor.form.task;
 using reddit_bot.domain;
 using reddit_bot.form.task;
 using reddit_bot.service;
