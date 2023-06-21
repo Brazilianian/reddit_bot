@@ -1,6 +1,4 @@
-﻿using System.Reflection.Emit;
-
-namespace reddit_bor.domain.forms
+﻿namespace reddit_bot.domain.forms
 {
     public class ComboBoxItem
     {

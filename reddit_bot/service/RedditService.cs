@@ -4,7 +4,7 @@ using reddit_bot.domain;
 using Reddit.AuthTokenRetriever;
 using Reddit.AuthTokenRetriever.EventArgs;
 using System;
-using reddit_bor.util;
+using reddit_bot.util;
 
 namespace reddit_bot.service
 {

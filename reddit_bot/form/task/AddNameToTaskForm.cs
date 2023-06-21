@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace reddit_bor.form.task
+namespace reddit_bot.form.task
 {
     public partial class AddNameToTaskForm : Form
     {
@@ -21,6 +21,7 @@ namespace reddit_bor.form.task
                 return;
             }
             DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }

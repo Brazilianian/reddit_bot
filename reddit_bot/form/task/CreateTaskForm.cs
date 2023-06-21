@@ -6,11 +6,11 @@ using System.Windows.Forms;
 using Reddit;
 using Reddit.Controllers;
 using Reddit.Exceptions;
-using reddit_bor.domain.forms;
-using reddit_bor.domain.task;
-using reddit_bor.util;
 using reddit_bot.domain;
+using reddit_bot.domain.forms;
+using reddit_bot.domain.task;
 using reddit_bot.service;
+using reddit_bot.util;
 
 namespace reddit_bot.form.task
 {
@@ -21,9 +21,7 @@ namespace reddit_bot.form.task
         private readonly RedditService _reddditService;
 
         private ComboBoxItem currentPostFlair = null;
-
         private Subreddit _subreddit = null;
-
         private RedditClient _redditClient;
 
         public CreateTaskForm(RedditAccount redditAccount, AccountsForm accountsForm)
@@ -65,7 +63,6 @@ namespace reddit_bot.form.task
                     AddText();
                     AddAttributesInputs();
                     AddFlairs();
-                    //AddUserFlairs();
                     AddCreateTaskButton();
                     break;
 
@@ -75,7 +72,6 @@ namespace reddit_bot.form.task
                     AddLink();
                     AddAttributesInputs();
                     AddFlairs();
-                    //AddUserFlairs();
                     AddCreateTaskButton();
                     break;
             }
@@ -83,7 +79,16 @@ namespace reddit_bot.form.task
 
         private void createTask(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var addNameToTaskForm = new AddNameToTaskForm();
+            if (addNameToTaskForm.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            string taskName = addNameToTaskForm.Name;
+            string subredditName = Controls.Find("comboBoxSubereddits", true)[0].Text;
+            string 
+
         }
 
         //TODO transfer
@@ -408,7 +413,6 @@ namespace reddit_bot.form.task
 
             comboBoxSubreddits.TextChanged += loadSubreddit;
             comboBoxSubreddits.SelectedIndexChanged += loadFlairs;
-            //comboBoxSubreddits.SelectedIndexChanged += loadUserFlairs;
 
             Button searchButton = new Button()
             {
@@ -419,7 +423,6 @@ namespace reddit_bot.form.task
 
             searchButton.Click += loadSubredditsByName;
             searchButton.Click += loadFlairs;
-            //searchButton.Click += loadUserFlairs;
 
             Label labelSubredditName = new Label()
             {

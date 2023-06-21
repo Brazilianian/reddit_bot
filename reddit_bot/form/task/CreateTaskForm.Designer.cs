@@ -38,13 +38,14 @@ namespace reddit_bot.form.task
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(779, 589);
+            this.button1.Location = new System.Drawing.Point(779, 613);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(106, 31);
@@ -58,7 +59,7 @@ namespace reddit_bot.form.task
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
-            this.panel1.Location = new System.Drawing.Point(12, 12);
+            this.panel1.Location = new System.Drawing.Point(12, 36);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(873, 79);
             this.panel1.TabIndex = 3;
@@ -103,17 +104,27 @@ namespace reddit_bot.form.task
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Location = new System.Drawing.Point(13, 97);
+            this.panel2.Location = new System.Drawing.Point(13, 121);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(872, 474);
             this.panel2.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(380, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(141, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Створення шаблону задачі";
             // 
             // CreateTaskForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(896, 631);
+            this.ClientSize = new System.Drawing.Size(896, 655);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button1);
@@ -124,6 +135,7 @@ namespace reddit_bot.form.task
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -137,5 +149,6 @@ namespace reddit_bot.form.task
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label1;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace reddit_bor.domain.task
+namespace reddit_bot.domain.task
 {
     internal enum TaskType
     {

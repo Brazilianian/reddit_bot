@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace reddit_bor.util
+namespace reddit_bot.util
 {
     public static class ProccessUtil
     {

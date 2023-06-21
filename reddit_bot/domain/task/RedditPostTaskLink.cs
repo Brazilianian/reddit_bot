@@ -1,4 +1,4 @@
-﻿namespace reddit_bor.domain.task
+﻿namespace reddit_bot.domain.task
 {
     public class RedditPostTaskLink : RedditPostTask
     {

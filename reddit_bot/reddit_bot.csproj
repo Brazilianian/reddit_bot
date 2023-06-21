@@ -130,6 +130,12 @@
     <Compile Include="form\account\AccountsForm.Designer.cs">
       <DependentUpon>AccountsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\task\AddNameToTaskForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\task\AddNameToTaskForm.Designer.cs">
+      <DependentUpon>AddNameToTaskForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="form\task\CreateTaskForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="form\account\AccountsForm.resx">
       <DependentUpon>AccountsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\task\AddNameToTaskForm.resx">
+      <DependentUpon>AddNameToTaskForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\task\CreateTaskForm.resx">
       <DependentUpon>CreateTaskForm.cs</DependentUpon>

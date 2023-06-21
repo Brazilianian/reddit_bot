@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace reddit_bor.util
+namespace reddit_bot.util
 {
     public static class EnumUtil
     {

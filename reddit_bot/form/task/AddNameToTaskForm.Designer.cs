@@ -1,4 +1,4 @@
-﻿namespace reddit_bor.form.task
+﻿namespace reddit_bot.form.task
 {
     partial class AddNameToTaskForm
     {
