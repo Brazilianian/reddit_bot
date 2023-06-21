@@ -58,7 +58,9 @@ namespace reddit_bot.repository
 
         public RedditAccount FindByAccountId(string accountId)
         {
-            return FindAll().Where(a => a.AccountId == accountId).FirstOrDefault();
+            return FindAll()
+                .Where(a => a.AccountId == accountId)
+                .FirstOrDefault();
         }
     }
 }

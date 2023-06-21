@@ -24,6 +24,9 @@ namespace reddit_bot.form.task
         private Subreddit _subreddit = null;
         private RedditClient _redditClient;
 
+        private TaskType _taskType;
+        private TaskPostType _taskPostType;
+
         public CreateTaskForm(RedditAccount redditAccount, AccountsForm accountsForm)
         {
             InitializeComponent();
@@ -87,8 +90,42 @@ namespace reddit_bot.form.task
 
             string taskName = addNameToTaskForm.Name;
             string subredditName = Controls.Find("comboBoxSubereddits", true)[0].Text;
-            string 
+            string title = Controls.Find("textBoxTitle", true)[0].Text;
+            bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
+            bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
 
+            
+            PostFlair flair = GetFlair();
+
+            switch(_taskPostType)
+            {
+                case TaskPostType.POST:
+                    string text = Controls.Find("richTextBoxText", true)[0].Text;
+                    break;
+                case TaskPostType.LINK:
+                    string link = Controls.Find("textBoxLink", true)[0].Text;
+                    break;
+
+            }
+        }
+
+        private PostFlair GetFlair()
+        {
+            ComboBox comboBoxFlair = ((ComboBox)Controls.Find("comboBoxFlair", true)[0]);
+            ComboBoxItem flairItem = comboBoxFlair.SelectedItem as ComboBoxItem;
+
+            if (flairItem == null)
+            {
+                if (currentPostFlair != null)
+                {
+                    flairItem = currentPostFlair;
+                    flairItem.Text = comboBoxFlair.Text;
+
+                    return new PostFlair(flairItem.Text, flairItem.Tag);
+                }
+            }
+
+            return null;
         }
 
         //TODO transfer
@@ -103,22 +140,8 @@ namespace reddit_bot.form.task
                 return;
             }
 
-            bool isOs = ((CheckBox)Controls.Find("checkBoxOc", true)[0]).Checked;
             bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
             bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
-
-            ComboBox comboBoxFlair = ((ComboBox)Controls.Find("comboBoxFlair", true)[0]);
-            ComboBoxItem flairItem = comboBoxFlair.SelectedItem as ComboBoxItem;
-
-            if (flairItem == null)
-            {
-                if (currentPostFlair != null)
-                {
-                    flairItem = currentPostFlair;
-                    flairItem.Text = comboBoxFlair.Text;
-                }
-            }
-
 
             try
             {
