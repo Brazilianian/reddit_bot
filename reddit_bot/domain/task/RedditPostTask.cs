@@ -2,11 +2,20 @@
 {
     public abstract class RedditPostTask
     {
-        public RedditPostTask(string taskName, string subredditName, string title)
+        protected RedditPostTask() { }
+
+        protected RedditPostTask(string taskName, string subredditName, string title)
         {
             TaskName = taskName;
             SubredditName = subredditName;
             Title = title;
+        }
+
+        protected RedditPostTask(string taskName, string subredditName, string title, bool isSpoiler, bool isNSFW)
+            : this(taskName, subredditName, title)
+        {
+            IsSpoiler = isSpoiler;
+            IsNSFW = isNSFW;
         }
 
         public string TaskName { get; set; }

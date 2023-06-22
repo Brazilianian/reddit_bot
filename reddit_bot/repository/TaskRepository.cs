@@ -1,8 +1,6 @@
-﻿using Newtonsoft.Json;
-using reddit_bot.domain.task;
+﻿using reddit_bot.domain.task;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace reddit_bor.repository

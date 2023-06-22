@@ -9,7 +9,7 @@ namespace reddit_bot.repository
 {
     public class AccountRepository
     {
-        private const string accountsFileName = "./accounts.json";
+        private const string accountsFileName = "./data/accounts.json";
         private readonly JsonSerializer jsonSerializer;
 
         public AccountRepository() 

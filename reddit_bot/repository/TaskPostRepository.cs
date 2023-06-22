@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using reddit_bot.domain.task;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +9,19 @@ namespace reddit_bor.repository
     internal class TaskPostRepository
     {
         private const string _filePath = "./postTasks.json";
-        private readonly JsonSerializer jsonSerializer = new JsonSerializer();
+        private readonly JsonSerializer _jsonSerializer;
+
+        public TaskPostRepository()
+        {
+            _jsonSerializer = new JsonSerializer();
+            if (!File.Exists(_filePath))
+            {
+                using (FileStream fs = File.Create(_filePath))
+                {
+                }
+                WriteAll(new List<RedditPostTaskPost>());
+            }
+        }
 
         public RedditPostTaskPost Save(RedditPostTaskPost task)
         {
@@ -32,7 +43,7 @@ namespace reddit_bor.repository
             List<RedditPostTaskPost> redditPostTasks = new List<RedditPostTaskPost>();
             using (StreamReader streamReader = new StreamReader(_filePath))
             {
-                redditPostTasks = (List<RedditPostTaskPost>)jsonSerializer.Deserialize(streamReader, typeof(List<RedditPostTaskPost>));
+                redditPostTasks = (List<RedditPostTaskPost>)_jsonSerializer.Deserialize(streamReader, typeof(List<RedditPostTaskPost>));
             }
             return redditPostTasks;
         }
@@ -41,7 +52,7 @@ namespace reddit_bor.repository
         {
             using (StreamWriter streamWriter = new StreamWriter(_filePath))
             {
-                jsonSerializer.Serialize(streamWriter, tasks);
+                _jsonSerializer.Serialize(streamWriter, tasks);
             }
         }
     }

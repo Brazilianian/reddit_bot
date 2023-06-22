@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using Reddit;
+﻿using Reddit;
 using Reddit.Controllers;
-using Reddit.Exceptions;
+using reddit_bor.service;
 using reddit_bot.domain;
 using reddit_bot.domain.forms;
 using reddit_bot.domain.task;
 using reddit_bot.service;
 using reddit_bot.util;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace reddit_bot.form.task
 {
@@ -19,8 +19,9 @@ namespace reddit_bot.form.task
         private readonly RedditAccount _redditAccount;
         private readonly AccountsForm _accountsForm;
         private readonly RedditService _reddditService;
+        private readonly TaskService _taskService;
 
-        private ComboBoxItem currentPostFlair = null;
+        private PostFlair currentPostFlair = null;
         private Subreddit _subreddit = null;
         private RedditClient _redditClient;
 
@@ -34,6 +35,7 @@ namespace reddit_bot.form.task
             _reddditService = new RedditService();
             _redditAccount = redditAccount;
             _accountsForm = accountsForm;
+            _taskService = new TaskService();
 
             _redditClient = _reddditService.GetRedditClient(_redditAccount, RequestsUtil.GetUserAgent());
 
@@ -55,10 +57,10 @@ namespace reddit_bot.form.task
 
         private void fillInputPanel(object sender, EventArgs e)
         {
-            TaskPostType taskPostType = (TaskPostType)((ComboBox)sender).SelectedIndex;
+            _taskPostType = (TaskPostType)((ComboBox)sender).SelectedIndex;
             panel2.Controls.Clear();
 
-            switch (taskPostType)
+            switch (_taskPostType)
             {
                 case TaskPostType.POST:
                     AddSubredditName();
@@ -88,140 +90,141 @@ namespace reddit_bot.form.task
                 return;
             }
 
-            string taskName = addNameToTaskForm.Name;
+            string taskName = addNameToTaskForm._taskName;
             string subredditName = Controls.Find("comboBoxSubereddits", true)[0].Text;
             string title = Controls.Find("textBoxTitle", true)[0].Text;
             bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
             bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
-
             
-            PostFlair flair = GetFlair();
+            PostFlair flair = currentPostFlair;
 
             switch(_taskPostType)
             {
                 case TaskPostType.POST:
                     string text = Controls.Find("richTextBoxText", true)[0].Text;
+                    RedditPostTaskPost taskPost = new RedditPostTaskPost(taskName, subredditName, title, isSpoiler, isNsfw, text);
+                    taskPost.postFlair = flair;
+
+                    if (_taskService.SaveTask(taskPost) == null)
+                    {
+                        MessageBox.Show("Вже існує задача з таким іменем");
+                        return;
+                    }
+
+                    MessageBox.Show("Задача успішно збережена");
                     break;
                 case TaskPostType.LINK:
                     string link = Controls.Find("textBoxLink", true)[0].Text;
+                    RedditPostTaskLink taskLink = new RedditPostTaskLink(taskName, subredditName, title, isSpoiler, isNsfw, link);
+                    taskLink.postFlair = flair;
+
+                    if (_taskService.SaveTask(taskLink) == null)
+                    {
+                        MessageBox.Show("Вже існує задача з таким іменем");
+                        return;
+                    }
+
+                    MessageBox.Show("Задача успішно збережена");
                     break;
-
+                default:
+                    throw new NotImplementedException();
             }
-        }
-
-        private PostFlair GetFlair()
-        {
-            ComboBox comboBoxFlair = ((ComboBox)Controls.Find("comboBoxFlair", true)[0]);
-            ComboBoxItem flairItem = comboBoxFlair.SelectedItem as ComboBoxItem;
-
-            if (flairItem == null)
-            {
-                if (currentPostFlair != null)
-                {
-                    flairItem = currentPostFlair;
-                    flairItem.Text = comboBoxFlair.Text;
-
-                    return new PostFlair(flairItem.Text, flairItem.Tag);
-                }
-            }
-
-            return null;
         }
 
         //TODO transfer
-        private void createPost_Post(object sender, EventArgs e)
-        {
-            string title = Controls.Find("textBoxTitle", true).First().Text;
-            string text = Controls.Find("richTextBoxText", true).First().Text;  
+        //private void createPost_Post(object sender, EventArgs e)
+        //{
+        //    string title = Controls.Find("textBoxTitle", true).First().Text;
+        //    string text = Controls.Find("richTextBoxText", true).First().Text;  
 
-            if (_subreddit == null)
-            {
-                MessageBox.Show("Невірне ім'я сабредіту");
-                return;
-            }
+        //    if (_subreddit == null)
+        //    {
+        //        MessageBox.Show("Невірне ім'я сабредіту");
+        //        return;
+        //    }
 
-            bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
-            bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
+        //    bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
+        //    bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
 
-            try
-            {
-                SelfPost post = _subreddit
-                    .SelfPost(title: title, selfText: text);
+        //    try
+        //    {
+        //        SelfPost post = _subreddit
+        //            .SelfPost(title: title, selfText: text);
 
-                //TODO add flair to post
-                if (flairItem != null)
-                {
-                    post.Submit(spoiler: isSpoiler, flairText: flairItem.Text, flairId: flairItem.Tag);
-                } else
-                {
-                    post.Submit(spoiler: isSpoiler);
-                }
+        //        //TODO add flair to post
+        //        if (flairItem != null)
+        //        {
+        //            post.Submit(spoiler: isSpoiler, flairText: flairItem.Text, flairId: flairItem.Tag);
+        //        } else
+        //        {
+        //            post.Submit(spoiler: isSpoiler);
+        //        }
 
-                if (isNsfw)
-                {
-                    post.MarkNSFWAsync();
-                }
+        //        if (isNsfw)
+        //        {
+        //            post.MarkNSFWAsync();
+        //        }
 
-                MessageBox.Show("Відправлено");
-            }
-            catch (RedditControllerException exception)
-            {
-                MessageBox.Show(exception.Message);
-            }
+        //        MessageBox.Show("Відправлено");
+        //    }
+        //    catch (RedditControllerException exception)
+        //    {
+        //        MessageBox.Show(exception.Message);
+        //    }
 
-            //TODO OC tag
+        //    //TODO OC tag
 
-        }
+        //}
 
-        private void createPost_Link(object sender, EventArgs e)
-        {
-            string title = Controls.Find("textBoxTitle", true).First().Text;
-            string link = Controls.Find("textBoxLink", true).First().Text;
+        //private void createPost_Link(object sender, EventArgs e)
+        //{
+        //    string title = Controls.Find("textBoxTitle", true).First().Text;
+        //    string link = Controls.Find("textBoxLink", true).First().Text;
 
-            if (_subreddit == null)
-            {
-                MessageBox.Show("Невірне ім'я сабредіту");
-                return;
-            }
+        //    if (_subreddit == null)
+        //    {
+        //        MessageBox.Show("Невірне ім'я сабредіту");
+        //        return;
+        //    }
 
-            bool isOs = ((CheckBox)Controls.Find("checkBoxOc", true)[0]).Checked;
-            bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
-            bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
-            string flair = ((ComboBox)Controls.Find("comboBoxFlair", true)[0]).Text;
+        //    bool isOs = ((CheckBox)Controls.Find("checkBoxOc", true)[0]).Checked;
+        //    bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
+        //    bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
+        //    string flair = ((ComboBox)Controls.Find("comboBoxFlair", true)[0]).Text;
 
-            try
-            {
-                LinkPost post = _subreddit
-                    .LinkPost(title: title, url: link);
+        //    try
+        //    {
+        //        LinkPost post = _subreddit
+        //            .LinkPost(title: title, url: link);
 
-                try
-                {
-                    if (!string.IsNullOrEmpty(flair))
-                    {
-                        post.Submit(spoiler: isSpoiler)
-                        .SetFlair(flair);
-                    } else
-                    {
-                        post.Submit(spoiler: isSpoiler);
-                    }
+        //        try
+        //        {
+        //            if (!string.IsNullOrEmpty(flair))
+        //            {
+        //                post.Submit(spoiler: isSpoiler)
+        //                .SetFlair(flair);
+        //            } else
+        //            {
+        //                post.Submit(spoiler: isSpoiler);
+        //            }
 
-                    if (isNsfw)
-                    {
-                        post.MarkNSFWAsync();
-                    }
-                    MessageBox.Show("Відправлено");
-                } catch (RedditAlreadySubmittedException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                } 
-            }
-            catch (RedditControllerException exception)
-            {
-                MessageBox.Show(exception.Message);
-            }
+        //            if (isNsfw)
+        //            {
+        //                post.MarkNSFWAsync();
+        //            }
+        //            MessageBox.Show("Відправлено");
+        //        } catch (RedditAlreadySubmittedException ex)
+        //        {
+        //            MessageBox.Show(ex.Message);
+        //        } 
+        //    }
+        //    catch (RedditControllerException exception)
+        //    {
+        //        MessageBox.Show(exception.Message);
+        //    }
 
-            //TODO OC tag
-        }
+        //    //TODO OC tag
+        //}
 
         #region Load Subreddit/Flairs
 
@@ -236,12 +239,10 @@ namespace reddit_bot.form.task
             var comboBoxSubereddits = (ComboBox)Controls.Find("comboBoxSubereddits", true)[0];
 
             Label labelSubredditName = (Label)Controls.Find("labelSubredditName", true)[0];
-            Button buttonSend = (Button)Controls.Find("buttonSend", true)[0];
 
             if (string.IsNullOrEmpty(comboBoxSubereddits.Text))
             {
                 labelSubredditName.Text = "Жодних сабреддітів не знайдено";
-                buttonSend.Enabled = false;
                 return;
             }
 
@@ -256,12 +257,10 @@ namespace reddit_bot.form.task
             if (subreddits.Count == 0)
             {
                 labelSubredditName.Text = "Жодних сабреддітів не знайдено";
-                buttonSend.Enabled = false;
             }
             else
             {
                 labelSubredditName.Text = "";
-                buttonSend.Enabled = true;
             }
         }
 
@@ -378,16 +377,18 @@ namespace reddit_bot.form.task
             
             if (flair == null)
             {
+                currentPostFlair = null;
                 MessageBox.Show("Flair is null");
                 return;
             }
             if (flair.TextEditable)
             {
-                currentPostFlair = new ComboBoxItem(flair.Text, flair.Id);
+                currentPostFlair = new PostFlair(flair.Text, flair.Id);
                 comboBoxFlair.DropDownStyle = ComboBoxStyle.DropDown;
             }
             else
             {
+                currentPostFlair = new PostFlair(flair.Text);
                 comboBoxFlair.DropDownStyle = ComboBoxStyle.DropDownList;
             }
         }
@@ -573,6 +574,7 @@ namespace reddit_bot.form.task
             buttonFlairSearch.Click += loadFlairs;
 
             comboBoxFlair.SelectedIndexChanged += loadFlair;
+            comboBoxFlair.TextChanged += changeFlairName;
 
             panelFlairPost.Controls.Add(labelFlairTitle);
             panelFlairPost.Controls.Add(comboBoxFlair);
@@ -580,6 +582,17 @@ namespace reddit_bot.form.task
             panelFlairPost.Controls.Add(buttonFlairSearch);
 
             panel2.Controls.Add(panelFlairPost);
+        }
+
+        private void changeFlairName(object sender, EventArgs e)
+        {
+            if (currentPostFlair != null)
+            {
+                currentPostFlair.Text = ((Control)sender).Text;
+                return;
+            }
+
+            currentPostFlair = new PostFlair(((Control)sender).Text);
         }
 
         private void FillForm()
@@ -663,6 +676,20 @@ namespace reddit_bot.form.task
         {
             AccountInfoForm accountInfoForm = new AccountInfoForm(_redditAccount, _accountsForm);
             accountInfoForm.Show();
+            Close();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            AccountInfoForm accountInfoForm = new AccountInfoForm(_redditAccount, _accountsForm);
+            accountInfoForm.Show();
+            Close();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            CreateTaskForm createTaskForm = new CreateTaskForm(_redditAccount, _accountsForm);
+            createTaskForm.Show();
             Close();
         }
     }
