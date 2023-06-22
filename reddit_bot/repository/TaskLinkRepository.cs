@@ -8,7 +8,7 @@ namespace reddit_bor.repository
 {
     internal class TaskLinkRepository
     {
-        private const string _filePath = "./linkTasks.json";
+        private const string _filePath = "./data/linkTasks.json";
         private readonly JsonSerializer _jsonSerializer;
 
         public TaskLinkRepository()
