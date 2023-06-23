@@ -1,12 +1,29 @@
-﻿using System;
+﻿using reddit_bor.domain.pool;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace reddit_bor.domain.task
 {
-    internal class Pool
+    public class Pool
     {
+        public string Name { get; set; }
+        public readonly List<PoolTask> _tasks;
+        public IntervalRange Range { get; set; }
+        public bool IsRandom { get; set; }
+
+        public Pool()
+        {
+            _tasks = new List<PoolTask>();
+            Range = new IntervalRange();
+        }
+
+        public void AddTask(PoolTask poolTask)
+        {
+            _tasks.Add(poolTask);
+        }
+
+        public void RemoveTask(PoolTask poolTask)
+        {
+            _tasks.Remove(poolTask);
+        }
     }
 }

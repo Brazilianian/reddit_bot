@@ -688,8 +688,8 @@ namespace reddit_bot.form.task
 
         private void button3_Click(object sender, EventArgs e)
         {
-            CreateTaskForm createTaskForm = new CreateTaskForm(_redditAccount, _accountsForm);
-            createTaskForm.Show();
+            TaskManagerForm taskManagerForm = new TaskManagerForm (_redditAccount, _accountsForm);
+            taskManagerForm.Show();
             Close();
         }
     }

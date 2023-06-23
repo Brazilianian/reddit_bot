@@ -25,5 +25,10 @@
         public bool IsSpoiler { get; set; }
         public bool IsNSFW { get; set; }
         public PostFlair postFlair { get; set; }
+
+        public override string ToString()
+        {
+            return TaskName;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using reddit_bor.repository;
 using reddit_bot.domain.task;
+using System.Collections.Generic;
 
 namespace reddit_bor.service
 {
@@ -20,6 +21,11 @@ namespace reddit_bor.service
             }
 
             return _taskRepository.SaveTask(task);   
+        }
+
+        public List<RedditPostTask> GetAllTasks()
+        {
+            return _taskRepository.FindAll();
         }
     }
 }

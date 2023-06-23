@@ -106,6 +106,9 @@
     <Compile Include="domain\account\RedditAccount.cs" />
     <Compile Include="domain\account\RedditAccountStatus.cs" />
     <Compile Include="domain\forms\ComboBoxItem.cs" />
+    <Compile Include="domain\pool\IntervalRange.cs" />
+    <Compile Include="domain\pool\Pool.cs" />
+    <Compile Include="domain\pool\PoolTask.cs" />
     <Compile Include="domain\task\PostFlair.cs" />
     <Compile Include="domain\task\RedditPostTask.cs" />
     <Compile Include="domain\task\RedditPostTaskLink.cs" />
@@ -174,6 +177,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="form\task\CreateTaskForm.resx">
       <DependentUpon>CreateTaskForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\task\TaskManagerForm.resx">
+      <DependentUpon>TaskManagerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
