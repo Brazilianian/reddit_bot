@@ -4,28 +4,16 @@
     {
         public IntervalRange() { }
 
-        public IntervalRange(int from, int to) 
+        private int from;
+        private int to;
+
+        public int From { get => from; set => from = from > to ? to : value; }
+        public int To { get => to; set => to = to < from ? from : value; }
+
+        public IntervalRange(int from, int to)
         {
             From = from;
             To = to;
-        }
-
-        public int From { get; private set; }
-        public int To { get; private set; }
-
-        public void SetFrom(int from) {
-            if (To >= from)
-            {
-                From = from;
-            }
-        }
-
-        public void SetTo(int to)
-        {
-            if (From <= to) 
-            {
-                To = to;
-            }
         }
     }
 }
