@@ -14,7 +14,6 @@ namespace reddit_bor.dto
         public PoolDto()
         {
             Tasks = new List<PoolTaskDto>();
-            Range = new IntervalRange();
         }
 
         public PoolDto(string name, IntervalRange range, bool isRandom)

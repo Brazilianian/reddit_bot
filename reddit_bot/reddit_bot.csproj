@@ -159,11 +159,11 @@
     <Compile Include="form\task\TaskInfoForm.Designer.cs">
       <DependentUpon>TaskInfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="form\pool\CreatePoolForm.cs">
+    <Compile Include="form\pool\PoolManagerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="form\pool\CreatePoolForm.Designer.cs">
-      <DependentUpon>CreatePoolForm.cs</DependentUpon>
+    <Compile Include="form\pool\PoolManagerForm.Designer.cs">
+      <DependentUpon>PoolManagerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="mapper\PoolMapper.cs" />
     <Compile Include="Program.cs" />
@@ -202,8 +202,8 @@
     <EmbeddedResource Include="form\task\TaskInfoForm.resx">
       <DependentUpon>TaskInfoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="form\pool\CreatePoolForm.resx">
-      <DependentUpon>CreatePoolForm.cs</DependentUpon>
+    <EmbeddedResource Include="form\pool\PoolManagerForm.resx">
+      <DependentUpon>PoolManagerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

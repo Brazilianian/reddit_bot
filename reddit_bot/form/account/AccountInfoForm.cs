@@ -55,7 +55,7 @@ namespace reddit_bot
 
         private void button3_Click(object sender, EventArgs e)
         {
-           CreatePoolForm taskManagerForm = new CreatePoolForm(_redditAccount, _accountsForm);
+           PoolManagerForm taskManagerForm = new PoolManagerForm(_redditAccount, _accountsForm);
            taskManagerForm.Show();
             Close();
         }

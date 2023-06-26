@@ -39,10 +39,10 @@ namespace reddit_bot.form.task
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
@@ -84,7 +84,7 @@ namespace reddit_bot.form.task
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(155, 41);
             this.button3.TabIndex = 2;
-            this.button3.Text = "Добавити пул";
+            this.button3.Text = "Пул менеджер";
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -139,6 +139,14 @@ namespace reddit_bot.form.task
             this.panel1.Size = new System.Drawing.Size(873, 79);
             this.panel1.TabIndex = 3;
             // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Location = new System.Drawing.Point(471, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(397, 71);
+            this.panel4.TabIndex = 3;
+            // 
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -148,15 +156,6 @@ namespace reddit_bot.form.task
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(390, 71);
             this.panel3.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 8);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(105, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Виберіть тип задачі";
             // 
             // comboBox1
             // 
@@ -168,13 +167,14 @@ namespace reddit_bot.form.task
             this.comboBox1.TabIndex = 1;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
-            // panel4
+            // label2
             // 
-            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Location = new System.Drawing.Point(471, 3);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(397, 71);
-            this.panel4.TabIndex = 3;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 8);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(105, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Виберіть тип задачі";
             // 
             // panel6
             // 
@@ -204,7 +204,7 @@ namespace reddit_bot.form.task
             this.label3.TabIndex = 0;
             this.label3.Text = "Перегляд існуючих задач";
             // 
-            // CreateTaskForm
+            // TaskManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -216,7 +216,7 @@ namespace reddit_bot.form.task
             this.Controls.Add(this.panel5);
             this.Location = new System.Drawing.Point(15, 15);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "CreateTaskForm";
+            this.Name = "TaskManagerForm";
             this.panel5.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);

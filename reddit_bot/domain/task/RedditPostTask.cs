@@ -1,4 +1,6 @@
-﻿namespace reddit_bot.domain.task
+﻿using System.Collections.Generic;
+
+namespace reddit_bot.domain.task
 {
     public abstract class RedditPostTask
     {
@@ -25,6 +27,17 @@
         public bool IsSpoiler { get; set; }
         public bool IsNSFW { get; set; }
         public PostFlair PostFlair { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is RedditPostTask task &&
+                   TaskName == task.TaskName;
+        }
+
+        public override int GetHashCode()
+        {
+            return 1575259903 + EqualityComparer<string>.Default.GetHashCode(TaskName);
+        }
 
         public override string ToString()
         {
