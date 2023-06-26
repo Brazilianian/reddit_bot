@@ -24,7 +24,7 @@
         public string Title { get; set; }
         public bool IsSpoiler { get; set; }
         public bool IsNSFW { get; set; }
-        public PostFlair postFlair { get; set; }
+        public PostFlair PostFlair { get; set; }
 
         public override string ToString()
         {

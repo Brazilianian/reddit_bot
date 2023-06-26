@@ -55,14 +55,14 @@ namespace reddit_bot
 
         private void button3_Click(object sender, EventArgs e)
         {
-           TaskManagerForm taskManagerForm = new TaskManagerForm(_redditAccount, _accountsForm);
+           CreatePoolForm taskManagerForm = new CreatePoolForm(_redditAccount, _accountsForm);
            taskManagerForm.Show();
             Close();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            CreateTaskForm createTaskForm = new CreateTaskForm(_redditAccount, _accountsForm);
+            TaskManagerForm createTaskForm = new TaskManagerForm(_redditAccount, _accountsForm);
             createTaskForm.Show();
             Close();
         }

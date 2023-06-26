@@ -3,9 +3,15 @@
     public class IntervalRange
     {
         public IntervalRange() { }
-        
-        private int From { get; set; }
-        private int To { get; set; }
+
+        public IntervalRange(int from, int to) 
+        {
+            From = from;
+            To = to;
+        }
+
+        public int From { get; private set; }
+        public int To { get; private set; }
 
         public void SetFrom(int from) {
             if (To >= from)

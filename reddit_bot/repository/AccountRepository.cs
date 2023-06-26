@@ -9,16 +9,16 @@ namespace reddit_bot.repository
 {
     public class AccountRepository
     {
-        private const string accountsFileName = "./data/accounts.json";
+        private const string _filePath = "./data/accounts.json";
         private readonly JsonSerializer jsonSerializer;
 
         public AccountRepository() 
         {
             jsonSerializer = new JsonSerializer();
 
-            if (!File.Exists(accountsFileName))
+            if (!File.Exists(_filePath))
             {
-                using (FileStream fs = File.Create(accountsFileName)) 
+                using (FileStream fs = File.Create(_filePath)) 
                 {
                 }
                 SaveAll(new List<RedditAccount>());
@@ -41,7 +41,7 @@ namespace reddit_bot.repository
         public List<RedditAccount> FindAll()
         {
             List<RedditAccount> accounts = new List<RedditAccount>();
-            using (StreamReader streamReader = new StreamReader(accountsFileName))
+            using (StreamReader streamReader = new StreamReader(_filePath))
             {
                 accounts = (List<RedditAccount>)jsonSerializer.Deserialize(streamReader, typeof(List<RedditAccount>));
             }
@@ -50,7 +50,7 @@ namespace reddit_bot.repository
 
         private void SaveAll(List<RedditAccount> accounts)
         {
-            using (StreamWriter streamWriter = new StreamWriter(accountsFileName)) 
+            using (StreamWriter streamWriter = new StreamWriter(_filePath)) 
             {
                 jsonSerializer.Serialize(streamWriter, accounts);
             }

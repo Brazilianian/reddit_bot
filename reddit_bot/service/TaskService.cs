@@ -1,5 +1,7 @@
-﻿using reddit_bor.repository;
+﻿using reddit_bor.domain.pool;
+using reddit_bor.repository;
 using reddit_bot.domain.task;
+using System;
 using System.Collections.Generic;
 
 namespace reddit_bor.service
@@ -26,6 +28,11 @@ namespace reddit_bor.service
         public List<RedditPostTask> GetAllTasks()
         {
             return _taskRepository.FindAll();
+        }
+
+        internal RedditPostTask FindTaskByName(string taskName)
+        {
+            return _taskRepository.FindPostTaskByName(taskName);
         }
     }
 }

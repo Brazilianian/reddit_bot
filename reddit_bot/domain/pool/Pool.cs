@@ -15,15 +15,5 @@ namespace reddit_bor.domain.task
             _tasks = new List<PoolTask>();
             Range = new IntervalRange();
         }
-
-        public void AddTask(PoolTask poolTask)
-        {
-            _tasks.Add(poolTask);
-        }
-
-        public void RemoveTask(PoolTask poolTask)
-        {
-            _tasks.Remove(poolTask);
-        }
     }
 }

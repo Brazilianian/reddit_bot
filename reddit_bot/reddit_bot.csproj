@@ -113,6 +113,8 @@
     <Compile Include="domain\task\RedditPostTask.cs" />
     <Compile Include="domain\task\RedditPostTaskLink.cs" />
     <Compile Include="domain\task\RedditPostTaskPost.cs" />
+    <Compile Include="dto\PoolDto.cs" />
+    <Compile Include="dto\PoolTaskDto.cs" />
     <Compile Include="enum\task\TaskPostType.cs" />
     <Compile Include="enum\task\TaskType.cs" />
     <Compile Include="form\account\AccountAddForm.cs">
@@ -133,17 +135,17 @@
     <Compile Include="form\account\AccountsForm.Designer.cs">
       <DependentUpon>AccountsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\pool\PoolInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\pool\PoolInfoForm.Designer.cs">
+      <DependentUpon>PoolInfoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="form\task\AddNameToTaskForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="form\task\AddNameToTaskForm.Designer.cs">
       <DependentUpon>AddNameToTaskForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="form\task\CreateTaskForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="form\task\CreateTaskForm.Designer.cs">
-      <DependentUpon>CreateTaskForm.cs</DependentUpon>
     </Compile>
     <Compile Include="form\task\TaskManagerForm.cs">
       <SubType>Form</SubType>
@@ -151,15 +153,31 @@
     <Compile Include="form\task\TaskManagerForm.Designer.cs">
       <DependentUpon>TaskManagerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\task\TaskInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\task\TaskInfoForm.Designer.cs">
+      <DependentUpon>TaskInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="form\pool\CreatePoolForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\pool\CreatePoolForm.Designer.cs">
+      <DependentUpon>CreatePoolForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="mapper\PoolMapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="repository\AccountRepository.cs" />
+    <Compile Include="repository\PoolRepository.cs" />
     <Compile Include="repository\TaskLinkRepository.cs" />
     <Compile Include="repository\TaskPostRepository.cs" />
     <Compile Include="repository\TaskRepository.cs" />
     <Compile Include="service\AccountService.cs" />
+    <Compile Include="service\PoolService.cs" />
     <Compile Include="service\RedditService.cs" />
     <Compile Include="service\TaskService.cs" />
+    <Compile Include="util\ControlsUtil.cs" />
     <Compile Include="util\EnumUtil.cs" />
     <Compile Include="util\ProccessUtil.cs" />
     <Compile Include="util\RequestsUtil.cs" />
@@ -172,14 +190,20 @@
     <EmbeddedResource Include="form\account\AccountsForm.resx">
       <DependentUpon>AccountsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="form\pool\PoolInfoForm.resx">
+      <DependentUpon>PoolInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="form\task\AddNameToTaskForm.resx">
       <DependentUpon>AddNameToTaskForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="form\task\CreateTaskForm.resx">
-      <DependentUpon>CreateTaskForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="form\task\TaskManagerForm.resx">
       <DependentUpon>TaskManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\task\TaskInfoForm.resx">
+      <DependentUpon>TaskInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\pool\CreatePoolForm.resx">
+      <DependentUpon>CreatePoolForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
