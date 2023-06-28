@@ -1,6 +1,7 @@
 ﻿using reddit_bor.domain.pool;
 using reddit_bor.domain.task;
 using reddit_bor.form.pool;
+using reddit_bor.form.publish;
 using reddit_bor.service;
 using reddit_bor.util;
 using reddit_bot.domain;
@@ -209,6 +210,13 @@ namespace reddit_bot.form.task
         {
             AccountInfoForm accountInfoForm = new AccountInfoForm(_redditAccount, _accountsForm);
             accountInfoForm.Show();
+            Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            PublishForm publishForm = new PublishForm(_redditAccount, _accountsForm);
+            publishForm.Show();
             Close();
         }
         #endregion

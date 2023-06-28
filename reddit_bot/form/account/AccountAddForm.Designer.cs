@@ -29,6 +29,7 @@ namespace reddit_bot
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
+        [System.Obsolete]
         private void InitializeComponent()
         {
             this.textBox1 = new System.Windows.Forms.TextBox();

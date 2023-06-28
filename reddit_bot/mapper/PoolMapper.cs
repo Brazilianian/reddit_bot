@@ -1,5 +1,4 @@
-﻿
-using reddit_bor.domain.pool;
+﻿using reddit_bor.domain.pool;
 using reddit_bor.domain.task;
 using reddit_bor.dto;
 using reddit_bor.repository;

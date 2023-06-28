@@ -26,7 +26,7 @@ namespace reddit_bor.form.task
 
             if (_task.PostFlair != null)
             {
-                comboBox1.Text = _task.PostFlair.Text;
+                textBox3.Text = _task.PostFlair.Text;
             }
 
             if (_task is RedditPostTaskPost) 

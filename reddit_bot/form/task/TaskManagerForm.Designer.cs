@@ -46,6 +46,7 @@ namespace reddit_bot.form.task
             this.panel6 = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -55,6 +56,7 @@ namespace reddit_bot.form.task
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.button1);
             this.panel5.Controls.Add(this.button5);
             this.panel5.Controls.Add(this.button3);
             this.panel5.Controls.Add(this.button4);
@@ -68,7 +70,7 @@ namespace reddit_bot.form.task
             // button5
             // 
             this.button5.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.button5.Location = new System.Drawing.Point(2, 92);
+            this.button5.Location = new System.Drawing.Point(2, 137);
             this.button5.Margin = new System.Windows.Forms.Padding(2);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(155, 41);
@@ -79,7 +81,7 @@ namespace reddit_bot.form.task
             // button3
             // 
             this.button3.BackColor = System.Drawing.SystemColors.Control;
-            this.button3.Location = new System.Drawing.Point(2, 47);
+            this.button3.Location = new System.Drawing.Point(2, 92);
             this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(155, 41);
@@ -103,7 +105,7 @@ namespace reddit_bot.form.task
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(5, 777);
+            this.button2.Location = new System.Drawing.Point(2, 777);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(155, 39);
@@ -204,6 +206,18 @@ namespace reddit_bot.form.task
             this.label3.TabIndex = 0;
             this.label3.Text = "Перегляд існуючих задач";
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.Control;
+            this.button1.Location = new System.Drawing.Point(2, 47);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(155, 41);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Публікація";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // TaskManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -244,5 +258,6 @@ namespace reddit_bot.form.task
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button1;
     }
 }

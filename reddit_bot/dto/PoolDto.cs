@@ -1,5 +1,4 @@
-﻿
-using reddit_bor.domain.pool;
+﻿using reddit_bor.domain.pool;
 using System.Collections.Generic;
 
 namespace reddit_bor.dto

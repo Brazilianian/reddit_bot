@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace reddit_bot
@@ -16,7 +14,16 @@ namespace reddit_bot
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AccountsForm());
+            try
+            {
+                Application.Run(new AccountsForm());
+            } catch (Exception ex)
+            {
+                using (StreamWriter streamWriter = new StreamWriter("./data/errors.txt", true)) 
+                {
+                    streamWriter.Write(ex.Message);
+                }
+            }
         }
     }
 }
