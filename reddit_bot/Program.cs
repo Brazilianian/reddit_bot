@@ -21,7 +21,7 @@ namespace reddit_bot
             {
                 using (StreamWriter streamWriter = new StreamWriter("./data/errors.txt", true)) 
                 {
-                    streamWriter.Write(ex.Message);
+                    streamWriter.WriteLine(ex.Message);
                 }
             }
         }

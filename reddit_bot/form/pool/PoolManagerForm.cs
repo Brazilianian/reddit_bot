@@ -104,7 +104,6 @@ namespace reddit_bot.form.task
             comboBox1.Items.Clear();
 
             comboBox1.Items.AddRange(_tasks.Where(t => !_pool._tasks.Any(t2 => t2.PostTask.TaskName.Equals(t.TaskName))).ToArray());
-               
         }
 
         private void UpdateTasksPanel()

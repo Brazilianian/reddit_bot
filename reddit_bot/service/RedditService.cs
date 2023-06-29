@@ -5,6 +5,7 @@ using Reddit.AuthTokenRetriever;
 using Reddit.AuthTokenRetriever.EventArgs;
 using System;
 using reddit_bot.util;
+using System.IO;
 
 namespace reddit_bot.service
 {
@@ -32,9 +33,9 @@ namespace reddit_bot.service
             _accessToken = null;
             _refreshToken = null;
             
-            StopListen();
+            //StopListen();
 
-            _authTokenRetrieverLib = new AuthTokenRetrieverLib(redditId, port, "localhost", "http://localhost", secret);
+            _authTokenRetrieverLib = new AuthTokenRetrieverLib(redditId, secret, 8080);
 
             //FIXME and this shoud be removed after fixing the proccess killing
             try
@@ -43,9 +44,12 @@ namespace reddit_bot.service
                 _authTokenRetrieverLib.AuthSuccess += LoginSuccess;
                 OpenBrowser(_authTokenRetrieverLib.AuthURL());
             }
-                catch (Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine("Error");
+                using (StreamWriter streamWriter = new StreamWriter("./data/errors.txt", true))
+                {
+                    streamWriter.WriteLine(ex.Message);
+                }
             }
 
         }
@@ -54,7 +58,7 @@ namespace reddit_bot.service
         {
             _accessToken = e.AccessToken;
             _refreshToken = e.RefreshToken;
-            StopListen();
+            //StopListen();
         }
 
 

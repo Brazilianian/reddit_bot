@@ -1,4 +1,5 @@
-﻿using reddit_bor.domain.pool;
+﻿using Reddit.Things;
+using reddit_bor.domain.pool;
 using reddit_bor.domain.task;
 using reddit_bor.form.pool;
 using reddit_bor.service;
@@ -235,18 +236,10 @@ namespace reddit_bor.form.publish
 
         private void getLogs(string message)
         {
+
             _progressRange.From = ++_progressRange.From;
 
-            UpdateProgress();
-
-            if (richTextBox1.InvokeRequired)
-            {
-                richTextBox1.BeginInvoke(new Action<string>(getLogs), message);
-            }
-            else
-            {
-                richTextBox1.Text += message + "\n";
-            }
+            UpdateProgress(message);
         }
 
         private void UpdateProgressLabel()
@@ -294,13 +287,26 @@ namespace reddit_bor.form.publish
             isWorking = false;
             _progressRange.From = 0;
             _publishService.Stop();
-            UpdateProgress();
+            UpdateProgress("");
         }
 
-        private void UpdateProgress()
+        private void UpdateProgress(string message)
         {
             UpdateProgressLabel();
             UpdateProgressBar();
+            UpdateRichTextBox(message);
+        }
+
+        private void UpdateRichTextBox(string message)
+        {
+            if (richTextBox1.InvokeRequired)
+            {
+                richTextBox1.BeginInvoke(new Action<string>(UpdateRichTextBox), message);
+            }
+            else
+            {
+                richTextBox1.Text += message + "\n";
+            }
         }
 
         #endregion

@@ -45,8 +45,9 @@ namespace reddit_bot
             _redditService.Login(redditAccount.AppId, redditAccount.Secret);
 
             //Crutch. Waits 10sec or suspend login
-            for (int i = 0; i < 10; i++)
-            {
+            //upd wait infinity
+            while(true) { 
+                
                 if (_redditService.GetAccessToken() == null || _redditService.GetRefreshToken() == null)
                 {
                     Thread.Sleep(500);
