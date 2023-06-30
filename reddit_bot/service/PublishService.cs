@@ -126,71 +126,12 @@ namespace reddit_bor.service
 
         private void createPost_Post(RedditPostTaskPost taskPost)
         {
-            var subreddit = _redditClient.Subreddit(taskPost.SubredditName);
-            
-            if (subreddit == null)
-            {
-                OnMessageReceived("Сабредіт не знайдено");
-            }
-
-            SelfPost post = subreddit
-                .SelfPost(title: taskPost.Title, selfText: taskPost.Text);
-
-            //TODO add flair to post
-            if (taskPost.PostFlair != null)
-            {
-                post.Submit(spoiler: taskPost.IsSpoiler, flairText: taskPost.PostFlair.Text, flairId: taskPost.PostFlair.Id);
-            }
-            else
-            {
-                post.Submit(spoiler: taskPost.IsSpoiler);
-            }
-
-            if (taskPost.IsNSFW)
-            {
-                post.MarkNSFWAsync();
-            }
-
-            OnMessageReceived("Опубліковано");
-            //TODO OC tag
+            throw new NotImplementedException();
         }
 
         private void createPost_Link(RedditPostTaskLink taskLink)
         {
-            var subreddit = _redditClient.Subreddit(taskLink.SubredditName);
-
-            if (subreddit == null)
-            {
-                OnMessageReceived("Сабредіт не знайдено");
-            }
-
-            LinkPost post = subreddit
-                .LinkPost(title: taskLink.Title, url: taskLink.Link);
-
-            try
-            {
-                if (taskLink.PostFlair != null)
-                {
-                    post.Submit(spoiler: taskLink.IsSpoiler)
-                    .SetFlair(taskLink.PostFlair.Text);
-                }
-                else
-                {
-                    post.Submit(spoiler: taskLink.IsSpoiler);
-                }
-
-                if (taskLink.IsNSFW)
-                {
-                    post.MarkNSFWAsync();
-                }
-
-                OnMessageReceived("Опубліковано");
-            }
-            catch (RedditAlreadySubmittedException ex)
-            {
-                OnMessageReceived(ex.Message);
-            }
-            //TODO OC tag
+            throw new NotImplementedException();
         }
 
         protected virtual void OnMessageReceived(string message)

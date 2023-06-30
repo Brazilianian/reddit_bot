@@ -17,12 +17,7 @@ namespace reddit_bor.service
 
         public RedditPostTask SaveTask(RedditPostTask task)
         {
-            if (_taskRepository.FindPostTaskByName(task.TaskName) != null)
-            {
-                return null;
-            }
-
-            return _taskRepository.SaveTask(task);   
+            throw new NotImplementedException();
         }
 
         public List<RedditPostTask> GetAllTasks()

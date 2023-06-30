@@ -108,6 +108,7 @@
     <Compile Include="domain\forms\ComboBoxItem.cs" />
     <Compile Include="domain\pool\IntervalRange.cs" />
     <Compile Include="domain\pool\Pool.cs" />
+    <Compile Include="domain\pool\PoolSubreddit.cs" />
     <Compile Include="domain\pool\PoolTask.cs" />
     <Compile Include="domain\task\PostFlair.cs" />
     <Compile Include="domain\task\RedditPostTask.cs" />
@@ -142,35 +143,17 @@
     <Compile Include="form\pool\PoolInfoForm.Designer.cs">
       <DependentUpon>PoolInfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="form\publish\PublishForm.cs">
+    <Compile Include="form\publish\NewPublishForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="form\publish\PublishForm.Designer.cs">
-      <DependentUpon>PublishForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="form\task\AddNameToTaskForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="form\task\AddNameToTaskForm.Designer.cs">
-      <DependentUpon>AddNameToTaskForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="form\task\TaskManagerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="form\task\TaskManagerForm.Designer.cs">
-      <DependentUpon>TaskManagerForm.cs</DependentUpon>
+    <Compile Include="form\publish\NewPublishForm.Designer.cs">
+      <DependentUpon>NewPublishForm.cs</DependentUpon>
     </Compile>
     <Compile Include="form\task\TaskInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="form\task\TaskInfoForm.Designer.cs">
       <DependentUpon>TaskInfoForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="form\pool\PoolManagerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="form\pool\PoolManagerForm.Designer.cs">
-      <DependentUpon>PoolManagerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="mapper\PoolMapper.cs" />
     <Compile Include="Program.cs" />
@@ -202,20 +185,11 @@
     <EmbeddedResource Include="form\pool\PoolInfoForm.resx">
       <DependentUpon>PoolInfoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="form\publish\PublishForm.resx">
-      <DependentUpon>PublishForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="form\task\AddNameToTaskForm.resx">
-      <DependentUpon>AddNameToTaskForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="form\task\TaskManagerForm.resx">
-      <DependentUpon>TaskManagerForm.cs</DependentUpon>
+    <EmbeddedResource Include="form\publish\NewPublishForm.resx">
+      <DependentUpon>NewPublishForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\task\TaskInfoForm.resx">
       <DependentUpon>TaskInfoForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="form\pool\PoolManagerForm.resx">
-      <DependentUpon>PoolManagerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

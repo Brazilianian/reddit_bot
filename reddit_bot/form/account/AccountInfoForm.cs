@@ -3,7 +3,6 @@ using System.Windows.Forms;
 using Reddit;
 using reddit_bor.form.publish;
 using reddit_bot.domain;
-using reddit_bot.form.task;
 using reddit_bot.service;
 
 namespace reddit_bot
@@ -57,24 +56,25 @@ namespace reddit_bot
         #region Menu Panel
         private void button3_Click(object sender, EventArgs e)
         {
-           PoolManagerForm taskManagerForm = new PoolManagerForm(_redditAccount, _accountsForm);
-           taskManagerForm.Show();
-            Close();
+            throw new NotImplementedException();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            TaskManagerForm createTaskForm = new TaskManagerForm(_redditAccount, _accountsForm);
-            createTaskForm.Show();
-            Close();
+            throw new NotImplementedException();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            PublishForm publishForm = new PublishForm(_redditAccount, _accountsForm);
-            publishForm.Show();
-            Close();
+            throw new NotImplementedException();
         }
         #endregion
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            NewPublishForm newPublishForm = new NewPublishForm(_redditAccount, _accountsForm);
+            newPublishForm.Show();
+            Close();
+        }
     }
 }

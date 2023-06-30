@@ -40,9 +40,7 @@ namespace reddit_bor.repository
 
         public RedditPostTask FindPostTaskByName(string name)
         {
-            return FindAll()
-                .Where(t => t.TaskName.Equals(name))
-                .FirstOrDefault();
+            throw new NotImplementedException();
         }
     }
 }

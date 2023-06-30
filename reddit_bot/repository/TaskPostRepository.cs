@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using reddit_bot.domain.task;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -33,9 +34,7 @@ namespace reddit_bor.repository
 
         public RedditPostTaskPost FindTaskByName(string name)
         {
-            return FindAll()
-                .Where(t => t.TaskName.Equals(name))
-                .FirstOrDefault();
+            throw new NotImplementedException();
         }
 
         public List<RedditPostTaskPost> FindAll()
