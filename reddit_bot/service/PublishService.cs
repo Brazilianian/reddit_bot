@@ -24,7 +24,7 @@ namespace reddit_bor.service
 
         private Thread _workedThread;
         public bool _isWorking;
-
+        private bool _isPause;
         private List<RedditPostTask> _tasksOrder;
         private List<PoolSubreddit> _subreddits;
 
@@ -46,13 +46,15 @@ namespace reddit_bor.service
         internal void Pause()
         {
             _isWorking = false;
+            _isPause = true;
         }
 
         internal void Start()
         {
             _isWorking = true;
-            if (_workedThread != null)
+            if (_isPause)
             {
+                _isPause = false;
                 return;
             }
             _workedThread = new Thread(StartPosting);
@@ -63,6 +65,7 @@ namespace reddit_bor.service
         internal void Stop()
         {
             _isWorking = false;
+            _isPause = false;
             _workedThread.Abort();
             _workedThread = null;
             FillTaskOrder();
@@ -105,6 +108,8 @@ namespace reddit_bor.service
                     }
                     Thread.Sleep(random.Next(_pool.Range.From, _pool.Range.To) * 1000);
                 }
+            } catch(ThreadAbortException)
+            {
             } catch (Exception ex)
             {
                 using (StreamWriter streamWriter = new StreamWriter("./data/errors.txt", true))

@@ -81,6 +81,7 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.panel2.SuspendLayout();
@@ -452,7 +453,8 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
-            this.Column2});
+            this.Column2,
+            this.Column9});
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -625,6 +627,12 @@
             this.panel5.Size = new System.Drawing.Size(161, 893);
             this.panel5.TabIndex = 15;
             // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "Кількість";
+            this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
+            // 
             // NewPublishForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -707,5 +715,6 @@
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
     }
 }

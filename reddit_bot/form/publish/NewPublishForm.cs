@@ -37,6 +37,8 @@ namespace reddit_bor.form.publish
         private TaskPostType _taskPostType;
 
         private bool _isWorking = false;
+        private bool _isPause = false;
+
         private IntervalRange _progress;
 
         public NewPublishForm(RedditAccount redditAccount, AccountsForm accountsForm)
@@ -486,6 +488,10 @@ namespace reddit_bor.form.publish
                 {
                     Value = subreddit.PostFlair == null ? "" : subreddit.PostFlair.Text
                 });
+                dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
+                {
+                    Value = subreddit.Count
+                });
                 dataGridView1.Rows.Add(dataGridViewRow);
             }
         }
@@ -561,11 +567,29 @@ namespace reddit_bor.form.publish
             }
         }
 
+        private void getLogs(string message, bool isIncrement)
+        {
+            if (isIncrement)
+            {
+                _progress.From = ++_progress.From;
+            }
+
+            UpdateProgress(message);
+        }
+
         #region Publish Control
         private void button6_Click(object sender, EventArgs e)
         {
             if (_isWorking)
             {
+                return;
+            }
+
+            if (_isPause)
+            {
+                _publishService.Start();
+                _isPause = false;
+                _isWorking = true;
                 return;
             }
 
@@ -586,9 +610,18 @@ namespace reddit_bor.form.publish
                 MessageBox.Show("Виберіть сабредіти");
                 return;
             }
-            
+
+            _pool.IsRandom = checkBox1.Checked;
+            _pool.Range = new IntervalRange((int)numericUpDown1.Value, (int)numericUpDown2.Value);
+
             _publishService = new PublishService(_pool, _redditAccount);
-            _progress = new IntervalRange(0, _pool._subreddits.Count);
+
+            int count = 0;
+            foreach (var subreddit in _pool._subreddits)
+            {
+                count += subreddit.Count;
+            }
+            _progress = new IntervalRange(0, count);
             UpdateProgress("");
 
             _publishService.MessageReceived += getLogs;
@@ -597,15 +630,27 @@ namespace reddit_bor.form.publish
             _isWorking = true;
         }
 
-        private void getLogs(string message, bool isIncrement)
+        private void button7_Click(object sender, EventArgs e)
         {
-            if (isIncrement)
+            if (!_isWorking)
             {
-                _progress.From = ++_progress.From;
+                return;
             }
 
-            UpdateProgress(message);
+            _publishService.Pause();
+            _isWorking = false;
+            _isPause = true;
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            _publishService.Stop();
+            _isWorking = false;
+            _isPause = false;
+            _progress.From = 0;
+            UpdateProgress("");
+        }
+        #endregion
 
         #region Progress
         private void UpdateProgress(string message)
@@ -614,7 +659,7 @@ namespace reddit_bor.form.publish
             UpdateProgressBar();
             if (!string.IsNullOrEmpty(message))
             {
-               UpdateRichTextBox(message);
+                UpdateRichTextBox(message);
             }
         }
 
@@ -652,26 +697,6 @@ namespace reddit_bor.form.publish
             {
                 richTextBox1.Text += message + "\n";
             }
-        }
-        #endregion
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            if (!_isWorking)
-            {
-                return;
-            }
-
-            _publishService.Pause();
-            _isWorking = false;
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            _publishService.Stop();
-            _isWorking = false;
-            _progress.From = 0;
-            UpdateProgress("");
         }
         #endregion
     }
