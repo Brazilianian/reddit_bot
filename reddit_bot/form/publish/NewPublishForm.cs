@@ -1,8 +1,8 @@
 ﻿using Reddit;
 using Reddit.Controllers;
-using Reddit.Models;
 using reddit_bor.domain.pool;
 using reddit_bor.domain.task;
+using reddit_bor.exceptions;
 using reddit_bor.service;
 using reddit_bot;
 using reddit_bot.domain;
@@ -23,10 +23,12 @@ namespace reddit_bor.form.publish
         private readonly RedditAccount _redditAccount;
         private readonly AccountsForm _accountsForm;
         private readonly RedditService _redditService;
-        private readonly PoolService _poolService;
+        private readonly SubredditService _subredditService;
 
         private readonly RedditClient _redditClient;
 
+        private PublishService _publishService;
+        
         private Pool _pool = new Pool();
 
         private Subreddit _subreddit;
@@ -34,20 +36,20 @@ namespace reddit_bor.form.publish
         private PoolSubreddit _poolSubreddit;
         private TaskPostType _taskPostType;
 
-        private readonly List<Pool> _existedPools;
+        private bool _isWorking = false;
+        private IntervalRange _progress;
 
         public NewPublishForm(RedditAccount redditAccount, AccountsForm accountsForm)
         {
             InitializeComponent();
             
             _redditService = new RedditService();
-            _poolService = new PoolService();
+            _subredditService = new SubredditService();
 
             _redditAccount = redditAccount;
             _accountsForm = accountsForm;
 
             _redditClient = _redditService.GetRedditClient(redditAccount, RequestsUtil.GetUserAgent());
-            _existedPools = _poolService.GetAllPools();
             _poolSubreddit = new PoolSubreddit();
 
             FillForm();
@@ -261,7 +263,7 @@ namespace reddit_bor.form.publish
             var labelCount = new Label()
             {
                 Location = new Point(checkBoxPanel.Location.X, checkBoxPanel.Location.Y + checkBoxPanel.Height + 5),
-                Text = "Кількість опублікованих разів",
+                Text = "Кількість публікацій",
                 AutoSize = true
             };
             panel7.Controls.Add(labelCount);
@@ -291,16 +293,15 @@ namespace reddit_bor.form.publish
         #region Subrddits Panel
         private void loadPresets(object sender, EventArgs e)
         {
-            List<PoolSubreddit> existedSubrddits = _existedPools.SelectMany(p => p._subreddits).ToList();
-
             if (string.IsNullOrWhiteSpace(comboBox2.Text))
             {
+                List<PoolSubreddit> existedSubreddits = _subredditService.FindAllSubreddits();
                 comboBox2.Items.Clear();
-                foreach (var subreddit in existedSubrddits)
+                foreach (var subreddit in existedSubreddits)
                 {
-                    if (!comboBox2.Items.Contains(subreddit))
+                    if (!comboBox2.Items.Contains(subreddit.Name))
                     {
-                        comboBox2.Items.Add(subreddit);
+                        comboBox2.Items.Add(subreddit.Name);
                     }
                 }
             }
@@ -494,12 +495,18 @@ namespace reddit_bor.form.publish
         private void button9_Click(object sender, EventArgs e)
         {
             _poolSubreddit.Name = comboBox2.Text;
-            if (_pool._subreddits.Contains(_poolSubreddit))
+            _poolSubreddit.Count = (int)numericUpDown3.Value;
+
+            if (string.IsNullOrEmpty(_poolSubreddit.Name))
             {
-                MessageBox.Show("Такий сабредіт з флаєром вже добавлений до списку");
+                MessageBox.Show("Виберіть ім'я сабредіту");
                 return;
             }
+            
             _pool._subreddits.Add(_poolSubreddit);
+            _subredditService.SaveSubreddit(_poolSubreddit);
+
+            _poolSubreddit = new PoolSubreddit();
 
             UpdateSubredditDataGrid();
             UpdateSubredditPanel();
@@ -507,7 +514,6 @@ namespace reddit_bor.form.publish
 
         private void UpdateSubredditPanel()
         {
-            _poolSubreddit = new PoolSubreddit();
             comboBox2.Items.Clear();
             comboBox2.Text = "";
 
@@ -554,5 +560,119 @@ namespace reddit_bor.form.publish
                     throw new NotImplementedException();
             }
         }
+
+        #region Publish Control
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (_isWorking)
+            {
+                return;
+            }
+
+            if (_pool == null)
+            {
+                MessageBox.Show("Виберіть пул для публікації");
+                return;
+            }
+
+            if (_pool._tasks.Count == 0)
+            {
+                MessageBox.Show("Виберіть публікації");
+                return;
+            }
+
+            if (_pool._subreddits.Count == 0)
+            {
+                MessageBox.Show("Виберіть сабредіти");
+                return;
+            }
+            
+            _publishService = new PublishService(_pool, _redditAccount);
+            _progress = new IntervalRange(0, _pool._subreddits.Count);
+            UpdateProgress("");
+
+            _publishService.MessageReceived += getLogs;
+
+            _publishService.Start();
+            _isWorking = true;
+        }
+
+        private void getLogs(string message, bool isIncrement)
+        {
+            if (isIncrement)
+            {
+                _progress.From = ++_progress.From;
+            }
+
+            UpdateProgress(message);
+        }
+
+        #region Progress
+        private void UpdateProgress(string message)
+        {
+            UpdateProgressLabel();
+            UpdateProgressBar();
+            if (!string.IsNullOrEmpty(message))
+            {
+               UpdateRichTextBox(message);
+            }
+        }
+
+        private void UpdateProgressBar()
+        {
+            if (progressBar1.InvokeRequired)
+            {
+                progressBar1.BeginInvoke(new Action(UpdateProgressBar));
+            }
+            else
+            {
+                progressBar1.Value = (int)((double)_progress.From / (double)_progress.To * 100);
+            }
+        }
+
+        private void UpdateProgressLabel()
+        {
+            if (label4.InvokeRequired)
+            {
+                label4.BeginInvoke(new Action(UpdateProgressLabel));
+            }
+            else
+            {
+                label4.Text = $"{_progress.From} / {_progress.To}";
+            }
+        }
+
+        private void UpdateRichTextBox(string message)
+        {
+            if (richTextBox1.InvokeRequired)
+            {
+                richTextBox1.BeginInvoke(new Action<string>(UpdateRichTextBox), message);
+            }
+            else
+            {
+                richTextBox1.Text += message + "\n";
+            }
+        }
+        #endregion
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (!_isWorking)
+            {
+                return;
+            }
+
+            _publishService.Pause();
+            _isWorking = false;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            _publishService.Stop();
+            _isWorking = false;
+            _progress.From = 0;
+            UpdateProgress("");
+        }
+        #endregion
     }
 }

@@ -7,6 +7,7 @@ namespace reddit_bor.domain.pool
     {
         public string Name { get; set; }
         public PostFlair PostFlair { get; set; }
+        public int Count { get; set; }
 
         public override bool Equals(object obj)
         {

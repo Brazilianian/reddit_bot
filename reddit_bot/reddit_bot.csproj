@@ -118,6 +118,7 @@
     <Compile Include="dto\PoolTaskDto.cs" />
     <Compile Include="enum\task\TaskPostType.cs" />
     <Compile Include="enum\task\TaskType.cs" />
+    <Compile Include="exceptions\SubredditAlreadyExistsException.cs" />
     <Compile Include="exceptions\SubredditNotFoundException.cs" />
     <Compile Include="form\account\AccountAddForm.cs">
       <SubType>Form</SubType>
@@ -155,20 +156,14 @@
     <Compile Include="form\task\TaskInfoForm.Designer.cs">
       <DependentUpon>TaskInfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="mapper\PoolMapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="repository\AccountRepository.cs" />
-    <Compile Include="repository\PoolRepository.cs" />
-    <Compile Include="repository\TaskLinkRepository.cs" />
-    <Compile Include="repository\TaskPostRepository.cs" />
-    <Compile Include="repository\TaskRepository.cs" />
+    <Compile Include="repository\SubredditRepository.cs" />
     <Compile Include="service\AccountService.cs" />
-    <Compile Include="service\PoolService.cs" />
     <Compile Include="service\PublishService.cs" />
     <Compile Include="service\RedditService.cs" />
-    <Compile Include="service\TaskService.cs" />
-    <Compile Include="util\ControlsUtil.cs" />
+    <Compile Include="service\SubredditService.cs" />
     <Compile Include="util\EnumUtil.cs" />
     <Compile Include="util\ListUtil.cs" />
     <Compile Include="util\ProccessUtil.cs" />
@@ -214,6 +209,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="mapper\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
