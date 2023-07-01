@@ -9,18 +9,15 @@ namespace reddit_bot
 {
     public partial class AccountAddForm : Form
     {
-        private readonly AccountsForm _accountsForm;
-
         private RedditService _redditService;
         private AccountService _accountService;
 
         private Thread _loginThread;
 
+        [Obsolete]
         public AccountAddForm(AccountsForm accountsForm)
         {
             InitializeComponent();
-            
-            _accountsForm = accountsForm;
 
             _redditService = new RedditService();
             _accountService = new AccountService();

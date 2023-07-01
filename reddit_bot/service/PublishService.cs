@@ -1,6 +1,7 @@
 ﻿using Reddit;
 using Reddit.Controllers;
 using Reddit.Exceptions;
+using reddit_bor.domain.pool;
 using reddit_bor.domain.task;
 using reddit_bor.util;
 using reddit_bot.domain;
@@ -23,10 +24,11 @@ namespace reddit_bor.service
 
         private Thread _workedThread;
         public bool _isWorking;
-
+        private bool _isPause;
         private List<RedditPostTask> _tasksOrder;
+        private List<PoolSubreddit> _subreddits;
 
-        public delegate void MessageEventHandler(string message);
+        public delegate void MessageEventHandler(string message, bool isIncrement);
 
         public event MessageEventHandler MessageReceived;
 
@@ -44,13 +46,15 @@ namespace reddit_bor.service
         internal void Pause()
         {
             _isWorking = false;
+            _isPause = true;
         }
 
         internal void Start()
         {
             _isWorking = true;
-            if (_workedThread != null)
+            if (_isPause)
             {
+                _isPause = false;
                 return;
             }
             _workedThread = new Thread(StartPosting);
@@ -61,6 +65,7 @@ namespace reddit_bor.service
         internal void Stop()
         {
             _isWorking = false;
+            _isPause = false;
             _workedThread.Abort();
             _workedThread = null;
             FillTaskOrder();
@@ -71,9 +76,18 @@ namespace reddit_bor.service
             try
             {
                 Random random = new Random();
-                for (int i = 0; i < _tasksOrder.Count; i++)
+                for (int i = 0; i < _subreddits.Count; i++)
                 {
                     var task = _tasksOrder[i];
+
+                    if (task == null)
+                    {
+                        OnMessageReceived("Tasks ended", false);
+                        break;
+                    }
+
+                    var poolSubreddit = _subreddits[i];
+
                     if (!_isWorking)
                     {
                         Thread.Sleep(1000);
@@ -82,22 +96,20 @@ namespace reddit_bor.service
                     }
                     if (task is RedditPostTaskPost)
                     {
-                        createPost_Post(task as RedditPostTaskPost);
+                        createPost_Post(task as RedditPostTaskPost, poolSubreddit);
                     }
                     else if (task is RedditPostTaskLink)
                     {
-                        createPost_Link(task as RedditPostTaskLink);
+                        createPost_Link(task as RedditPostTaskLink, poolSubreddit);
                     }
                     else
                     {
                         throw new NotImplementedException();
                     }
-
                     Thread.Sleep(random.Next(_pool.Range.From, _pool.Range.To) * 1000);
                 }
-            } catch (ThreadAbortException)
+            } catch(ThreadAbortException)
             {
-                Thread.ResetAbort();
             } catch (Exception ex)
             {
                 using (StreamWriter streamWriter = new StreamWriter("./data/errors.txt", true))
@@ -110,6 +122,8 @@ namespace reddit_bor.service
         private void FillTaskOrder()
         {
             _tasksOrder = new List<RedditPostTask>();
+            _subreddits = new List<PoolSubreddit>();
+         
             foreach (var task in _pool._tasks)
             {
                 for (int i = 0; i < task.Count; i++)
@@ -118,28 +132,36 @@ namespace reddit_bor.service
                 }
             }
 
+            foreach (var subreddit in _pool._subreddits)
+            {
+                for (int i = 0; i < subreddit.Count; i++)
+                {
+                    _subreddits.Add(subreddit);
+                }
+            }
+
             if (_pool.IsRandom)
             {
                 ListUtil.Shuffle(_tasksOrder);
+                ListUtil.Shuffle(_subreddits);
             }
         }
 
-        private void createPost_Post(RedditPostTaskPost taskPost)
+        private void createPost_Post(RedditPostTaskPost taskPost, PoolSubreddit poolSubreddit)
         {
-            var subreddit = _redditClient.Subreddit(taskPost.SubredditName);
-            
+            var subreddit = _redditClient.Subreddit(poolSubreddit.Name);
+
             if (subreddit == null)
             {
-                OnMessageReceived("Сабредіт не знайдено");
+                OnMessageReceived("Сабредіт не знайдено", false);
             }
 
             SelfPost post = subreddit
                 .SelfPost(title: taskPost.Title, selfText: taskPost.Text);
 
-            //TODO add flair to post
-            if (taskPost.PostFlair != null)
+            if (poolSubreddit.PostFlair != null)
             {
-                post.Submit(spoiler: taskPost.IsSpoiler, flairText: taskPost.PostFlair.Text, flairId: taskPost.PostFlair.Id);
+                post.Submit(spoiler: taskPost.IsSpoiler, flairText: poolSubreddit.PostFlair.Text, flairId: poolSubreddit.PostFlair.Id);
             }
             else
             {
@@ -151,17 +173,17 @@ namespace reddit_bor.service
                 post.MarkNSFWAsync();
             }
 
-            OnMessageReceived("Опубліковано");
+            OnMessageReceived("Опубліковано", true);
             //TODO OC tag
         }
 
-        private void createPost_Link(RedditPostTaskLink taskLink)
+        private void createPost_Link(RedditPostTaskLink taskLink, PoolSubreddit poolSubreddit)
         {
-            var subreddit = _redditClient.Subreddit(taskLink.SubredditName);
+            var subreddit = _redditClient.Subreddit(poolSubreddit.Name);
 
             if (subreddit == null)
             {
-                OnMessageReceived("Сабредіт не знайдено");
+                OnMessageReceived("Сабредіт не знайдено", false);
             }
 
             LinkPost post = subreddit
@@ -169,10 +191,10 @@ namespace reddit_bor.service
 
             try
             {
-                if (taskLink.PostFlair != null)
+                if (poolSubreddit.PostFlair != null)
                 {
                     post.Submit(spoiler: taskLink.IsSpoiler)
-                    .SetFlair(taskLink.PostFlair.Text);
+                    .SetFlair(poolSubreddit.PostFlair.Text);
                 }
                 else
                 {
@@ -184,20 +206,20 @@ namespace reddit_bor.service
                     post.MarkNSFWAsync();
                 }
 
-                OnMessageReceived("Опубліковано");
+                OnMessageReceived("Опубліковано", true);
             }
             catch (RedditAlreadySubmittedException ex)
             {
-                OnMessageReceived(ex.Message);
+                OnMessageReceived(ex.Message, true);
             }
             //TODO OC tag
         }
 
-        protected virtual void OnMessageReceived(string message)
+        protected virtual void OnMessageReceived(string message, bool isIncrement)
         {
             if (MessageReceived != null)
             {
-                MessageReceived.Invoke(message);
+                MessageReceived.Invoke(message, isIncrement);
             }
         }
     }

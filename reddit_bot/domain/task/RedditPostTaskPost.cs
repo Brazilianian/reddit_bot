@@ -4,14 +4,14 @@
     {
         public RedditPostTaskPost() : base() { }
 
-        public RedditPostTaskPost(string taskName, string subredditName, string title, string text) 
-            : base(taskName, subredditName, title)
+        public RedditPostTaskPost(string title, string text) 
+            : base(title)
         {
             Text = text;
         }
 
-        public RedditPostTaskPost(string taskName, string subredditName, string title, bool isSpoiler, bool isNSFW, string text) 
-            : base(taskName, subredditName, title, isSpoiler, isNSFW)
+        public RedditPostTaskPost(string title, bool isSpoiler, bool isNSFW, string text) 
+            : base(title, isSpoiler, isNSFW)
         {
             Text = text;
         }

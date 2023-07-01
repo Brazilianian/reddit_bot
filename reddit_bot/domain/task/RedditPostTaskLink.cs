@@ -4,14 +4,14 @@
     {
         public RedditPostTaskLink() : base() { }
 
-        public RedditPostTaskLink(string taskName, string subredditName, string title, string link) 
-            : base(taskName, subredditName, title)
+        public RedditPostTaskLink(string title, string link) 
+            : base(title)
         {
             Link = link;
         }
 
-        public RedditPostTaskLink(string taskName, string subredditName, string title, bool isSpoiler, bool isNSFW, string link)
-            : base(taskName, subredditName, title, isSpoiler, isSpoiler)
+        public RedditPostTaskLink(string title, bool isSpoiler, bool isNSFW, string link) 
+            : base(title, isSpoiler, isNSFW)
         {
             Link = link;
         }

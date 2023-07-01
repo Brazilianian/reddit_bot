@@ -1,5 +1,6 @@
 ﻿using reddit_bor.domain.task;
 using reddit_bor.form.task;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -34,32 +35,13 @@ namespace reddit_bor.form.pool
 
             foreach (var poolTask in _pool._tasks)
             {
-                DataGridViewRow dataGridViewRow = new DataGridViewRow()
-                {
-                    Tag = poolTask.PostTask.TaskName
-                };
-
-                dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
-                {
-                    Value = poolTask.PostTask.TaskName
-                });
-                dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
-                {
-                    Value = poolTask.Count
-                });
-
-                dataGridView1.Rows.Add(dataGridViewRow);
+                throw new NotImplementedException();
             }
         }
 
         private void dataGridView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            var taskName = ((DataGridView)sender).SelectedRows[0].Tag.ToString();
-            var taskInfoForm = new TaskInfoForm(
-                _pool._tasks
-                .Where(t => t.PostTask.TaskName.Equals(taskName))
-                .FirstOrDefault().PostTask);
-            taskInfoForm.ShowDialog();
+            throw new NotImplementedException();
         }
     }
 }
