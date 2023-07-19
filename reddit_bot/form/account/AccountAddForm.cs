@@ -63,7 +63,7 @@ namespace reddit_bot
                 {
                     label3.Text = "Помилка авторизації (очікування 20 сек.)";
                 }));
-                _redditService.StopListen();
+                //_redditService.StopListen();
                 return;
             }
 
@@ -74,7 +74,7 @@ namespace reddit_bot
                 {
                     label3.Text = "Такий користувач вже існує";
                 }));
-                _redditService.StopListen();
+                //_redditService.StopListen();
                 return;
             }
 
@@ -85,7 +85,7 @@ namespace reddit_bot
             {
                 label3.Text = "Акаунт успішно збережено";
             }));
-            _redditService.StopListen();
+            //_redditService.StopListen();
         }
 
         [Obsolete]
@@ -97,7 +97,7 @@ namespace reddit_bot
         [Obsolete]
         private void AccountAddForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _redditService.StopListen();
+            //_redditService.StopListen();
 
             if (_loginThread != null)
             {
