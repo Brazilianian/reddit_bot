@@ -42,11 +42,12 @@ namespace reddit_bot
             this.panel2 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -161,6 +162,7 @@ namespace reddit_bot
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.button7);
             this.panel3.Controls.Add(this.button6);
             this.panel3.Controls.Add(this.button2);
             this.panel3.Controls.Add(this.button5);
@@ -172,6 +174,30 @@ namespace reddit_bot
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(161, 522);
             this.panel3.TabIndex = 10;
+            // 
+            // button7
+            // 
+            this.button7.BackColor = System.Drawing.SystemColors.Control;
+            this.button7.Location = new System.Drawing.Point(2, 92);
+            this.button7.Margin = new System.Windows.Forms.Padding(2);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(155, 41);
+            this.button7.TabIndex = 8;
+            this.button7.Text = "Пресети";
+            this.button7.UseVisualStyleBackColor = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button6
+            // 
+            this.button6.BackColor = System.Drawing.SystemColors.Control;
+            this.button6.Location = new System.Drawing.Point(2, 47);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(155, 41);
+            this.button6.TabIndex = 7;
+            this.button6.Text = "Публікація";
+            this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button2
             // 
@@ -223,18 +249,6 @@ namespace reddit_bot
             this.button4.TabIndex = 0;
             this.button4.Text = "Профіль";
             this.button4.UseVisualStyleBackColor = false;
-            // 
-            // button6
-            // 
-            this.button6.BackColor = System.Drawing.SystemColors.Control;
-            this.button6.Location = new System.Drawing.Point(2, 47);
-            this.button6.Margin = new System.Windows.Forms.Padding(2);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(155, 41);
-            this.button6.TabIndex = 7;
-            this.button6.Text = "Публікація";
-            this.button6.UseVisualStyleBackColor = false;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // fileSystemWatcher1
             // 
@@ -289,5 +303,6 @@ namespace reddit_bot
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button6;
         private System.IO.FileSystemWatcher fileSystemWatcher1;
+        private System.Windows.Forms.Button button7;
     }
 }
