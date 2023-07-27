@@ -138,12 +138,6 @@
     <Compile Include="form\account\AccountsForm.Designer.cs">
       <DependentUpon>AccountsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="form\pool\PoolInfoForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="form\pool\PoolInfoForm.Designer.cs">
-      <DependentUpon>PoolInfoForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="form\publish\NewPublishForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -176,9 +170,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="form\account\AccountsForm.resx">
       <DependentUpon>AccountsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="form\pool\PoolInfoForm.resx">
-      <DependentUpon>PoolInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\publish\NewPublishForm.resx">
       <DependentUpon>NewPublishForm.cs</DependentUpon>
