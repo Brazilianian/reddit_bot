@@ -110,6 +110,7 @@
     <Compile Include="domain\pool\Pool.cs" />
     <Compile Include="domain\pool\PoolSubreddit.cs" />
     <Compile Include="domain\pool\PoolTask.cs" />
+    <Compile Include="domain\pool\Preset.cs" />
     <Compile Include="domain\task\PostFlair.cs" />
     <Compile Include="domain\task\RedditPostTask.cs" />
     <Compile Include="domain\task\RedditPostTaskLink.cs" />
@@ -138,6 +139,18 @@
     <Compile Include="form\account\AccountsForm.Designer.cs">
       <DependentUpon>AccountsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\preset\PresetAddNameDialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\preset\PresetAddNameDialogForm.Designer.cs">
+      <DependentUpon>PresetAddNameDialogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="form\preset\PresetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\preset\PresetForm.Designer.cs">
+      <DependentUpon>PresetForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="form\publish\NewPublishForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,8 +166,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="repository\AccountRepository.cs" />
+    <Compile Include="repository\PresetRepository.cs" />
     <Compile Include="repository\SubredditRepository.cs" />
     <Compile Include="service\AccountService.cs" />
+    <Compile Include="service\PresetService.cs" />
     <Compile Include="service\PublishService.cs" />
     <Compile Include="service\RedditService.cs" />
     <Compile Include="service\SubredditService.cs" />
@@ -170,6 +185,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="form\account\AccountsForm.resx">
       <DependentUpon>AccountsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\preset\PresetAddNameDialogForm.resx">
+      <DependentUpon>PresetAddNameDialogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\preset\PresetForm.resx">
+      <DependentUpon>PresetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\publish\NewPublishForm.resx">
       <DependentUpon>NewPublishForm.cs</DependentUpon>
