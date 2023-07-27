@@ -567,5 +567,61 @@ namespace reddit_bor.form.publish
                 dataGridView1.Rows.Add(dataGridViewRow);
             }
         }
+
+        private void NewPublishForm_SizeChanged(object sender, EventArgs e)
+        {
+            ResizeForm();
+        }
+
+        private void ResizeForm()
+        {
+            ResizeMenu();
+            ResizePool();
+        }
+
+        private void ResizePool()
+        {
+            Size windowSize = new Size(ClientSize.Width, ClientSize.Height);
+            
+            //Main
+            panel1.Size = new Size(windowSize.Width * 90 / 100 - 20, windowSize.Height - 20);
+            panel1.Location = new Point(panel5.Location.X + panel5.Width + 5, panel1.Location.Y);
+            
+            //First
+            panel2.Size = new Size(panel1.Width * 3 / 4 - 6, panel1.Height / 5);
+            panel7.Size = new Size(panel2.Width - 8, panel2.Height * 80 / 100 - 10);
+
+            panel4.Size = new Size(panel1.Width / 4 - 4, panel1.Height / 5);
+            panel4.Location = new Point(panel2.Location.X + panel2.Width + 2, panel4.Location.Y);
+            label5.Location = new Point(panel4.Location.X, label5.Location.Y);
+
+            //Second
+            label2.Location = new Point(label2.Location.X, panel2.Location.Y + panel2.Height + 4);
+            panel3.Location = new Point(panel3.Location.X, label2.Location.Y + label2.Height + 2);
+            panel3.Size = new Size(panel1.Width * 3 / 4 - 6, panel1.Height * 2 / 5);
+
+            label7.Location = new Point(label5.Location.X, label2.Location.Y);
+            panel6.Location = new Point(panel4.Location.X, label7.Location.Y + label7.Height + 2);
+            panel6.Size = new Size(panel1.Width / 4 - 4, panel1.Height * 2 / 5);
+
+            //Third
+            panel8.Size = new Size(panel1.Width - 10, panel1.Height / 10);
+            panel8.Location = new Point(panel3.Location.X, panel3.Location.Y + panel3.Height + 4);
+
+            label3.Location = new Point(panel8.Location.X, panel8.Location.Y + panel8.Height + 2);
+            richTextBox1.Size = new Size(panel8.Width, panel1.Height * 3 / 10 - 68);
+            richTextBox1.Location = new Point(label3.Location.X, label3.Location.Y + label3.Height + 2);
+        }
+
+        private void ResizeMenu()
+        {
+            Size windowSize = new Size(ClientSize.Width, ClientSize.Height);
+            panel5.Size = new Size(windowSize.Width / 10, windowSize.Height - 20);
+
+            button4.Size = new Size(panel5.Width - 6, 40);
+            button1.Size = new Size(panel5.Width - 6, 40);
+            button11.Size = new Size(panel5.Width - 6, 40);
+            button2.Size = new Size(panel5.Width - 6, 40);
+        }
     }
 }
