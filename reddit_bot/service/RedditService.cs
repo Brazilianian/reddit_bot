@@ -32,8 +32,6 @@ namespace reddit_bot.service
         {
             _accessToken = null;
             _refreshToken = null;
-            
-            //StopListen();
 
             _authTokenRetrieverLib = new AuthTokenRetrieverLib(redditId, secret, 8080);
 
@@ -58,19 +56,18 @@ namespace reddit_bot.service
         {
             _accessToken = e.AccessToken;
             _refreshToken = e.RefreshToken;
-            //StopListen();
         }
 
 
         //FIXME im not working. Killing the proccess stops the whole program. why?
         public void StopListen()
         {
-            if (_authTokenRetrieverLib != null )
+            if (_authTokenRetrieverLib != null)
             {
                 _authTokenRetrieverLib.StopListening();
             }
-          
-            ProccessUtil.KillByPort(port);
+
+            //ProccessUtil.KillByPort(port);
 
         }
 

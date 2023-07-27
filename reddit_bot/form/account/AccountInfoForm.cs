@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Reddit;
+using reddit_bor.form.preset;
 using reddit_bor.form.publish;
 using reddit_bot.domain;
 using reddit_bot.service;
@@ -74,6 +75,13 @@ namespace reddit_bot
         {
             NewPublishForm newPublishForm = new NewPublishForm(_redditAccount, _accountsForm);
             newPublishForm.Show();
+            Close();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            PresetForm presetForm = new PresetForm(_redditAccount, _accountsForm);
+            presetForm.Show();
             Close();
         }
     }

@@ -66,7 +66,10 @@ namespace reddit_bor.service
         {
             _isWorking = false;
             _isPause = false;
-            _workedThread.Abort();
+            if (_workedThread != null)
+            {
+                _workedThread.Abort();
+            }
             _workedThread = null;
             FillTaskOrder();
         }
