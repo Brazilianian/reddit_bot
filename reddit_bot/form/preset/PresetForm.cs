@@ -12,6 +12,9 @@ using System.Windows.Forms;
 using System.Linq;
 using reddit_bot.service;
 using reddit_bor.form.publish;
+using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace reddit_bor.form.preset
 {
@@ -50,6 +53,7 @@ namespace reddit_bor.form.preset
             FillPresetDataGrid();
 
             FillForm();
+            ResizeForm();
         }
 
         private void FillForm()
@@ -347,5 +351,61 @@ namespace reddit_bor.form.preset
             _poolSubreddit = new PoolSubreddit();
             UpdateSubredditPanel();
         }
+
+        #region Resize
+        private void PresetForm_SizeChanged(object sender, EventArgs e)
+        {
+            ResizeForm();
+        }
+
+        private void ResizeForm()
+        {
+            ResizeMenu();
+            ResizePreset();
+        }
+
+        private void ResizeMenu()
+        {
+            Size windowSize = new Size(ClientSize.Width, ClientSize.Height);
+            panel5.Size = new Size(windowSize.Width / 5 - 10, windowSize.Height - 20);
+            panel5.Location = new Point(5, 5);
+
+            button4.Size = new Size(panel5.Width - 6, 40);
+            button1.Size = new Size(panel5.Width - 6, 40);
+            button11.Size = new Size(panel5.Width - 6, 40);
+            button2.Size = new Size(panel5.Width - 6, 40);
+        }
+
+        private void ResizePreset()
+        {
+            //Main
+            Size windowSize = new Size(ClientSize.Width, ClientSize.Height);
+            panel1.Size = new Size(windowSize.Width * 4 / 5 - 10, windowSize.Height - 20);
+            panel1.Location = new Point(panel5.Location.X + panel5.Width + 5, panel5.Location.Y);
+
+            //First
+            dataGridView1.Size = new Size(panel1.Width - 10, panel1.Height / 2 - 50);
+            label1.Location = new Point(dataGridView1.Location.X + dataGridView1.Width / 2 - label1.Width / 2, label1.Location.Y);
+
+            //Second
+            label5.Location = new Point(label1.Location.X + label1.Width / 2 - label5.Width / 2, dataGridView1.Location.Y + dataGridView1.Height + 5);
+            dataGridView2.Size = new Size((panel1.Width - 10) / 2, panel1.Height / 2);
+            dataGridView2.Location = new Point(dataGridView1.Location.X, label5.Location.Y + label5.Height + 2);
+
+            panel4.Size = new Size((panel1.Width - 12) / 2, panel1.Height / 2 - 50);
+            panel4.Location = new Point(dataGridView2.Location.X + dataGridView2.Width + 3, dataGridView2.Location.Y);
+
+            comboBox2.Width = panel4.Width - 8;
+            button10.Location = new Point(panel4.Width - button10.Width - 10, comboBox2.Location.Y + Height + 3);
+
+            label9.Location = new Point(3, panel4.Height / 2 - 30);
+            comboBox3.Location = new Point(label9.Location.X, label9.Location.Y + label9.Height);
+            comboBox3.Width = panel4.Width - 8;
+
+            numericUpDown3.Location = new Point(3, panel4.Height - numericUpDown3.Height - 12);
+            label15.Location = new Point(numericUpDown3.Location.X, numericUpDown3.Location.Y - label15.Height - 3);
+
+        }
+        #endregion
     }
 }

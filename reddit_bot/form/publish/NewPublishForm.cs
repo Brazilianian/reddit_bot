@@ -1,5 +1,4 @@
-﻿using Reddit;
-using Reddit.Controllers;
+﻿using Reddit.Controllers;
 using reddit_bor.domain.pool;
 using reddit_bor.domain.task;
 using reddit_bor.form.preset;
@@ -49,6 +48,7 @@ namespace reddit_bor.form.publish
             _presets = _presetService.FindAllPresets();
 
             FillForm();
+            ResizeForm();
         }
 
         private void FillForm()
@@ -525,6 +525,11 @@ namespace reddit_bor.form.publish
         //Add Preset
         private void dataGridView3_DoubleClick(object sender, EventArgs e)
         {
+            if (((DataGridView)sender).SelectedRows.Count == 0)
+            {
+                return;
+            }
+
             Preset preset = (Preset)((DataGridView)sender).SelectedRows[0].Tag;
             _presets.Remove(preset);
             _pool._subreddits.AddRange(preset.Subreddits);
@@ -622,6 +627,12 @@ namespace reddit_bor.form.publish
             button1.Size = new Size(panel5.Width - 6, 40);
             button11.Size = new Size(panel5.Width - 6, 40);
             button2.Size = new Size(panel5.Width - 6, 40);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            _accountsForm.Show();
+            Close();
         }
     }
 }

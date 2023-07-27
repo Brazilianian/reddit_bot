@@ -142,6 +142,8 @@
             // 
             // button2
             // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.Location = new System.Drawing.Point(2, 574);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
@@ -166,6 +168,7 @@
             // 
             // button6
             // 
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button6.Location = new System.Drawing.Point(583, 573);
             this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
@@ -178,7 +181,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(486, 268);
+            this.label5.Location = new System.Drawing.Point(302, 265);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(158, 13);
             this.label5.TabIndex = 14;
@@ -188,6 +191,7 @@
             // 
             this.dataGridView2.AllowUserToAddRows = false;
             this.dataGridView2.AllowUserToDeleteRows = false;
+            this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -270,7 +274,7 @@
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(211, 45);
+            this.button10.Location = new System.Drawing.Point(212, 40);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(103, 29);
             this.button10.TabIndex = 11;
@@ -297,6 +301,7 @@
             // 
             // button9
             // 
+            this.button9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button9.Location = new System.Drawing.Point(211, 243);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(103, 29);
@@ -309,9 +314,9 @@
             // 
             this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(4, 135);
+            this.comboBox3.Location = new System.Drawing.Point(0, 135);
             this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(311, 21);
+            this.comboBox3.Size = new System.Drawing.Size(319, 21);
             this.comboBox3.TabIndex = 7;
             // 
             // label9
@@ -325,16 +330,18 @@
             // 
             // comboBox2
             // 
+            this.comboBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(3, 18);
+            this.comboBox2.Location = new System.Drawing.Point(0, 13);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(311, 21);
+            this.comboBox2.Size = new System.Drawing.Size(318, 21);
             this.comboBox2.TabIndex = 5;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 2);
+            this.label8.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label8.Location = new System.Drawing.Point(0, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(262, 13);
             this.label8.TabIndex = 4;
@@ -344,6 +351,8 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -384,8 +393,11 @@
             this.ClientSize = new System.Drawing.Size(932, 638);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel5);
+            this.MinimumSize = new System.Drawing.Size(730, 440);
             this.Name = "PresetForm";
             this.Text = "PresetForm";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.SizeChanged += new System.EventHandler(this.PresetForm_SizeChanged);
             this.panel5.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
