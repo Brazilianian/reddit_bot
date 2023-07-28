@@ -107,5 +107,10 @@ namespace reddit_bot
                 }
             }
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

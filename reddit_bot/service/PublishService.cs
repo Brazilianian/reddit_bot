@@ -44,6 +44,7 @@ namespace reddit_bor.service
             FillTaskOrder();
         }
 
+        #region Controls
         internal void Pause()
         {
             _isWorking = false;
@@ -74,6 +75,7 @@ namespace reddit_bor.service
             _workedThread = null;
             FillTaskOrder();
         }
+        #endregion
 
         private void StartPosting()
         {
@@ -151,6 +153,7 @@ namespace reddit_bor.service
             }
         }
 
+        #region Creation
         private void createPost_Post(RedditPostTaskPost taskPost, PoolSubreddit poolSubreddit)
         {
             var subreddit = _redditClient.Subreddit(poolSubreddit.Name);
@@ -160,8 +163,37 @@ namespace reddit_bor.service
                 OnMessageReceived(new Log($"Failed to post - subreddit does not specified", LogLevel.Warning), false);
             }
 
+            string title = taskPost.Text;
+
+            if (poolSubreddit.Trigger != null)
+            {
+                switch (poolSubreddit.Trigger.Place)
+                {
+                    case Place.Start:
+                        title = poolSubreddit.Trigger.Text + " " + taskPost.Title;
+                        break;
+                    case Place.Middle:
+                        var words = taskPost.Title.Split(' ');
+
+                        Random random = new Random();
+                        int randomIndex = random.Next(1, words.Length - 1);
+                        Array.Resize(ref words, words.Length + 1);
+                        for (int i = words.Length - 1; i > randomIndex; i--)
+                        {
+                            words[i] = words[i - 1];
+                        }
+                        words[randomIndex] = poolSubreddit.Trigger.Text;
+
+                        title = string.Join(" ", words);
+                        break;
+                    case Place.End:
+                        title = taskPost.Title + " " + poolSubreddit.Trigger.Text;
+                        break;
+                }
+            }
+
             SelfPost post = subreddit
-                .SelfPost(title: taskPost.Title, selfText: taskPost.Text);
+                .SelfPost(title: title, selfText: taskPost.Text);
 
             if (poolSubreddit.PostFlair != null)
             {
@@ -195,8 +227,37 @@ namespace reddit_bor.service
                 OnMessageReceived(new Log($"Failed to post Task {taskLink} - subreddit does not specified", LogLevel.Warning), false);
             }
 
+            string title = taskLink.Title;
+
+            if (poolSubreddit.Trigger != null)
+            {
+                switch (poolSubreddit.Trigger.Place) 
+                {
+                    case Place.Start:
+                        title = poolSubreddit.Trigger.Text + " " + taskLink.Title;
+                        break;
+                    case Place.Middle:
+                        var words = taskLink.Title.Split(' ');
+
+                        Random random = new Random();
+                        int randomIndex = random.Next(1, words.Length - 1);
+                        Array.Resize(ref words, words.Length + 1);
+                        for (int i = words.Length - 1; i > randomIndex; i--)
+                        {
+                            words[i] = words[i - 1];
+                        }
+                        words[randomIndex] = poolSubreddit.Trigger.Text;
+
+                        title = string.Join(" ", words);
+                        break;
+                    case Place.End:
+                        title = taskLink.Title + " " + poolSubreddit.Trigger.Text;
+                        break;
+                }
+            }
+
             LinkPost post = subreddit
-                .LinkPost(title: taskLink.Title, url: taskLink.Link);
+                .LinkPost(title: title, url: taskLink.Link);
 
             try
             {
@@ -232,6 +293,7 @@ namespace reddit_bor.service
             }
             //TODO OC tag
         }
+        #endregion
 
         protected virtual void OnMessageReceived(Log log,  bool isIncrement)
         {

@@ -31,8 +31,6 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.button11 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -43,6 +41,11 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.button10 = new System.Windows.Forms.Button();
@@ -57,6 +60,7 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -70,8 +74,6 @@
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Controls.Add(this.button11);
             this.panel5.Controls.Add(this.button1);
-            this.panel5.Controls.Add(this.button5);
-            this.panel5.Controls.Add(this.button3);
             this.panel5.Controls.Add(this.button4);
             this.panel5.Controls.Add(this.button2);
             this.panel5.Location = new System.Drawing.Point(11, 11);
@@ -102,30 +104,6 @@
             this.button1.Text = "Публікація";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button5
-            // 
-            this.button5.BackColor = System.Drawing.SystemColors.Control;
-            this.button5.Location = new System.Drawing.Point(2, 222);
-            this.button5.Margin = new System.Windows.Forms.Padding(2);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(155, 41);
-            this.button5.TabIndex = 3;
-            this.button5.Text = "Менеджер задач";
-            this.button5.UseVisualStyleBackColor = false;
-            this.button5.Visible = false;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.SystemColors.Control;
-            this.button3.Location = new System.Drawing.Point(2, 177);
-            this.button3.Margin = new System.Windows.Forms.Padding(2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(155, 41);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Пул менеджер";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Visible = false;
             // 
             // button4
             // 
@@ -197,7 +175,8 @@
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
-            this.Column2});
+            this.Column2,
+            this.Column3});
             this.dataGridView2.Location = new System.Drawing.Point(3, 284);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
@@ -226,6 +205,11 @@
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.radioButton3);
+            this.panel4.Controls.Add(this.radioButton2);
+            this.panel4.Controls.Add(this.radioButton1);
+            this.panel4.Controls.Add(this.label2);
+            this.panel4.Controls.Add(this.textBox1);
             this.panel4.Controls.Add(this.label15);
             this.panel4.Controls.Add(this.numericUpDown3);
             this.panel4.Controls.Add(this.button10);
@@ -240,6 +224,55 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(320, 284);
             this.panel4.TabIndex = 12;
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Location = new System.Drawing.Point(133, 185);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(58, 17);
+            this.radioButton3.TabIndex = 26;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "Кінець";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(64, 185);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(74, 17);
+            this.radioButton2.TabIndex = 25;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "Середина";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(0, 185);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(67, 17);
+            this.radioButton1.TabIndex = 24;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Початок";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 143);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(43, 13);
+            this.label2.TabIndex = 23;
+            this.label2.Text = "Тригер";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(0, 159);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(318, 20);
+            this.textBox1.TabIndex = 22;
             // 
             // label15
             // 
@@ -314,7 +347,7 @@
             // 
             this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(0, 135);
+            this.comboBox3.Location = new System.Drawing.Point(-1, 96);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(319, 21);
             this.comboBox3.TabIndex = 7;
@@ -322,7 +355,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 119);
+            this.label9.Location = new System.Drawing.Point(2, 80);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(138, 13);
             this.label9.TabIndex = 6;
@@ -386,6 +419,12 @@
             this.label1.TabIndex = 10;
             this.label1.Text = "Пресети";
             // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Тригер";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            // 
             // PresetForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -393,7 +432,8 @@
             this.ClientSize = new System.Drawing.Size(932, 638);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel5);
-            this.MinimumSize = new System.Drawing.Size(730, 440);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MinimumSize = new System.Drawing.Size(730, 505);
             this.Name = "PresetForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PresetForm";
@@ -415,8 +455,6 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Panel panel1;
@@ -441,5 +479,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
     }
 }

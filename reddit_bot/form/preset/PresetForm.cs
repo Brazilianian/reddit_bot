@@ -13,8 +13,6 @@ using System.Linq;
 using reddit_bot.service;
 using reddit_bor.form.publish;
 using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 
 namespace reddit_bor.form.preset
 {
@@ -130,6 +128,10 @@ namespace reddit_bor.form.preset
                 dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
                 {
                     Value = subreddit.Count
+                });
+                dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
+                {
+                    Value = subreddit.Trigger == null ? "" : subreddit.Trigger.ToString()
                 });
                 dataGridView2.Rows.Add(dataGridViewRow);
             }
@@ -300,6 +302,26 @@ namespace reddit_bor.form.preset
                 return;
             }
 
+            if (!string.IsNullOrEmpty(textBox1.Text))
+            {
+                Trigger trigger = new Trigger(textBox1.Text);
+                if (radioButton1.Checked)
+                {
+                    trigger.Place = Place.Start;
+                } else if (radioButton2.Checked)
+                {
+                    trigger.Place = Place.Middle;
+                } else if (radioButton3.Checked)
+                {
+                    trigger.Place = Place.End;
+                } else
+                {
+                    MessageBox.Show("Виберіть місце для тригеру");
+                    return;
+                }
+                _poolSubreddit.Trigger = trigger;
+            }
+
             _poolSubreddits.Add(_poolSubreddit);
             _subredditService.SaveSubreddit(_poolSubreddit);
 
@@ -396,11 +418,19 @@ namespace reddit_bor.form.preset
             panel4.Location = new Point(dataGridView2.Location.X + dataGridView2.Width + 3, dataGridView2.Location.Y);
 
             comboBox2.Width = panel4.Width - 8;
-            button10.Location = new Point(panel4.Width - button10.Width - 10, comboBox2.Location.Y + Height + 3);
+            button10.Location = new Point(comboBox2.Location.X + comboBox2.Width - button10.Width, comboBox2.Location.Y + button10.Height + 3);
 
-            label9.Location = new Point(3, panel4.Height / 2 - 30);
+            label9.Location = new Point(0, panel4.Height * 2 / 5 - 30);
             comboBox3.Location = new Point(label9.Location.X, label9.Location.Y + label9.Height);
-            comboBox3.Width = panel4.Width - 8;
+            comboBox3.Width = panel4.Width;
+
+            label2.Location = new Point(0, panel4.Height * 3 / 5 - 30);
+            textBox1.Location = new Point(label2.Location.X, label2.Location.Y + label2.Height);
+            textBox1.Width = panel4.Width;
+
+            radioButton1.Location = new Point(textBox1.Location.X, textBox1.Location.Y + textBox1.Height + 3);
+            radioButton2.Location = new Point(radioButton1.Location.X + radioButton1.Width + 2, radioButton1.Location.Y);
+            radioButton3.Location = new Point(radioButton2.Location.X + radioButton2.Width + 2, radioButton2.Location.Y);
 
             numericUpDown3.Location = new Point(3, panel4.Height - numericUpDown3.Height - 12);
             label15.Location = new Point(numericUpDown3.Location.X, numericUpDown3.Location.Y - label15.Height - 3);

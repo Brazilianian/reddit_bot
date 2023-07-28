@@ -80,6 +80,8 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximumSize = new System.Drawing.Size(348, 165);
+            this.MinimumSize = new System.Drawing.Size(348, 165);
             this.Name = "PresetAddNameDialogForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "PresetAddNameDialogForm";

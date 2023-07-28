@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -45,8 +44,6 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -73,10 +70,10 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.button11 = new System.Windows.Forms.Button();
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.panel2.SuspendLayout();
@@ -89,7 +86,6 @@
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // label3
@@ -204,6 +200,7 @@
             // 
             // panel7
             // 
+            this.panel7.AutoScroll = true;
             this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel7.Location = new System.Drawing.Point(3, 45);
             this.panel7.Name = "panel7";
@@ -238,30 +235,6 @@
             this.button1.TabIndex = 6;
             this.button1.Text = "Публікація";
             this.button1.UseVisualStyleBackColor = false;
-            // 
-            // button5
-            // 
-            this.button5.BackColor = System.Drawing.SystemColors.Control;
-            this.button5.Location = new System.Drawing.Point(2, 222);
-            this.button5.Margin = new System.Windows.Forms.Padding(2);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(155, 41);
-            this.button5.TabIndex = 3;
-            this.button5.Text = "Менеджер задач";
-            this.button5.UseVisualStyleBackColor = false;
-            this.button5.Visible = false;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.SystemColors.Control;
-            this.button3.Location = new System.Drawing.Point(2, 177);
-            this.button3.Margin = new System.Windows.Forms.Padding(2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(155, 41);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Пул менеджер";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Visible = false;
             // 
             // button4
             // 
@@ -514,7 +487,8 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
-            this.Column9});
+            this.Column9,
+            this.Column10});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
@@ -541,6 +515,12 @@
             this.Column9.Name = "Column9";
             this.Column9.ReadOnly = true;
             // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "Тригер";
+            this.Column10.Name = "Column10";
+            this.Column10.ReadOnly = true;
+            // 
             // richTextBox1
             // 
             this.richTextBox1.Location = new System.Drawing.Point(3, 690);
@@ -555,8 +535,6 @@
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Controls.Add(this.button11);
             this.panel5.Controls.Add(this.button1);
-            this.panel5.Controls.Add(this.button5);
-            this.panel5.Controls.Add(this.button3);
             this.panel5.Controls.Add(this.button4);
             this.panel5.Controls.Add(this.button2);
             this.panel5.Location = new System.Drawing.Point(10, 10);
@@ -604,7 +582,6 @@
             this.panel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -616,8 +593,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Panel panel1;
@@ -638,7 +613,6 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column6;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Panel panel4;
@@ -658,5 +632,6 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
     }
 }

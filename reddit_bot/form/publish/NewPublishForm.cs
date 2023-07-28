@@ -147,7 +147,8 @@ namespace reddit_bor.form.publish
             Button createTaskButton = new Button()
             {
                 Size = new Size(75, 35),
-                Text = "Додати шаблон"
+                Text = "Додати шаблон",
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Right,   
             };
             createTaskButton.Location = new Point(panel7.Width - createTaskButton.Width - 5, panel7.Height - createTaskButton.Height - 5);
 
@@ -326,6 +327,13 @@ namespace reddit_bor.form.publish
         private void createTask(object sender, EventArgs e)
         {
             string title = Controls.Find("textBoxTitle", true)[0].Text;
+
+            if (string.IsNullOrEmpty(title))
+            {
+                MessageBox.Show("Введіть заголовок");
+                return;
+            }
+
             bool isSpoiler = ((CheckBox)Controls.Find("checkBoxSpoiler", true)[0]).Checked;
             bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
             int count = (int)((NumericUpDown)Controls.Find("numericCount", true)[0]).Value;
@@ -575,6 +583,10 @@ namespace reddit_bor.form.publish
                 {
                     Value = subreddit.Count
                 });
+                dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
+                {
+                    Value = subreddit.Trigger == null ? "" : subreddit.Trigger.ToString()
+                });
 
                 dataGridView1.Rows.Add(dataGridViewRow);
             }
@@ -600,8 +612,8 @@ namespace reddit_bor.form.publish
             panel1.Location = new Point(panel5.Location.X + panel5.Width + 5, panel1.Location.Y);
             
             //First
-            panel2.Size = new Size(panel1.Width * 3 / 4 - 6, panel1.Height / 5);
-            panel7.Size = new Size(panel2.Width - 8, panel2.Height * 80 / 100 - 10);
+            panel2.Size = new Size(panel1.Width * 3 / 4 - 6, panel1.Height * 3 / 10);
+            panel7.Size = new Size(panel2.Width - 6, panel2.Height - (comboBox1.Height + comboBox1.Location.Y + 10));
 
             panel4.Size = new Size(panel1.Width / 4 - 4, panel1.Height / 5);
             panel4.Location = new Point(panel2.Location.X + panel2.Width + 2, panel4.Location.Y);
@@ -610,11 +622,11 @@ namespace reddit_bor.form.publish
             //Second
             label2.Location = new Point(label2.Location.X, panel2.Location.Y + panel2.Height + 4);
             panel3.Location = new Point(panel3.Location.X, label2.Location.Y + label2.Height + 2);
-            panel3.Size = new Size(panel1.Width * 3 / 4 - 6, panel1.Height * 2 / 5);
+            panel3.Size = new Size(panel1.Width * 3 / 4 - 6, panel1.Height * 1 / 5);
 
-            label7.Location = new Point(label5.Location.X, label2.Location.Y);
-            panel6.Location = new Point(panel4.Location.X, label7.Location.Y + label7.Height + 2);
-            panel6.Size = new Size(panel1.Width / 4 - 4, panel1.Height * 2 / 5);
+            label7.Location = new Point(label5.Location.X, panel4.Location.Y + panel4.Height + 3);
+            panel6.Location = new Point(panel4.Location.X, label7.Location.Y + label7.Height + 3);
+            panel6.Size = new Size(panel1.Width / 4 - 4, panel1.Height * 3 / 10);
 
             //Third
             panel8.Size = new Size(panel1.Width - 10, panel1.Height / 10);

@@ -8,6 +8,7 @@ namespace reddit_bor.domain.pool
         public string Name { get; set; }
         public PostFlair PostFlair { get; set; }
         public int Count { get; set; }
+        public Trigger Trigger { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -26,7 +27,7 @@ namespace reddit_bor.domain.pool
 
         public override string ToString()
         {
-            return $"Name - {Name}";
+            return $"Name: {Name}; Trigger: {Trigger}";
         }
     }
 }
