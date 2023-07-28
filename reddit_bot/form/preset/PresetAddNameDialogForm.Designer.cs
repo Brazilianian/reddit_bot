@@ -81,6 +81,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "PresetAddNameDialogForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "PresetAddNameDialogForm";
             this.ResumeLayout(false);
             this.PerformLayout();

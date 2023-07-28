@@ -17,5 +17,20 @@
         }
 
         public string Text { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return $"Type: Post; Title: {Title}; Text: {Text}; Is Spoiler: {IsSpoiler}; Is NSFW: {IsNSFW}; ";            
+        }
     }
 }

@@ -395,8 +395,8 @@
             this.Controls.Add(this.panel5);
             this.MinimumSize = new System.Drawing.Size(730, 440);
             this.Name = "PresetForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PresetForm";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.SizeChanged += new System.EventHandler(this.PresetForm_SizeChanged);
             this.panel5.ResumeLayout(false);
             this.panel1.ResumeLayout(false);

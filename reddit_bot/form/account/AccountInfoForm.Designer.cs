@@ -267,6 +267,7 @@ namespace reddit_bot
             this.Location = new System.Drawing.Point(15, 15);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "AccountInfoForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.AccountInfoForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

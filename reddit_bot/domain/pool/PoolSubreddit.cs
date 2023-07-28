@@ -23,5 +23,10 @@ namespace reddit_bor.domain.pool
             hashCode = hashCode * -1521134295 + EqualityComparer<PostFlair>.Default.GetHashCode(PostFlair);
             return hashCode;
         }
+
+        public override string ToString()
+        {
+            return $"Name - {Name}";
+        }
     }
 }

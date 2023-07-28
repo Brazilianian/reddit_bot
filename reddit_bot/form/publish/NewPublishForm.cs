@@ -1,4 +1,5 @@
 ﻿using Reddit.Controllers;
+using reddit_bor.domain.logs;
 using reddit_bor.domain.pool;
 using reddit_bor.domain.task;
 using reddit_bor.form.preset;
@@ -358,14 +359,14 @@ namespace reddit_bor.form.publish
             }
         }
 
-        private void getLogs(string message, bool isIncrement)
+        private void getLogs(Log log, bool isIncrement)
         {
             if (isIncrement)
             {
                 _progress.From = ++_progress.From;
             }
 
-            UpdateProgress(message);
+            UpdateProgress(log);
         }
 
         #region Publish Control
@@ -411,12 +412,18 @@ namespace reddit_bor.form.publish
             int count = GetMaximumOfProgress();
 
             _progress = new IntervalRange(0, count);
-            UpdateProgress("");
+            UpdateProgressControls();
 
             _publishService.MessageReceived += getLogs;
 
             _publishService.Start();
             _isWorking = true;
+        }
+
+        private void UpdateProgressControls()
+        {
+            UpdateProgressLabel();
+            UpdateProgressBar();
         }
 
         private int GetMaximumOfProgress()
@@ -454,18 +461,18 @@ namespace reddit_bor.form.publish
             _isWorking = false;
             _isPause = false;
             _progress.From = 0;
-            UpdateProgress("");
+            UpdateProgressControls();
         }
         #endregion
 
         #region Progress
-        private void UpdateProgress(string message)
+        private void UpdateProgress(Log log)
         {
             UpdateProgressLabel();
             UpdateProgressBar();
-            if (!string.IsNullOrEmpty(message))
+            if (!string.IsNullOrEmpty(log.Message))
             {
-                UpdateRichTextBox(message);
+                UpdateRichTextBox(log.ToString());
             }
         }
 

@@ -152,6 +152,7 @@ namespace reddit_bot
             this.Location = new System.Drawing.Point(15, 15);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "AccountAddForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AccountAddForm_FormClosing);
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);

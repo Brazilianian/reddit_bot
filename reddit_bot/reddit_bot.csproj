@@ -106,6 +106,8 @@
     <Compile Include="domain\account\RedditAccount.cs" />
     <Compile Include="domain\account\RedditAccountStatus.cs" />
     <Compile Include="domain\forms\ComboBoxItem.cs" />
+    <Compile Include="domain\logs\Log.cs" />
+    <Compile Include="domain\logs\LogLevel.cs" />
     <Compile Include="domain\pool\IntervalRange.cs" />
     <Compile Include="domain\pool\Pool.cs" />
     <Compile Include="domain\pool\PoolSubreddit.cs" />

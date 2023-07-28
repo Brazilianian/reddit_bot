@@ -1,4 +1,6 @@
-﻿namespace reddit_bot.domain.task
+﻿using static System.Net.Mime.MediaTypeNames;
+
+namespace reddit_bot.domain.task
 {
     public class RedditPostTaskLink : RedditPostTask
     {
@@ -17,5 +19,20 @@
         }
 
         public string Link { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return $"Type: Post; Title: {Title}; Link: {Link}; Is Spoiler: {IsSpoiler}; Is NSFW: {IsNSFW}; ";
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Reddit;
 using Reddit.Controllers;
 using Reddit.Exceptions;
+using reddit_bor.domain.logs;
 using reddit_bor.domain.pool;
 using reddit_bor.domain.task;
 using reddit_bor.util;
@@ -28,7 +29,7 @@ namespace reddit_bor.service
         private List<RedditPostTask> _tasksOrder;
         private List<PoolSubreddit> _subreddits;
 
-        public delegate void MessageEventHandler(string message, bool isIncrement);
+        public delegate void MessageEventHandler(Log log, bool isIncrement);
 
         public event MessageEventHandler MessageReceived;
 
@@ -81,13 +82,13 @@ namespace reddit_bor.service
                 Random random = new Random();
                 for (int i = 0; i < _subreddits.Count; i++)
                 {
-                    var task = _tasksOrder[i];
-
-                    if (task == null)
+                    if (i == _tasksOrder.Count)
                     {
-                        OnMessageReceived("Tasks ended", false);
+                        OnMessageReceived(new Log("Posting finished", LogLevel.Info), false);
                         break;
                     }
+
+                    var task = _tasksOrder[i];
 
                     var poolSubreddit = _subreddits[i];
 
@@ -117,7 +118,7 @@ namespace reddit_bor.service
             {
                 using (StreamWriter streamWriter = new StreamWriter("./data/errors.txt", true))
                 {
-                    streamWriter.WriteLine(ex.Message);
+                    streamWriter.WriteLine(ex.StackTrace);
                 }
             }
         }
@@ -156,7 +157,7 @@ namespace reddit_bor.service
 
             if (subreddit == null)
             {
-                OnMessageReceived("Сабредіт не знайдено", false);
+                OnMessageReceived(new Log($"Failed to post - subreddit does not specified", LogLevel.Warning), false);
             }
 
             SelfPost post = subreddit
@@ -176,7 +177,12 @@ namespace reddit_bor.service
                 post.MarkNSFWAsync();
             }
 
-            OnMessageReceived("Опубліковано", true);
+            string mess = $"Posted succesfully: Subreddit: {poolSubreddit}. Post: {taskPost}. ";
+            if (poolSubreddit.PostFlair != null)
+            {
+                mess += $"Flair: Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}";
+            }
+            OnMessageReceived(new Log(mess, LogLevel.Info), true);
             //TODO OC tag
         }
 
@@ -186,7 +192,7 @@ namespace reddit_bor.service
 
             if (subreddit == null)
             {
-                OnMessageReceived("Сабредіт не знайдено", false);
+                OnMessageReceived(new Log($"Failed to post Task {taskLink} - subreddit does not specified", LogLevel.Warning), false);
             }
 
             LinkPost post = subreddit
@@ -209,20 +215,29 @@ namespace reddit_bor.service
                     post.MarkNSFWAsync();
                 }
 
-                OnMessageReceived("Опубліковано", true);
+                string mess = $"Posted succesfully: Subreddit: {poolSubreddit}. Post: {taskLink} ";
+                if (poolSubreddit.PostFlair != null)
+                {
+                    mess += $"Flair. Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}";
+                }
+                OnMessageReceived(new Log(mess, LogLevel.Info), true);
             }
             catch (RedditAlreadySubmittedException ex)
             {
-                OnMessageReceived(ex.Message, true);
+                OnMessageReceived(new Log($"Failed to post task {taskLink} - {ex.Message}", LogLevel.Warning), true);
+            }
+            catch (Exception ex)
+            {
+                OnMessageReceived(new Log($"Failed to post task {taskLink} - Unexpected error - {ex.Message}", LogLevel.Error), true);
             }
             //TODO OC tag
         }
 
-        protected virtual void OnMessageReceived(string message, bool isIncrement)
+        protected virtual void OnMessageReceived(Log log,  bool isIncrement)
         {
             if (MessageReceived != null)
             {
-                MessageReceived.Invoke(message, isIncrement);
+                MessageReceived.Invoke(log, isIncrement);
             }
         }
     }
