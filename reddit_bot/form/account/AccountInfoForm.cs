@@ -19,12 +19,12 @@ namespace reddit_bot
         
         public AccountInfoForm(RedditAccount redditAccount, AccountsForm accountsForm)
         {
-            InitializeComponent();
-
             _redditService = new RedditService();
-            
+
             _accountsForm = accountsForm;
             _redditAccount = redditAccount;
+
+            InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -38,20 +38,22 @@ namespace reddit_bot
             _redditClient = _redditService.GetRedditClient(_redditAccount, RequestsUtil.GetUserAgent());
 
             FillForm();
-            FillTasks();
-        }
-
-        private void FillTasks()
-        {
-            //TODO get tasks
         }
 
         private void FillForm()
         {
-            label1.Text = _redditClient.Account.Me.Name;
-            label2.Text = _redditClient.Subreddit().Name;
-            label4.Text = _redditClient.Account.Me.LinkKarma.ToString();
-            label8.Text = _redditClient.Account.Me.Created.ToString("D") + " д.";
+            try
+            {
+                label1.Text = _redditClient.Account.Me.Name;
+                label2.Text = _redditClient.Subreddit().Name;
+                label4.Text = _redditClient.Account.Me.LinkKarma.ToString();
+                label8.Text = _redditClient.Account.Me.Created.ToString("D") + " д.";
+            } catch (Exception ex) 
+            {
+                MessageBox.Show($"Помилка підключення до акакунта\n{ex.Message}");
+                _accountsForm.Show();
+                Close();
+            }
         }
 
         #region Menu Panel

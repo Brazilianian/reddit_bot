@@ -86,7 +86,11 @@ namespace reddit_bot
                 label3.Text = "Акаунт успішно збережено";
             }));
             _redditService.StopListen();
-            Close();
+
+            Invoke(new Action(() =>
+            {
+                Close();
+            }));
         }
 
         [Obsolete]
