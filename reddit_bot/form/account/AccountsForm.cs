@@ -92,6 +92,7 @@ namespace reddit_bot
             if (selectedRow.Cells[1].Value.ToString().Equals("Failed"))
             {
                 MessageBox.Show("Перелогінтесь до акаунту");
+                return;
             }
 
             var accountId = selectedRow.Tag.ToString();

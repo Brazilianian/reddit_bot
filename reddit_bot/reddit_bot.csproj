@@ -143,6 +143,12 @@
     <Compile Include="form\account\AccountsForm.Designer.cs">
       <DependentUpon>AccountsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\log\LogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\log\LogForm.Designer.cs">
+      <DependentUpon>LogForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="form\preset\PresetAddNameDialogForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,6 +195,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="form\account\AccountsForm.resx">
       <DependentUpon>AccountsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\log\LogForm.resx">
+      <DependentUpon>LogForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\preset\PresetAddNameDialogForm.resx">
       <DependentUpon>PresetAddNameDialogForm.cs</DependentUpon>

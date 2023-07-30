@@ -13,6 +13,7 @@ using System.Linq;
 using reddit_bot.service;
 using reddit_bor.form.publish;
 using System.Drawing;
+using reddit_bor.form.log;
 
 namespace reddit_bor.form.preset
 {
@@ -396,6 +397,7 @@ namespace reddit_bor.form.preset
             button1.Size = new Size(panel5.Width - 6, 40);
             button11.Size = new Size(panel5.Width - 6, 40);
             button2.Size = new Size(panel5.Width - 6, 40);
+            button3.Size = new Size(panel5.Width - 6, 40);
         }
 
         private void ResizePreset()
@@ -436,8 +438,20 @@ namespace reddit_bor.form.preset
 
             numericUpDown3.Location = new Point(3, panel4.Height - numericUpDown3.Height - 12);
             label15.Location = new Point(numericUpDown3.Location.X, numericUpDown3.Location.Y - label15.Height - 3);
-
         }
         #endregion
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            _accountsForm.Show();
+            Close();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            LogForm logForm = new LogForm(_accountsForm, _redditAccount);
+            logForm.Show();
+            Close();
+        }
     }
 }
