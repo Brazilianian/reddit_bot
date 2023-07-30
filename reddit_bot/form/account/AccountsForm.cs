@@ -89,6 +89,11 @@ namespace reddit_bot
         {
             var selectedRow = ((DataGridView)sender).SelectedRows[0];
             
+            if (selectedRow.Cells[1].Value.ToString().Equals("Failed"))
+            {
+                MessageBox.Show("Перелогінтесь до акаунту");
+            }
+
             var accountId = selectedRow.Tag.ToString();
             var redditAccount = _accountService.GetAccountByAccountId(accountId);
             

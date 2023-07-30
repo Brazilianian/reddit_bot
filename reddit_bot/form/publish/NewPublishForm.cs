@@ -633,7 +633,7 @@ namespace reddit_bor.form.publish
             panel8.Location = new Point(panel3.Location.X, panel3.Location.Y + panel3.Height + 4);
 
             label3.Location = new Point(panel8.Location.X, panel8.Location.Y + panel8.Height + 2);
-            richTextBox1.Size = new Size(panel8.Width, panel1.Height * 3 / 10 - 68);
+            richTextBox1.Size = new Size(panel8.Width, panel1.Height * 3 / 10);
             richTextBox1.Location = new Point(label3.Location.X, label3.Location.Y + label3.Height + 2);
         }
 

@@ -38,12 +38,6 @@ namespace reddit_bot
             _redditClient = _redditService.GetRedditClient(_redditAccount, RequestsUtil.GetUserAgent());
 
             FillForm();
-            FillTasks();
-        }
-
-        private void FillTasks()
-        {
-            //TODO get tasks
         }
 
         private void FillForm()

@@ -419,10 +419,12 @@ namespace reddit_bor.form.preset
 
             comboBox2.Width = panel4.Width - 8;
             button10.Location = new Point(comboBox2.Location.X + comboBox2.Width - button10.Width, comboBox2.Location.Y + button10.Height + 3);
+            label10.Location = new Point(comboBox2.Location.X, comboBox2.Location.Y + comboBox2.Height);
 
             label9.Location = new Point(0, panel4.Height * 2 / 5 - 30);
             comboBox3.Location = new Point(label9.Location.X, label9.Location.Y + label9.Height);
             comboBox3.Width = panel4.Width;
+            label11.Location = new Point(comboBox3.Location.X, comboBox3.Location.Y + comboBox3.Height);
 
             label2.Location = new Point(0, panel4.Height * 3 / 5 - 30);
             textBox1.Location = new Point(label2.Location.X, label2.Location.Y + label2.Height);

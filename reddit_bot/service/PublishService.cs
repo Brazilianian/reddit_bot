@@ -1,6 +1,7 @@
 ﻿using Reddit;
 using Reddit.Controllers;
 using Reddit.Exceptions;
+using Reddit.Inputs.LinksAndComments;
 using reddit_bor.domain.logs;
 using reddit_bor.domain.pool;
 using reddit_bor.domain.task;
@@ -192,29 +193,30 @@ namespace reddit_bor.service
                 }
             }
 
-            SelfPost post = subreddit
-                .SelfPost(title: title, selfText: taskPost.Text);
-
             try
             {
-                if (poolSubreddit.PostFlair != null)
-                {
-                    post.Submit(spoiler: taskPost.IsSpoiler, flairText: poolSubreddit.PostFlair.Text, flairId: poolSubreddit.PostFlair.Id);
-                }
-                else
-                {
-                    post.Submit(spoiler: taskPost.IsSpoiler);
-                }
+                Reddit.Things.PostResultShortContainer result = _redditClient.Models.LinksAndComments.Submit(new LinksAndCommentsSubmitInput(
+                    sr: poolSubreddit.Name,
+                    title: title,
+                    kind: "self",
+                    text: taskPost.Text,
+                    nsfw: taskPost.IsNSFW,
+                    spoiler: taskPost.IsSpoiler,
+                    flairId: poolSubreddit.PostFlair == null ? "" : poolSubreddit.PostFlair.Id,
+                    flairText: poolSubreddit.PostFlair == null ? "" : poolSubreddit.PostFlair.Text
+                    ));
 
-                if (taskPost.IsNSFW)
+                if (result.JSON.Errors.Count > 0)
                 {
-                    post.MarkNSFWAsync();
+                    string errors = string.Join(" - ", result.JSON.Errors[0]);
+                    OnMessageReceived(new Log(errors, LogLevel.Error), true);
+                    return;
                 }
 
                 string mess = $"Posted succesfully: Subreddit: {poolSubreddit}. Post: {taskPost}. ";
                 if (poolSubreddit.PostFlair != null)
                 {
-                    mess += $"Flair: Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}";
+                    mess += $"Flair: Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}. See the link: {result.JSON.Data.URL}";
                 }
                 OnMessageReceived(new Log(mess, LogLevel.Info), true);
             } catch(Exception ex) {
@@ -266,41 +268,32 @@ namespace reddit_bor.service
                 }
             }
 
-            LinkPost post = subreddit
-                .LinkPost(title: title, url: taskLink.Link);
-
             try
             {
-                if (poolSubreddit.PostFlair != null)
-                {
-                    post.Submit(spoiler: taskLink.IsSpoiler)
-                    .SetFlair(poolSubreddit.PostFlair.Text);
-                }
-                else
-                {
-                    post.Submit(spoiler: taskLink.IsSpoiler);
-                }
+                Reddit.Things.PostResultShortContainer result = _redditClient.Models.LinksAndComments.Submit(new LinksAndCommentsSubmitInput(
+                    sr: poolSubreddit.Name,
+                    title: title,
+                    kind: "link",
+                    url: taskLink.Link,
+                    nsfw: taskLink.IsNSFW,
+                    spoiler: taskLink.IsSpoiler,
+                    flairId: poolSubreddit.PostFlair == null ? "" : poolSubreddit.PostFlair.Id,
+                    flairText: poolSubreddit.PostFlair == null ? "" : poolSubreddit.PostFlair.Text
+                    ));
 
-                if (taskLink.IsNSFW)
+                if (result.JSON.Errors.Count > 0 )
                 {
-                    post.MarkNSFWAsync();
+                    string errors = string.Join(" - ", result.JSON.Errors[0]);
+                    OnMessageReceived(new Log(errors, LogLevel.Error), true);
+                    return;
                 }
 
                 string mess = $"Posted succesfully: Subreddit: {poolSubreddit}. Post: {taskLink} ";
                 if (poolSubreddit.PostFlair != null)
                 {
-                    mess += $"Flair. Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}";
+                    mess += $"Flair. Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}. See the link: {result.JSON.Data.URL}";
                 }
                 OnMessageReceived(new Log(mess, LogLevel.Info), true);
-            }
-            catch (RedditAlreadySubmittedException ex)
-            {
-                string mess = $"Failed to post task {taskLink} ";
-                if (poolSubreddit.PostFlair != null)
-                {
-                    mess += $"Flair: Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}";
-                }
-                OnMessageReceived(new Log(mess + $" - {ex.Message}", LogLevel.Warning), true);
             }
             catch (Exception ex)
             {

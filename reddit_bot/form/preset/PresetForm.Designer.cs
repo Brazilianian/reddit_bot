@@ -324,7 +324,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.ForeColor = System.Drawing.Color.Red;
-            this.label11.Location = new System.Drawing.Point(3, 159);
+            this.label11.Location = new System.Drawing.Point(3, 120);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(0, 13);
             this.label11.TabIndex = 10;
@@ -432,8 +432,7 @@
             this.ClientSize = new System.Drawing.Size(932, 638);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel5);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.MinimumSize = new System.Drawing.Size(730, 505);
+            this.MinimumSize = new System.Drawing.Size(730, 645);
             this.Name = "PresetForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PresetForm";
