@@ -3,7 +3,7 @@
 ## What is this?
 This application was created to automatizate posting activity in [Reddit](https://www.reddit.com/) social network.<br>
 Application was written on C# with Windows Forms interface.<br>
-To link with reddit i use open-source [Reddit.NET](https://github.com/sirkris/Reddit.NET) library.
+To link with reddit i used open-source [Reddit.NET](https://github.com/sirkris/Reddit.NET) library.
 
 ## What can it do?
 With this application you can select the 'pool' of subreddits you are going to post and create a couple of post templates. Choose the count, order, time interval of publishing, and account to publish from. <br>
