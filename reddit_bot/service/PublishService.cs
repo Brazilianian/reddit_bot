@@ -160,7 +160,7 @@ namespace reddit_bor.service
 
             if (subreddit == null)
             {
-                OnMessageReceived(new Log($"Failed to post - subreddit does not specified", LogLevel.Warning), false);
+                OnMessageReceived(new Log($"Failed to post {taskPost} - subreddit does not specified", LogLevel.Warning), false);
             }
 
             string title = taskPost.Text;
@@ -195,26 +195,36 @@ namespace reddit_bor.service
             SelfPost post = subreddit
                 .SelfPost(title: title, selfText: taskPost.Text);
 
-            if (poolSubreddit.PostFlair != null)
+            try
             {
-                post.Submit(spoiler: taskPost.IsSpoiler, flairText: poolSubreddit.PostFlair.Text, flairId: poolSubreddit.PostFlair.Id);
-            }
-            else
-            {
-                post.Submit(spoiler: taskPost.IsSpoiler);
-            }
+                if (poolSubreddit.PostFlair != null)
+                {
+                    post.Submit(spoiler: taskPost.IsSpoiler, flairText: poolSubreddit.PostFlair.Text, flairId: poolSubreddit.PostFlair.Id);
+                }
+                else
+                {
+                    post.Submit(spoiler: taskPost.IsSpoiler);
+                }
 
-            if (taskPost.IsNSFW)
-            {
-                post.MarkNSFWAsync();
-            }
+                if (taskPost.IsNSFW)
+                {
+                    post.MarkNSFWAsync();
+                }
 
-            string mess = $"Posted succesfully: Subreddit: {poolSubreddit}. Post: {taskPost}. ";
-            if (poolSubreddit.PostFlair != null)
-            {
-                mess += $"Flair: Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}";
-            }
-            OnMessageReceived(new Log(mess, LogLevel.Info), true);
+                string mess = $"Posted succesfully: Subreddit: {poolSubreddit}. Post: {taskPost}. ";
+                if (poolSubreddit.PostFlair != null)
+                {
+                    mess += $"Flair: Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}";
+                }
+                OnMessageReceived(new Log(mess, LogLevel.Info), true);
+            } catch(Exception ex) {
+                string mess = $"Failed to post task {taskPost} ";
+                if (poolSubreddit.PostFlair != null)
+                {
+                    mess += $"Flair: Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}";
+                }
+                OnMessageReceived(new Log(mess + $" - Unexpected error - {ex.Message}", LogLevel.Error), true);
+        }
             //TODO OC tag
         }
 
@@ -224,7 +234,7 @@ namespace reddit_bor.service
 
             if (subreddit == null)
             {
-                OnMessageReceived(new Log($"Failed to post Task {taskLink} - subreddit does not specified", LogLevel.Warning), false);
+                OnMessageReceived(new Log($"Failed to post {taskLink} - subreddit does not specified", LogLevel.Warning), false);
             }
 
             string title = taskLink.Title;
@@ -285,11 +295,21 @@ namespace reddit_bor.service
             }
             catch (RedditAlreadySubmittedException ex)
             {
-                OnMessageReceived(new Log($"Failed to post task {taskLink} - {ex.Message}", LogLevel.Warning), true);
+                string mess = $"Failed to post task {taskLink} ";
+                if (poolSubreddit.PostFlair != null)
+                {
+                    mess += $"Flair: Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}";
+                }
+                OnMessageReceived(new Log(mess + $" - {ex.Message}", LogLevel.Warning), true);
             }
             catch (Exception ex)
             {
-                OnMessageReceived(new Log($"Failed to post task {taskLink} - Unexpected error - {ex.Message}", LogLevel.Error), true);
+                string mess = $"Failed to post task {taskLink} ";
+                if (poolSubreddit.PostFlair != null)
+                {
+                    mess += $"Flair: Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}";
+                }
+                OnMessageReceived(new Log (mess + $" - Unexpected error - {ex.Message}", LogLevel.Error), true);
             }
             //TODO OC tag
         }
