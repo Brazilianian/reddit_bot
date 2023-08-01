@@ -73,8 +73,8 @@
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.button11 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.panel2.SuspendLayout();
@@ -546,18 +546,6 @@
             this.panel5.Size = new System.Drawing.Size(161, 893);
             this.panel5.TabIndex = 15;
             // 
-            // button11
-            // 
-            this.button11.BackColor = System.Drawing.SystemColors.Control;
-            this.button11.Location = new System.Drawing.Point(2, 92);
-            this.button11.Margin = new System.Windows.Forms.Padding(2);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(155, 41);
-            this.button11.TabIndex = 9;
-            this.button11.Text = "Пресети";
-            this.button11.UseVisualStyleBackColor = false;
-            this.button11.Click += new System.EventHandler(this.button11_Click);
-            // 
             // button3
             // 
             this.button3.BackColor = System.Drawing.SystemColors.Control;
@@ -569,6 +557,18 @@
             this.button3.Text = "Логи / Налаштунки";
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button11
+            // 
+            this.button11.BackColor = System.Drawing.SystemColors.Control;
+            this.button11.Location = new System.Drawing.Point(2, 92);
+            this.button11.Margin = new System.Windows.Forms.Padding(2);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(155, 41);
+            this.button11.TabIndex = 9;
+            this.button11.Text = "Пресети";
+            this.button11.UseVisualStyleBackColor = false;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // NewPublishForm
             // 

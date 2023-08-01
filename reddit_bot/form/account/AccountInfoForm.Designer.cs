@@ -44,6 +44,7 @@ namespace reddit_bot
             this.button6 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
+            this.button3 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
@@ -71,7 +72,7 @@ namespace reddit_bot
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(2, 188);
+            this.button1.Location = new System.Drawing.Point(2, 200);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(155, 39);
@@ -136,6 +137,7 @@ namespace reddit_bot
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.button3);
             this.panel3.Controls.Add(this.button7);
             this.panel3.Controls.Add(this.button6);
             this.panel3.Controls.Add(this.button4);
@@ -143,7 +145,7 @@ namespace reddit_bot
             this.panel3.Location = new System.Drawing.Point(11, 15);
             this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(161, 238);
+            this.panel3.Size = new System.Drawing.Size(161, 243);
             this.panel3.TabIndex = 10;
             // 
             // button7
@@ -187,6 +189,18 @@ namespace reddit_bot
             this.fileSystemWatcher1.EnableRaisingEvents = true;
             this.fileSystemWatcher1.SynchronizingObject = this;
             // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.SystemColors.Control;
+            this.button3.Location = new System.Drawing.Point(2, 137);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(155, 41);
+            this.button3.TabIndex = 12;
+            this.button3.Text = "Логи / Налаштунки";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
+            // 
             // AccountInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -202,7 +216,6 @@ namespace reddit_bot
             this.MinimumSize = new System.Drawing.Size(537, 308);
             this.Name = "AccountInfoForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Load += new System.EventHandler(this.AccountInfoForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -231,5 +244,6 @@ namespace reddit_bot
         private System.Windows.Forms.Button button6;
         private System.IO.FileSystemWatcher fileSystemWatcher1;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button3;
     }
 }

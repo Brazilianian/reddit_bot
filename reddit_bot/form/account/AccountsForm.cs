@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Reddit;
+using reddit_bor.domain.logs;
+using reddit_bor.service;
 using reddit_bot.domain;
 using reddit_bot.service;
 
@@ -10,8 +12,10 @@ namespace reddit_bot
     public partial class AccountsForm : Form
     {
         private List<RedditAccount> _accounts;
+
         private readonly AccountService _accountService;
         private readonly RedditService _redditService;
+        private readonly LogService _logService;
 
         public AccountsForm()
         {
@@ -19,6 +23,7 @@ namespace reddit_bot
 
             _accountService = new AccountService();
             _redditService = new RedditService();
+            _logService = new LogService();
 
             _accounts = _accountService.GetAllAccounts();
             InitDataGrid();
@@ -89,18 +94,23 @@ namespace reddit_bot
         {
             var selectedRow = ((DataGridView)sender).SelectedRows[0];
             
+            var accountId = selectedRow.Tag.ToString();
+
             if (selectedRow.Cells[1].Value.ToString().Equals("Failed"))
             {
+                _logService.WriteLog(new Log($"Failed to login to account - {accountId}", LogLevel.Warning));
                 MessageBox.Show("Перелогінтесь до акаунту");
                 return;
             }
 
-            var accountId = selectedRow.Tag.ToString();
             var redditAccount = _accountService.GetAccountByAccountId(accountId);
             
             var accountInfoForm = new AccountInfoForm(redditAccount, this);
             accountInfoForm.Show();
             Hide();
+
+            RedditClient redditClient = _redditService.GetRedditClient(redditAccount, RequestsUtil.GetUserAgent());
+            _logService.WriteLog(new Log($"New login to account - {redditClient.Account.Me.Name} - {redditAccount.AccountId}", LogLevel.Info));
         }
 
         private void button3_Click(object sender, EventArgs e)

@@ -11,9 +11,7 @@
 
         public override string ToString()
         {
-            return $"account id - {AccountId} " +
-                   $"access - {AccessToken} " +
-                   $"refresh - {RefreshToken} ";
+            return $"account id - {AccountId} ";
         }
     }
 }

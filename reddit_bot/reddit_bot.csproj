@@ -176,9 +176,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="repository\AccountRepository.cs" />
+    <Compile Include="repository\LogRepository.cs" />
     <Compile Include="repository\PresetRepository.cs" />
     <Compile Include="repository\SubredditRepository.cs" />
     <Compile Include="service\AccountService.cs" />
+    <Compile Include="service\LogService.cs" />
     <Compile Include="service\PresetService.cs" />
     <Compile Include="service\PublishService.cs" />
     <Compile Include="service\RedditService.cs" />

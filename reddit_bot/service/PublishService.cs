@@ -1,6 +1,4 @@
 ﻿using Reddit;
-using Reddit.Controllers;
-using Reddit.Exceptions;
 using Reddit.Inputs.LinksAndComments;
 using reddit_bor.domain.logs;
 using reddit_bor.domain.pool;
@@ -23,6 +21,7 @@ namespace reddit_bor.service
         private readonly RedditClient _redditClient;
 
         private readonly RedditService _redditService;
+        private readonly LogService _logService;
 
         private Thread _workedThread;
         public bool _isWorking;
@@ -40,6 +39,8 @@ namespace reddit_bor.service
             _redditAccount = redditAccount;
 
             _redditService = new RedditService();
+            _logService = new LogService();
+
             _redditClient = _redditService.GetRedditClient(_redditAccount, RequestsUtil.GetUserAgent());
             
             FillTaskOrder();
@@ -313,6 +314,7 @@ namespace reddit_bor.service
             if (MessageReceived != null)
             {
                 MessageReceived.Invoke(log, isIncrement);
+                _logService.WriteLog(log);
             }
         }
     }

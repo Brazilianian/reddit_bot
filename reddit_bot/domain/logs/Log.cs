@@ -17,7 +17,7 @@ namespace reddit_bor.domain.logs
 
         public override string ToString()
         {
-            return $"{DateTime} : [{LogLevel}] : {Message}";
+            return $"{DateTime} | [{LogLevel}] | {Message}";
         }
 
         public override bool Equals(object obj)

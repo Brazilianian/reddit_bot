@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Reddit;
+using reddit_bor.form.log;
 using reddit_bor.form.preset;
 using reddit_bor.form.publish;
 using reddit_bot.domain;
@@ -23,20 +24,9 @@ namespace reddit_bot
 
             _accountsForm = accountsForm;
             _redditAccount = redditAccount;
-
-            InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            _accountsForm.Show();
-            Close();
-        }
-
-        private void AccountInfoForm_Load(object sender, EventArgs e)
-        {
             _redditClient = _redditService.GetRedditClient(_redditAccount, RequestsUtil.GetUserAgent());
 
+            InitializeComponent();
             FillForm();
         }
 
@@ -57,21 +47,11 @@ namespace reddit_bot
         }
 
         #region Menu Panel
-        private void button3_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            _accountsForm.Show();
+            Close();
         }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
 
         private void button6_Click(object sender, EventArgs e)
         {
@@ -86,5 +66,13 @@ namespace reddit_bot
             presetForm.Show();
             Close();
         }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            LogForm logForm = new LogForm(_accountsForm, _redditAccount);
+            logForm.Show();
+            Close();
+        }
+        #endregion
     }
 }
