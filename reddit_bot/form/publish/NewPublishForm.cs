@@ -39,6 +39,7 @@ namespace reddit_bor.form.publish
 
         private IntervalRange _progress;
 
+
         public NewPublishForm(RedditAccount redditAccount, AccountsForm accountsForm)
         {
             InitializeComponent();
@@ -385,6 +386,15 @@ namespace reddit_bor.form.publish
             UpdateProgress(log);
         }
 
+        private void finishThePublishing()
+        {
+            _isWorking = false;
+            _isPause = false;
+            _progress.From = 0;
+            UpdateProgressControls();
+            _publishService.Stop();
+        }
+
         #region Publish Control
         private void button6_Click(object sender, EventArgs e)
         {
@@ -424,13 +434,13 @@ namespace reddit_bor.form.publish
 
             _publishService = new PublishService(_pool, _redditAccount);
 
+            _publishService.MessageReceived += getLogs;
+            _publishService.ProccessFinishing += finishThePublishing;
 
             int count = GetMaximumOfProgress();
 
             _progress = new IntervalRange(0, count);
             UpdateProgressControls();
-
-            _publishService.MessageReceived += getLogs;
 
             _publishService.Start();
             _isWorking = true;
@@ -473,11 +483,7 @@ namespace reddit_bor.form.publish
 
         private void button8_Click(object sender, EventArgs e)
         {
-            _publishService.Stop();
-            _isWorking = false;
-            _isPause = false;
-            _progress.From = 0;
-            UpdateProgressControls();
+            finishThePublishing();
         }
         #endregion
 
@@ -488,7 +494,7 @@ namespace reddit_bor.form.publish
             UpdateProgressBar();
             if (!string.IsNullOrEmpty(log.Message))
             {
-                UpdateRichTextBox(log.ToString());
+                UpdateRichTextBox(log);
             }
         }
 
@@ -500,7 +506,13 @@ namespace reddit_bor.form.publish
             }
             else
             {
-                progressBar1.Value = (int)((double)_progress.From / (double)_progress.To * 100);
+                try
+                {
+                    progressBar1.Value = (int)((double)_progress.From / (double)_progress.To * 100);
+                } catch(Exception ex)
+                {
+                    progressBar1.Value = 0;
+                }
             }
         }
 
@@ -516,15 +528,27 @@ namespace reddit_bor.form.publish
             }
         }
 
-        private void UpdateRichTextBox(string message)
+        private void UpdateRichTextBox(Log log)
         {
             if (richTextBox1.InvokeRequired)
             {
-                richTextBox1.BeginInvoke(new Action<string>(UpdateRichTextBox), message);
+                richTextBox1.BeginInvoke(new Action<Log>(UpdateRichTextBox), log);
             }
             else
             {
-                richTextBox1.Text = message + Environment.NewLine + richTextBox1.Text;
+                switch (log.LogLevel)
+                {
+                    case LogLevel.Info:
+                        richTextBox1.SelectionColor = Color.Black;
+                        break;
+                    case LogLevel.Warn:
+                        richTextBox1.SelectionColor = Color.Orange;
+                        break;
+                    case LogLevel.Error:
+                        richTextBox1.SelectionColor = Color.Red;
+                        break;
+                }
+                richTextBox1.AppendText(log.ToString() + Environment.NewLine);
             }
         }
         #endregion

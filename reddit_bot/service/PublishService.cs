@@ -30,8 +30,10 @@ namespace reddit_bor.service
         private List<PoolSubreddit> _subreddits;
 
         public delegate void MessageEventHandler(Log log, bool isIncrement);
+        public delegate void ProccessFinishingEventHandler();
 
         public event MessageEventHandler MessageReceived;
+        public event ProccessFinishingEventHandler ProccessFinishing;
 
         public PublishService(Pool pool, RedditAccount redditAccount)
         {
@@ -88,7 +90,6 @@ namespace reddit_bor.service
                 {
                     if (i == _tasksOrder.Count)
                     {
-                        OnMessageReceived(new Log("Posting finished", LogLevel.Info), false);
                         break;
                     }
 
@@ -116,6 +117,8 @@ namespace reddit_bor.service
                     }
                     Thread.Sleep(random.Next(_pool.Range.From, _pool.Range.To) * 1000);
                 }
+                OnMessageReceived(new Log("Posting finished", LogLevel.Info), false);
+                FinishTheProccess();
             } catch(ThreadAbortException)
             {
             } catch (Exception ex)
@@ -316,6 +319,11 @@ namespace reddit_bor.service
                 MessageReceived.Invoke(log, isIncrement);
                 _logService.WriteLog(log);
             }
+        }
+
+        private void FinishTheProccess()
+        {
+            ProccessFinishing.Invoke();
         }
     }
 }

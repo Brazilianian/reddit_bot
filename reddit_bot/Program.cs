@@ -1,5 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using reddit_bor.domain.logs;
+using reddit_bor.service;
+using System;
 using System.Windows.Forms;
 
 namespace reddit_bot
@@ -19,10 +20,8 @@ namespace reddit_bot
                 Application.Run(new AccountsForm());
             } catch (Exception ex)
             {
-                using (StreamWriter streamWriter = new StreamWriter("./data/errors.txt", true)) 
-                {
-                    streamWriter.WriteLine(ex.ToString());
-                }
+                LogService logService = new LogService();
+                logService.WriteLog(new Log(ex.Message, LogLevel.Error));
             }
         }
     }

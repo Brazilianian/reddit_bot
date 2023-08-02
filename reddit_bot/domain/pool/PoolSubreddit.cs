@@ -10,6 +10,11 @@ namespace reddit_bor.domain.pool
         public int Count { get; set; }
         public Trigger Trigger { get; set; }
 
+        public PoolSubreddit() 
+        {
+            Count = 1;
+        }
+
         public override bool Equals(object obj)
         {
             return obj is PoolSubreddit subreddit &&

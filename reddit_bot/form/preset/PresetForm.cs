@@ -562,7 +562,6 @@ namespace reddit_bor.form.preset
 
                     _poolSubreddits.AddRange(subreddits);
                     UpdateSubredditDataGrid();
-                    MessageBox.Show("Успішно");
                 }
                 catch (Exception ex)
                 {
