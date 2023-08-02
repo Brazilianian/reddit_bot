@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Reddit;
+using reddit_bor.form;
 using reddit_bor.form.log;
 using reddit_bor.form.preset;
 using reddit_bor.form.publish;
@@ -45,7 +46,6 @@ namespace reddit_bot
                 Close();
             }
         }
-
         #region Menu Panel
         private void button1_Click(object sender, EventArgs e)
         {
@@ -72,6 +72,19 @@ namespace reddit_bot
             LogForm logForm = new LogForm(_accountsForm, _redditAccount);
             logForm.Show();
             Close();
+        }
+        #endregion
+
+        #region Forbid Close Button
+        private const int CP_DISABLE_CLOSE_BUTTON = 0x200;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ClassStyle = cp.ClassStyle | CP_DISABLE_CLOSE_BUTTON;
+                return cp;
+            }
         }
         #endregion
     }

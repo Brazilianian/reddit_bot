@@ -20,19 +20,12 @@ namespace reddit_bor.service
             return _logRepository
                 .FindAll()
                 .OrderBy(log => log.DateTime)
-                .Reverse()
                 .ToList();
         }
 
         public void WriteLog(Log log)
         {
-            Thread thread = new Thread(() =>
-            {
-                _logRepository.Write(log);
-
-            });
-
-            thread.Start();
+            _logRepository.Write(log);
         }
     }
 }

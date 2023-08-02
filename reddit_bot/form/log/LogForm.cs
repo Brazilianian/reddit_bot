@@ -82,6 +82,8 @@ namespace reddit_bor.form.log
                 }
                 richTextBox1.AppendText(log.ToString() + Environment.NewLine);
             }
+
+            richTextBox1.ScrollToCaret();
         }
 
         private void FilterLogs()
@@ -113,6 +115,7 @@ namespace reddit_bor.form.log
         private void button2_Click(object sender, System.EventArgs e)
         {
             _accountsForm.Show();
+            Close();
         }
 
         private void button4_Click(object sender, System.EventArgs e)
@@ -199,6 +202,19 @@ namespace reddit_bor.form.log
             UpdateMinAndMaxDateTimePickers();
 
             FilterLogs();
+        }
+        #endregion
+
+        #region Forbid Close Button
+        private const int CP_DISABLE_CLOSE_BUTTON = 0x200;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ClassStyle = cp.ClassStyle | CP_DISABLE_CLOSE_BUTTON;
+                return cp;
+            }
         }
         #endregion
     }

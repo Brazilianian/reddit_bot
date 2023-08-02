@@ -126,7 +126,9 @@ namespace reddit_bor.service
                 OnMessageReceived(new Log("Posting finished", LogLevel.Info), false);
                 FinishTheProccess();
 
-            } catch (Exception ex)
+            }
+            catch (ThreadAbortException) { } 
+            catch (Exception ex)
             {
                 Log log = new Log($"Unexpected Error - {ex.Message}", LogLevel.Error);
                 _logService.WriteLog(log);

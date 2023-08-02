@@ -392,6 +392,7 @@ namespace reddit_bor.form.publish
             _isPause = false;
             _progress.From = 0;
             UpdateProgressControls();
+
             _publishService.Stop();
         }
 
@@ -700,5 +701,18 @@ namespace reddit_bor.form.publish
             button2.Size = new Size(panel5.Width - 6, 40);
             button3.Size = new Size(panel5.Width - 6, 40);
         }
+
+        #region Forbid Close Button
+        private const int CP_DISABLE_CLOSE_BUTTON = 0x200;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ClassStyle = cp.ClassStyle | CP_DISABLE_CLOSE_BUTTON;
+                return cp;
+            }
+        }
+        #endregion
     }
 }
