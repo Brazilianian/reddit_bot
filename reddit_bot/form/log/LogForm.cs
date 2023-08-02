@@ -7,7 +7,6 @@ using reddit_bot.domain;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -69,6 +68,18 @@ namespace reddit_bor.form.log
         {
             foreach (Log log in logs)
             {
+                switch (log.LogLevel)
+                {
+                    case LogLevel.Info:
+                        richTextBox1.SelectionColor = Color.Black;
+                        break;
+                    case LogLevel.Warn:
+                        richTextBox1.SelectionColor = Color.Orange;
+                        break;
+                    case LogLevel.Error:
+                        richTextBox1.SelectionColor = Color.Red;
+                        break;
+                }
                 richTextBox1.AppendText(log.ToString() + Environment.NewLine);
             }
         }
@@ -84,7 +95,7 @@ namespace reddit_bor.form.log
 
             List<Log> filteredLogs = _logs.Where(log =>
             ((isInfoPresent && log.LogLevel == LogLevel.Info) || 
-            (isWarnPresent && log.LogLevel == LogLevel.Warning) || 
+            (isWarnPresent && log.LogLevel == LogLevel.Warn) || 
             (isErrorPresent && log.LogLevel == LogLevel.Error)) && 
             log.DateTime >= from && log.DateTime <= to
             ).ToList();

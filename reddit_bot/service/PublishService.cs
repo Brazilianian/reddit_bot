@@ -162,7 +162,7 @@ namespace reddit_bor.service
 
             if (subreddit == null)
             {
-                OnMessageReceived(new Log($"Failed to post {taskPost} - subreddit does not specified", LogLevel.Warning), false);
+                OnMessageReceived(new Log($"Failed to post {taskPost} - subreddit does not specified", LogLevel.Warn), false);
             }
 
             string title = taskPost.Text;
@@ -237,7 +237,7 @@ namespace reddit_bor.service
 
             if (subreddit == null)
             {
-                OnMessageReceived(new Log($"Failed to post {taskLink} - subreddit does not specified", LogLevel.Warning), false);
+                OnMessageReceived(new Log($"Failed to post {taskLink} - subreddit does not specified", LogLevel.Warn), false);
             }
 
             string title = taskLink.Title;

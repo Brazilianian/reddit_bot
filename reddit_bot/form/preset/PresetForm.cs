@@ -14,6 +14,8 @@ using reddit_bot.service;
 using reddit_bor.form.publish;
 using System.Drawing;
 using reddit_bor.form.log;
+using System.IO;
+using reddit_bor.domain.logs;
 
 namespace reddit_bor.form.preset
 {
@@ -26,6 +28,7 @@ namespace reddit_bor.form.preset
         private readonly SubredditService _subredditService;
         private readonly RedditService _redditService;
         private readonly PresetService _presetService;
+        private readonly LogService _logService;
 
         private Subreddit _subreddit;
 
@@ -46,6 +49,7 @@ namespace reddit_bor.form.preset
             _redditService = new RedditService();
             _poolSubreddit = new PoolSubreddit();
             _presetService = new PresetService();
+            _logService = new LogService();
 
             _redditClient = _redditService.GetRedditClient(redditAccount, RequestsUtil.GetUserAgent());
 
@@ -189,14 +193,14 @@ namespace reddit_bor.form.preset
                 MessageBox.Show("Flair is null");
                 return;
             }
+            _poolSubreddit.PostFlair = new PostFlair(flair.Text, flair.Id);
+
             if (flair.TextEditable)
             {
-                _poolSubreddit.PostFlair = new PostFlair(flair.Text, flair.Id);
                 comboBox3.DropDownStyle = ComboBoxStyle.DropDown;
             }
             else
             {
-                _poolSubreddit.PostFlair = new PostFlair(flair.Text, flair.Id);
                 comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
             }
         }
@@ -250,6 +254,8 @@ namespace reddit_bor.form.preset
                 label10.Text = "Жодних сабреддітів не знайдено";
                 return;
             }
+
+
 
             List<Subreddit> subreddits = _redditClient.SearchSubreddits(comboBox2.Text, limit: 10);
             comboBox2.Items.Clear();
@@ -465,7 +471,114 @@ namespace reddit_bor.form.preset
 
             numericUpDown3.Location = new Point(3, panel4.Height - numericUpDown3.Height - 12);
             label15.Location = new Point(numericUpDown3.Location.X, numericUpDown3.Location.Y - label15.Height - 3);
+
+            pictureBox1.Location = new Point(panel4.Location.X, button6.Location.Y);
         }
         #endregion
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    List<PoolSubreddit> subreddits = new List<PoolSubreddit>();
+
+                    using (StreamReader reader = new StreamReader(openFileDialog1.FileName))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            string[] parts = line.Split(',');
+
+                            if (parts.Length < 1 || parts.Length > 4) 
+                            {
+                                Log log = new Log($"Error reading the file: invalid format near '{line}'", LogLevel.Error);
+                                _logService.WriteLog(log);
+                                MessageBox.Show(log.Message);
+                                return;
+                            }
+
+                            //Just Subreddit Name
+                            string subredditStr = parts[0].Trim();
+
+                            if (subredditStr.StartsWith("r/"))
+                            {
+                                subredditStr = subredditStr.Replace("r/", "");
+                            }
+
+                            PoolSubreddit poolSubreddit = new PoolSubreddit()
+                            {
+                                Name = subredditStr
+                            };
+
+                            Subreddit subreddit = _redditClient.Subreddit(subredditStr);
+
+                            //Flair + Trigger
+                            if (parts.Length == 4)
+                            {
+                                string flairText = parts[1].Trim();
+                                string placeStr = parts[2].Trim();
+                                string triggerText = parts[3].Trim();
+
+                                //Flair
+                                if (!string.IsNullOrEmpty(flairText))
+                                {
+                                    Reddit.Things.FlairV2 flair = subreddit.Flairs.GetLinkFlairV2()
+                                        .Where(f => f.Text.Equals(flairText))
+                                        .FirstOrDefault();
+
+                                    if (flair == null)
+                                    {
+                                        _poolSubreddit.PostFlair = null;
+                                        Log log = new Log($"Error parse flair near {line}", LogLevel.Error);
+                                        _logService.WriteLog(log);
+                                        MessageBox.Show(log.Message);
+                                    } else
+                                    {
+                                        poolSubreddit.PostFlair = new PostFlair(flair.Text, flair.Id);
+                                    }
+                                }
+
+                                //Trigger
+                                if (!string.IsNullOrEmpty(placeStr)) 
+                                {
+                                    if (Enum.TryParse(placeStr, out Place place))
+                                    {
+                                        poolSubreddit.Trigger = new Trigger(triggerText, place);
+                                    }
+                                    else
+                                    {
+                                        Log log = new Log($"Error reading the file: invalid Trigger Place. Must be 'start', 'middle' or 'end'", LogLevel.Error);
+                                        _logService.WriteLog(log);
+                                        MessageBox.Show(log.Message);
+                                        return;
+                                    }   
+                                }
+                                subreddits.Add(poolSubreddit);
+                            }
+                        }
+                    }
+
+                    _poolSubreddits.AddRange(subreddits);
+                    UpdateSubredditDataGrid();
+                    MessageBox.Show("Успішно");
+                }
+                catch (Exception ex)
+                {
+                    Log log = new Log("Error reading the file: " + ex.Message, LogLevel.Error);
+                    _logService.WriteLog(log);
+                    MessageBox.Show(log.Message);
+                }
+            }
+        }
+
+        private void clear_button_click(object sender, EventArgs e)
+        {
+            _poolSubreddits.Clear();
+            _poolSubreddit = new PoolSubreddit();
+            UpdateSubredditDataGrid();
+            UpdateSubredditPanel();
+        }
     }
 }

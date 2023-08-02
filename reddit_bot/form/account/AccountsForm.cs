@@ -98,7 +98,7 @@ namespace reddit_bot
 
             if (selectedRow.Cells[1].Value.ToString().Equals("Failed"))
             {
-                _logService.WriteLog(new Log($"Failed to login to account - {accountId}", LogLevel.Warning));
+                _logService.WriteLog(new Log($"Failed to login to account - {accountId}", LogLevel.Warn));
                 MessageBox.Show("Перелогінтесь до акаунту");
                 return;
             }

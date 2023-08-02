@@ -35,6 +35,8 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button5 = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button6 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
@@ -62,8 +64,10 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -148,6 +152,8 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.button5);
+            this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.button6);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.dataGridView2);
@@ -158,6 +164,31 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(743, 620);
             this.panel1.TabIndex = 17;
+            // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.ForeColor = System.Drawing.Color.Red;
+            this.button5.Location = new System.Drawing.Point(483, 573);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(69, 39);
+            this.button5.TabIndex = 16;
+            this.button5.Text = "Очистити";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.clear_button_click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Image = global::reddit_bor.Properties.Resources.upload;
+            this.pictureBox1.Location = new System.Drawing.Point(418, 573);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(39, 39);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 15;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // button6
             // 
@@ -397,9 +428,9 @@
             this.label8.Dock = System.Windows.Forms.DockStyle.Top;
             this.label8.Location = new System.Drawing.Point(0, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(262, 13);
+            this.label8.Size = new System.Drawing.Size(231, 13);
             this.label8.TabIndex = 4;
-            this.label8.Text = "Введіть назву сабреддіту. Напр. (r/announcements)";
+            this.label8.Text = "Введіть назву сабреддіту. Напр. (SweNSFW)";
             // 
             // dataGridView1
             // 
@@ -440,6 +471,11 @@
             this.label1.TabIndex = 10;
             this.label1.Text = "Пресети";
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "Text Files (*.txt)|*.txt";
+            // 
             // PresetForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -455,6 +491,7 @@
             this.panel5.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
@@ -500,5 +537,8 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button button5;
     }
 }

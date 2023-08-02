@@ -20,6 +20,7 @@ namespace reddit_bor.service
             return _logRepository
                 .FindAll()
                 .OrderBy(log => log.DateTime)
+                .Reverse()
                 .ToList();
         }
 

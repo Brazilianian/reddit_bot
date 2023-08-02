@@ -67,7 +67,7 @@
             this.panel5.Location = new System.Drawing.Point(11, 11);
             this.panel5.Margin = new System.Windows.Forms.Padding(2);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(161, 335);
+            this.panel5.Size = new System.Drawing.Size(161, 343);
             this.panel5.TabIndex = 16;
             // 
             // button3
@@ -122,7 +122,7 @@
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(2, 292);
+            this.button2.Location = new System.Drawing.Point(2, 300);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(155, 39);
@@ -137,7 +137,7 @@
             this.panel1.Controls.Add(this.richTextBox1);
             this.panel1.Location = new System.Drawing.Point(177, 11);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(442, 335);
+            this.panel1.Size = new System.Drawing.Size(680, 343);
             this.panel1.TabIndex = 17;
             // 
             // richTextBox1
@@ -147,9 +147,9 @@
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(440, 333);
+            this.richTextBox1.Size = new System.Drawing.Size(678, 341);
             this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.richTextBox1.Text = "8";
             // 
             // panel2
             // 
@@ -157,9 +157,9 @@
             this.panel2.Controls.Add(this.panel4);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.panel3);
-            this.panel2.Location = new System.Drawing.Point(625, 12);
+            this.panel2.Location = new System.Drawing.Point(863, 12);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(221, 335);
+            this.panel2.Size = new System.Drawing.Size(221, 342);
             this.panel2.TabIndex = 18;
             // 
             // panel4
@@ -293,7 +293,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(854, 352);
+            this.ClientSize = new System.Drawing.Size(1096, 365);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel5);

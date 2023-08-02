@@ -109,12 +109,12 @@
     <Compile Include="domain\logs\Log.cs" />
     <Compile Include="domain\logs\LogLevel.cs" />
     <Compile Include="domain\pool\IntervalRange.cs" />
-    <Compile Include="domain\pool\Place.cs" />
+    <Compile Include="domain\pool\trigger\Place.cs" />
     <Compile Include="domain\pool\Pool.cs" />
     <Compile Include="domain\pool\PoolSubreddit.cs" />
     <Compile Include="domain\pool\PoolTask.cs" />
     <Compile Include="domain\pool\Preset.cs" />
-    <Compile Include="domain\pool\Trigger.cs" />
+    <Compile Include="domain\pool\trigger\Trigger.cs" />
     <Compile Include="domain\task\PostFlair.cs" />
     <Compile Include="domain\task\RedditPostTask.cs" />
     <Compile Include="domain\task\RedditPostTaskLink.cs" />
@@ -221,6 +221,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -238,6 +239,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="mapper\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\upload.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
