@@ -22,12 +22,15 @@ namespace reddit_bor.service
 
         private readonly RedditService _redditService;
         private readonly LogService _logService;
+        private readonly ReportService _reportService;
 
         private Thread _workedThread;
         public bool _isWorking;
         private bool _isPause;
+
         private List<RedditPostTask> _tasksOrder;
         private List<PoolSubreddit> _subreddits;
+        private List<Reddit.Things.PostResultShortContainer> _results;
 
         public delegate void MessageEventHandler(Log log, bool isIncrement);
         public delegate void ProccessFinishingEventHandler();
@@ -42,6 +45,7 @@ namespace reddit_bor.service
 
             _redditService = new RedditService();
             _logService = new LogService();
+            _reportService = new ReportService();
 
             _redditClient = _redditService.GetRedditClient(_redditAccount, RequestsUtil.GetUserAgent());
             
@@ -83,6 +87,7 @@ namespace reddit_bor.service
 
         private void StartPosting()
         {
+            _results = new List<Reddit.Things.PostResultShortContainer> ();
             try
             {
                 Random random = new Random();
@@ -117,17 +122,20 @@ namespace reddit_bor.service
                     }
                     Thread.Sleep(random.Next(_pool.Range.From, _pool.Range.To) * 1000);
                 }
+
                 OnMessageReceived(new Log("Posting finished", LogLevel.Info), false);
                 FinishTheProccess();
-            } catch(ThreadAbortException)
-            {
+
             } catch (Exception ex)
             {
-                using (StreamWriter streamWriter = new StreamWriter("./data/errors.txt", true))
-                {
-                    streamWriter.WriteLine(ex.StackTrace);
-                }
+                Log log = new Log($"Unexpected Error - {ex.Message}", LogLevel.Error);
+                _logService.WriteLog(log);
             }
+        }
+
+        private void CreateReport()
+        {
+            _reportService.CreateReport(_results);
         }
 
         private void FillTaskOrder()
@@ -223,6 +231,8 @@ namespace reddit_bor.service
                     mess += $"Flair: Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}. See the link: {result.JSON.Data.URL}";
                 }
                 OnMessageReceived(new Log(mess, LogLevel.Info), true);
+
+                _results.Add(result);
             } catch(Exception ex) {
                 string mess = $"Failed to post task {taskPost} ";
                 if (poolSubreddit.PostFlair != null)
@@ -298,6 +308,8 @@ namespace reddit_bor.service
                     mess += $"Flair. Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}. See the link: {result.JSON.Data.URL}";
                 }
                 OnMessageReceived(new Log(mess, LogLevel.Info), true);
+
+                _results.Add(result);
             }
             catch (Exception ex)
             {
@@ -323,6 +335,7 @@ namespace reddit_bor.service
 
         private void FinishTheProccess()
         {
+            CreateReport();
             ProccessFinishing.Invoke();
         }
     }

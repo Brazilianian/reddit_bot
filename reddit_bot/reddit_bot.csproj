@@ -184,6 +184,7 @@
     <Compile Include="service\PresetService.cs" />
     <Compile Include="service\PublishService.cs" />
     <Compile Include="service\RedditService.cs" />
+    <Compile Include="service\ReportService.cs" />
     <Compile Include="service\SubredditService.cs" />
     <Compile Include="util\EnumUtil.cs" />
     <Compile Include="util\ListUtil.cs" />
