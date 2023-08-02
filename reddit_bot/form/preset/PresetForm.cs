@@ -21,6 +21,7 @@ namespace reddit_bor.form.preset
     {
         private readonly RedditAccount _redditAccount;
         private readonly AccountsForm _accountsForm;
+        private NewPublishForm _newPublishForm;
 
         private readonly SubredditService _subredditService;
         private readonly RedditService _redditService;
@@ -53,6 +54,12 @@ namespace reddit_bor.form.preset
 
             FillForm();
             ResizeForm();
+        }
+
+        public PresetForm(RedditAccount redditAccount, AccountsForm accountsForm, NewPublishForm newPublishForm) 
+            : this(redditAccount, accountsForm)
+        {
+            _newPublishForm = newPublishForm;
         }
 
         private void FillForm()
@@ -332,11 +339,15 @@ namespace reddit_bor.form.preset
             UpdateSubredditPanel();
         }
 
+        #region Menu Panel
         private void button1_Click(object sender, EventArgs e)
         {
-            NewPublishForm newPublishForm = new NewPublishForm(_redditAccount, _accountsForm);
-            newPublishForm.Show();
-            Close();
+            if (_newPublishForm == null)
+            {
+                _newPublishForm = new NewPublishForm(_redditAccount, _accountsForm, this);
+            }
+            _newPublishForm.Show();
+            Hide();
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -344,7 +355,23 @@ namespace reddit_bor.form.preset
             AccountInfoForm accountInfoForm = new AccountInfoForm(_redditAccount, _accountsForm);
             accountInfoForm.Show();
             Close();
+            _newPublishForm?.Close();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            _accountsForm.Show();
+            Close();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            LogForm logForm = new LogForm(_accountsForm, _redditAccount);
+            logForm.Show();
+            Close();
+            _newPublishForm?.Close();
+        }
+        #endregion
 
         private void button6_Click(object sender, EventArgs e)
         {
@@ -440,18 +467,5 @@ namespace reddit_bor.form.preset
             label15.Location = new Point(numericUpDown3.Location.X, numericUpDown3.Location.Y - label15.Height - 3);
         }
         #endregion
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            _accountsForm.Show();
-            Close();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            LogForm logForm = new LogForm(_accountsForm, _redditAccount);
-            logForm.Show();
-            Close();
-        }
     }
 }

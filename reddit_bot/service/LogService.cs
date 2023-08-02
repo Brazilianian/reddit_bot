@@ -17,7 +17,10 @@ namespace reddit_bor.service
 
         public List<Log> FindAllLogs()
         {
-            return _logRepository.FindAll().OrderBy(log => log.DateTime).ToList();
+            return _logRepository
+                .FindAll()
+                .OrderBy(log => log.DateTime)
+                .ToList();
         }
 
         public void WriteLog(Log log)

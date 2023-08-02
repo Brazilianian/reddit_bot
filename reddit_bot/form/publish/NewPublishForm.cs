@@ -21,6 +21,7 @@ namespace reddit_bor.form.publish
     {
         private readonly RedditAccount _redditAccount;
         private readonly AccountsForm _accountsForm;
+        private PresetForm _presetForm;
 
         private PresetService _presetService;
         private PublishService _publishService;
@@ -51,6 +52,12 @@ namespace reddit_bor.form.publish
 
             FillForm();
             ResizeForm();
+        }
+
+        public NewPublishForm(RedditAccount redditAccount, AccountsForm accountsForm, PresetForm presetForm)
+            : this(redditAccount, accountsForm)
+        {
+            _presetForm = presetForm;
         }
 
         private void FillForm()
@@ -528,13 +535,18 @@ namespace reddit_bor.form.publish
             AccountInfoForm accountInfoForm = new AccountInfoForm(_redditAccount, _accountsForm);
             accountInfoForm.Show();
             Close();
+
+            _presetForm?.Close();
         }
 
         private void button11_Click(object sender, EventArgs e)
         {
-            PresetForm presetForm = new PresetForm(_redditAccount, _accountsForm);
-            presetForm.Show();
-            Close();
+            if (_presetForm == null)
+            {
+                _presetForm = new PresetForm(_redditAccount, _accountsForm, this);
+            }
+            _presetForm.Show();
+            Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -548,6 +560,8 @@ namespace reddit_bor.form.publish
             LogForm logForm = new LogForm(_accountsForm, _redditAccount);
             logForm.Show();
             Close();
+
+            _presetForm?.Close();
         }
         #endregion
 
