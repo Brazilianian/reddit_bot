@@ -216,6 +216,7 @@ namespace reddit_bot
             this.MinimumSize = new System.Drawing.Size(537, 308);
             this.Name = "AccountInfoForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "AccountInfoForm";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);

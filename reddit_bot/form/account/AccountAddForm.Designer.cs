@@ -172,6 +172,7 @@ namespace reddit_bot
             this.MinimumSize = new System.Drawing.Size(710, 322);
             this.Name = "AccountAddForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "AccountAddForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AccountAddForm_FormClosing);
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
