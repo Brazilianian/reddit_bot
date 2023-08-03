@@ -31,5 +31,35 @@ namespace reddit_bor.service
         {
             return _presetRepository.FindAll();
         }
+
+        internal void DeletePresetByName(string name)
+        {
+            List<Preset> presets = _presetRepository
+                .FindAll()
+                .Where(p => !p.Name.Equals(name))
+                .ToList();
+
+            _presetRepository.WriteAll(presets);
+        }
+
+        public void WriteAll(List<Preset> presets)
+        {
+            _presetRepository.WriteAll(presets);
+        }
+
+        internal void UpdatePresetByName(Preset preset)
+        {
+            List<Preset> presets = FindAllPresets();
+
+            Preset oldPreset = presets.Where(p => p.Name.Equals(preset.Name))
+                .FirstOrDefault();
+            
+            if (oldPreset != null) 
+            {
+                oldPreset = preset;
+            }
+
+            WriteAll(presets);
+        }
     }
 }

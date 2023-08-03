@@ -35,7 +35,7 @@ namespace reddit_bor.form.preset
         private PoolSubreddit _poolSubreddit;
         private readonly RedditClient _redditClient;
 
-        private readonly List<PoolSubreddit> _poolSubreddits = new List<PoolSubreddit>();
+        private List<PoolSubreddit> _poolSubreddits = new List<PoolSubreddit>();
         private List<Preset> _presets;
 
         public PresetForm(RedditAccount redditAccount, AccountsForm accountsForm) 
@@ -162,7 +162,7 @@ namespace reddit_bor.form.preset
             label11.Text = "";
         }
 
-        private void RefillPresetsDataGrid()
+        private void UpdatePresetsDataGrid()
         {
             dataGridView1.Rows.Clear();
             _presets = _presetService.FindAllPresets();
@@ -381,6 +381,12 @@ namespace reddit_bor.form.preset
 
         private void button6_Click(object sender, EventArgs e)
         {
+            if (_poolSubreddits.Count == 0)
+            {
+                MessageBox.Show("Добавте саредіти");
+                return;
+            }
+
             Preset preset = new Preset();
             preset.Subreddits = _poolSubreddits;
             
@@ -394,12 +400,16 @@ namespace reddit_bor.form.preset
             
             if (_presetService.SavePreset(preset) == null)
             {
-                MessageBox.Show("Пресет з таким ім'я вже існує");
-                return;
+                if (MessageBox.Show("Пресет з таким ім'я вже існує\nБажаєте замінити?", "Бажаєте замінити?", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
+
+                _presetService.UpdatePresetByName(preset);
             }
 
-            _presets.Add(preset);
-            RefillPresetsDataGrid();
+            _presets = _presetService.FindAllPresets();
+            UpdatePresetsDataGrid();
 
             _poolSubreddits.Clear();
             UpdateSubredditDataGrid();
@@ -592,5 +602,70 @@ namespace reddit_bor.form.preset
             }
         }
         #endregion
+
+        private void subreddits_datagridview_key_down(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                if (dataGridView2.SelectedRows.Count > 0)
+                {
+                    PoolSubreddit poolSubreddit = (PoolSubreddit)dataGridView2.SelectedRows[0].Tag;
+                    _poolSubreddits = _poolSubreddits.Where(ps => !ps.Equals(poolSubreddit)).ToList();
+
+                    UpdateSubredditDataGrid();
+                }
+            }
+        }
+
+        private void presets_datagridview_key_down(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                if (dataGridView1.SelectedRows.Count > 0)
+                {
+                    Preset preset = (Preset)dataGridView1.SelectedRows[0].Tag;
+
+                    if (MessageBox.Show($"Ви точно хочете видалити пресет '{preset.Name}'?", "Видалити пресет", MessageBoxButtons.YesNo) == DialogResult.No)
+                    {
+                        return;
+                    }
+
+                    _presetService.DeletePresetByName(preset.Name);
+                    _presets = _presetService.FindAllPresets();
+                    UpdatePresetsDataGrid();
+                }
+            }
+        }
+
+        private void presets_dataGridView_DoubleClick(object sender, EventArgs e)
+        {
+            Preset preset = (Preset)dataGridView1.SelectedRows[0].Tag;
+
+            if (_poolSubreddits.Count > 0)
+            {
+                if (MessageBox.Show($"Редагування пресету '{preset.Name}'\nНезбережні сабредіти будут знищені!", "Редагування", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            _poolSubreddits = new List<PoolSubreddit>();
+            _poolSubreddits.AddRange(preset.Subreddits);
+            UpdateSubredditDataGrid();
+            UpdateSubredditPanel();
+        }
+
+        private void subreddits_dataGridView_DoubleClick(object sender, EventArgs e)
+        {
+            PoolSubreddit poolSubreddit = (PoolSubreddit)dataGridView2.SelectedRows[0].Tag;
+            PoolSubredditNewCountForm poolSubredditNewCountForm = new PoolSubredditNewCountForm(poolSubreddit);
+
+            if (poolSubredditNewCountForm.ShowDialog() == DialogResult.OK)
+            {
+                poolSubreddit.Count = poolSubredditNewCountForm._count;
+                _presetService.WriteAll(_presets);
+                UpdateSubredditDataGrid();
+            }
+        }
     }
 }

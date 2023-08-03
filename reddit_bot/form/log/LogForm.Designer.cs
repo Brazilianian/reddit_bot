@@ -149,7 +149,7 @@
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(678, 341);
             this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "8";
+            this.richTextBox1.Text = "";
             // 
             // panel2
             // 

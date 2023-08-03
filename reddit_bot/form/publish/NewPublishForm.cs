@@ -599,7 +599,6 @@ namespace reddit_bor.form.publish
             }
 
             Preset preset = (Preset)((DataGridView)sender).SelectedRows[0].Tag;
-            _presets.Remove(preset);
             _pool._subreddits.AddRange(preset.Subreddits);
             UpdateSubredditsDataGrid();
             UpdatePresetsDataGrid();
@@ -714,5 +713,19 @@ namespace reddit_bor.form.publish
             }
         }
         #endregion
+
+        private void subreddits_dataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            int number = ((DataGridView)sender).SelectedRows[0].Index;
+            _pool._subreddits.RemoveAt(number);
+            UpdateSubredditsDataGrid();
+        }
+
+        private void tasks_KeyDown(object sender, KeyEventArgs e)
+        {
+            int number = ((DataGridView)sender).SelectedRows[0].Index;
+            _pool._tasks.RemoveAt(number);
+            UpdateTaskDataGrid();
+        }
     }
 }

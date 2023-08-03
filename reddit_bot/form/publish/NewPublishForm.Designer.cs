@@ -136,6 +136,7 @@
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView2.Size = new System.Drawing.Size(711, 326);
             this.dataGridView2.TabIndex = 1;
+            this.dataGridView2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tasks_KeyDown);
             // 
             // Column3
             // 
@@ -497,6 +498,7 @@
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(318, 326);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.subreddits_dataGridView_KeyDown);
             // 
             // Column1
             // 

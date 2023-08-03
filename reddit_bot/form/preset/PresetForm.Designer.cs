@@ -229,6 +229,8 @@
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView2.Size = new System.Drawing.Size(409, 328);
             this.dataGridView2.TabIndex = 13;
+            this.dataGridView2.DoubleClick += new System.EventHandler(this.subreddits_dataGridView_DoubleClick);
+            this.dataGridView2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.subreddits_datagridview_key_down);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -449,6 +451,8 @@
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(735, 241);
             this.dataGridView1.TabIndex = 11;
+            this.dataGridView1.DoubleClick += new System.EventHandler(this.presets_dataGridView_DoubleClick);
+            this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.presets_datagridview_key_down);
             // 
             // Column1
             // 

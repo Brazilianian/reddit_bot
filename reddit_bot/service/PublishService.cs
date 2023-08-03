@@ -230,8 +230,9 @@ namespace reddit_bor.service
                 string mess = $"Posted succesfully: Subreddit: {poolSubreddit}. Post: {taskPost}. ";
                 if (poolSubreddit.PostFlair != null)
                 {
-                    mess += $"Flair: Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}. See the link: {result.JSON.Data.URL}";
+                    mess += $"Flair: Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}. ";
                 }
+                mess += $"See the link: {result.JSON.Data.URL}";
                 OnMessageReceived(new Log(mess, LogLevel.Info), true);
 
                 _results.Add(result);
@@ -307,8 +308,9 @@ namespace reddit_bor.service
                 string mess = $"Posted succesfully: Subreddit: {poolSubreddit}. Post: {taskLink} ";
                 if (poolSubreddit.PostFlair != null)
                 {
-                    mess += $"Flair. Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}. See the link: {result.JSON.Data.URL}";
+                    mess += $"Flair. Text: {poolSubreddit.PostFlair.Text}; Id: {poolSubreddit.PostFlair.Id}. ";
                 }
+                mess += $"See the link: {result.JSON.Data.URL}";
                 OnMessageReceived(new Log(mess, LogLevel.Info), true);
 
                 _results.Add(result);

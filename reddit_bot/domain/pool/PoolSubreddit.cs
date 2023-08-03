@@ -19,14 +19,18 @@ namespace reddit_bor.domain.pool
         {
             return obj is PoolSubreddit subreddit &&
                    Name == subreddit.Name &&
-                   EqualityComparer<PostFlair>.Default.Equals(PostFlair, subreddit.PostFlair);
+                   EqualityComparer<PostFlair>.Default.Equals(PostFlair, subreddit.PostFlair) &&
+                   Count == subreddit.Count &&
+                   EqualityComparer<Trigger>.Default.Equals(Trigger, subreddit.Trigger);
         }
 
         public override int GetHashCode()
         {
-            int hashCode = -1921974091;
+            int hashCode = -771201060;
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
             hashCode = hashCode * -1521134295 + EqualityComparer<PostFlair>.Default.GetHashCode(PostFlair);
+            hashCode = hashCode * -1521134295 + Count.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<Trigger>.Default.GetHashCode(Trigger);
             return hashCode;
         }
 

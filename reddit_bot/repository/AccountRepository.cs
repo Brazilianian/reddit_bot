@@ -48,7 +48,7 @@ namespace reddit_bot.repository
             return accounts;
         }
 
-        private void SaveAll(List<RedditAccount> accounts)
+        public void SaveAll(List<RedditAccount> accounts)
         {
             using (StreamWriter streamWriter = new StreamWriter(_filePath)) 
             {

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using reddit_bot.domain;
 using reddit_bot.repository;
 
@@ -38,6 +40,15 @@ namespace reddit_bot.service
         public RedditAccount GetAccountByAccountId(string accountId)
         {
             return _accountRepository.FindByAccountId(accountId);
+        }
+
+        internal void DeleteAccountByAccountId(string accountId)
+        {
+            List<RedditAccount> accounts = GetAllAccounts()
+                .Where(a => !a.AccountId.Equals(accountId))
+                .ToList();
+
+            _accountRepository.SaveAll(accounts);
         }
     }
 }

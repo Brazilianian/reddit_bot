@@ -48,7 +48,7 @@ namespace reddit_bor.repository
             return presets;
         }
 
-        private void WriteAll(List<Preset> presets)
+        public void WriteAll(List<Preset> presets)
         {
             using (StreamWriter streamWriter = new StreamWriter(_filePath))
             {

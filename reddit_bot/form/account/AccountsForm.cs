@@ -117,5 +117,24 @@ namespace reddit_bot
         {
             Close();
         }
+
+        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                if (dataGridView1.SelectedRows.Count > 0)
+                {
+                    string accountId = dataGridView1.SelectedRows[0].Tag.ToString();
+
+                    if (MessageBox.Show("Ви точно хочете видалити цей акаунт?", "Видалити акаунт", MessageBoxButtons.YesNo) == DialogResult.No)
+                    {
+                        return;
+                    }
+                    _accountService.DeleteAccountByAccountId(accountId);
+                    _accounts = _accountService.GetAllAccounts();
+                    RefreshDataGrid();
+                }
+            }
+        }
     }
 }
