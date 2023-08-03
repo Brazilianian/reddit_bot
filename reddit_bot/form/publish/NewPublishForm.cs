@@ -727,5 +727,18 @@ namespace reddit_bor.form.publish
             _pool._tasks.RemoveAt(number);
             UpdateTaskDataGrid();
         }
+
+        private void dataGridView1_DoubleClick(object sender, EventArgs e)
+        {
+            PoolSubreddit poolSubreddit = (PoolSubreddit)dataGridView1.SelectedRows[0].Tag;
+            PoolSubredditNewCountForm poolSubredditNewCountForm = new PoolSubredditNewCountForm(poolSubreddit);
+
+            if (poolSubredditNewCountForm.ShowDialog() == DialogResult.OK)
+            {
+                PoolSubreddit oldPoolSubreddit = _pool._subreddits.Where(ps => ps.Equals(poolSubreddit)).FirstOrDefault();
+                oldPoolSubreddit.Count = poolSubredditNewCountForm._count;
+                UpdateSubredditsDataGrid();
+            }
+        }
     }
 }
