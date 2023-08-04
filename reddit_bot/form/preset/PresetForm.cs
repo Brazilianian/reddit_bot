@@ -16,6 +16,8 @@ using System.Drawing;
 using reddit_bor.form.log;
 using System.IO;
 using reddit_bor.domain.logs;
+using Reddit.Models;
+using Reddit.Exceptions;
 
 namespace reddit_bor.form.preset
 {
@@ -256,7 +258,21 @@ namespace reddit_bor.form.preset
                 return;
             }
 
-            List<string> subreddits = _redditClient.SearchSubredditNames(subredditName).Select(x => x.Name).ToList(); ;
+            List<string> subreddits = new List<string>();
+            try {
+                subreddits.AddRange(_redditClient.SearchSubredditNames(subredditName, exact: true).Select(s => s.Name).ToList());
+                _redditClient.SearchSubredditNames(subredditName, exact: false).Select(s => s.Name)
+                    .ToList().ForEach(s =>
+                    {
+                        if (!subreddits.Contains(s))
+                        {
+                            subreddits.Add(s);
+                        }
+                    });
+            } catch (RedditNotFoundException ) 
+            {
+            }
+
             comboBox2.Items.Clear();
 
             if (subreddits.Count == 0)
@@ -269,7 +285,7 @@ namespace reddit_bor.form.preset
                 }
                 catch (Exception ex)
                 {
-                    label10.Text = "Жодних сабреддітів не знайдено \nАбо ви не маєте до нього доступу";
+                    label10.Text = "Жодних сабреддітів не знайдено";
                 }
             }
             else
