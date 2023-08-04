@@ -256,7 +256,7 @@ namespace reddit_bor.form.preset
                 return;
             }
 
-            List<Subreddit> subreddits = _redditClient.SearchSubreddits(subredditName, limit: 10);
+            List<string> subreddits = _redditClient.SearchSubredditNames(subredditName).Select(x => x.Name).ToList(); ;
             comboBox2.Items.Clear();
 
             if (subreddits.Count == 0)
@@ -266,7 +266,8 @@ namespace reddit_bor.form.preset
                 {
                     subredditToSearch.About();
                     label10.Text = "";
-                } catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     label10.Text = "Жодних сабреддітів не знайдено \nАбо ви не маєте до нього доступу";
                 }
@@ -275,7 +276,7 @@ namespace reddit_bor.form.preset
             {
                 foreach (var subreddit in subreddits)
                 {
-                    comboBox2.Items.Add(subreddit.Name);
+                    comboBox2.Items.Add(subreddit);
                 }
                 comboBox2.DroppedDown = true;
 
