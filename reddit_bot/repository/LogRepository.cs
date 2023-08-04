@@ -27,7 +27,6 @@ namespace reddit_bor.repository
                 string line;
                 while ((line = stream.ReadLine()) != null)
                 {
-                    // Assuming the log data is stored in a format like "[DateTime] : [LogLevel] : Message"
                     string[] parts = line.Split(new char[] { '|' }, 3, StringSplitOptions.RemoveEmptyEntries);
                     if (parts.Length == 3)
                     {

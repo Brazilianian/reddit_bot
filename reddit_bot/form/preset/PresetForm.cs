@@ -249,28 +249,36 @@ namespace reddit_bor.form.preset
 
         private void LoadSubredditsByName(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(comboBox2.Text))
+            string subredditName = comboBox2.Text;
+            if (string.IsNullOrEmpty(subredditName))
             {
-                label10.Text = "Жодних сабреддітів не знайдено";
+                label10.Text = "Введіть назву сабредіту";
                 return;
             }
 
-
-
-            List<Subreddit> subreddits = _redditClient.SearchSubreddits(comboBox2.Text, limit: 10);
+            List<Subreddit> subreddits = _redditClient.SearchSubreddits(subredditName, limit: 10);
             comboBox2.Items.Clear();
-            foreach (var subreddit in subreddits)
-            {
-                comboBox2.Items.Add(subreddit.Name);
-            }
-            comboBox2.DroppedDown = true;
 
             if (subreddits.Count == 0)
             {
-                label10.Text = "Жодних сабреддітів не знайдено";
+                Subreddit subredditToSearch = _redditClient.Subreddit(subredditName);
+                try
+                {
+                    subredditToSearch.About();
+                    label10.Text = "";
+                } catch(Exception ex)
+                {
+                    label10.Text = "Жодних сабреддітів не знайдено \nАбо ви не маєте до нього доступу";
+                }
             }
             else
             {
+                foreach (var subreddit in subreddits)
+                {
+                    comboBox2.Items.Add(subreddit.Name);
+                }
+                comboBox2.DroppedDown = true;
+
                 label10.Text = "";
             }
         }
