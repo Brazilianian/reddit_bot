@@ -10,6 +10,7 @@ using reddit_bot.service;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace reddit_bor.service
@@ -37,6 +38,8 @@ namespace reddit_bor.service
 
         public event MessageEventHandler MessageReceived;
         public event ProccessFinishingEventHandler ProccessFinishing;
+
+        private const string RATELIMIT_PATTERN = @"\b(\d+)\s+minutes\b";
 
         public PublishService(Pool pool, RedditAccount redditAccount)
         {
@@ -220,7 +223,28 @@ namespace reddit_bor.service
                 if (result.JSON.Errors.Count > 0)
                 {
                     string errors = string.Join(" - ", result.JSON.Errors[0]);
-                    OnMessageReceived(new Log(errors, LogLevel.Error), true);
+
+                    if (errors.Contains("ratelimit"))
+                    {
+                        OnMessageReceived(new Log(errors, LogLevel.Error), false);
+                        Match match = Regex.Match(errors, RATELIMIT_PATTERN);
+                        int minutes = 5;
+                        if (match.Success)
+                        {
+                            minutes = int.Parse(match.Groups[1].Value);
+                            OnMessageReceived(new Log($"Waiting for {minutes} minutes before trying again", LogLevel.Info), false);
+                            Thread.Sleep(minutes * 60 * 1000);
+                        }
+                        else
+                        {
+                            OnMessageReceived(new Log($"Failed to find count of minutes before trying again. Waiting for {minutes} minutes", LogLevel.Warn), false);
+                            Thread.Sleep(minutes * 60 * 1000);
+                        }
+                        CreatePost_Post(taskPost, poolSubreddit);
+                    } else
+                    {
+                        OnMessageReceived(new Log(errors, LogLevel.Error), true);
+                    }
                     return;
                 }
 
@@ -295,10 +319,32 @@ namespace reddit_bor.service
                     flairText: poolSubreddit.PostFlair == null ? "" : poolSubreddit.PostFlair.Text
                     ));
 
-                if (result.JSON.Errors.Count > 0 )
+                if (result.JSON.Errors.Count > 0)
                 {
                     string errors = string.Join(" - ", result.JSON.Errors[0]);
-                    OnMessageReceived(new Log(errors, LogLevel.Error), true);
+
+                    if (errors.Contains("ratelimit"))
+                    {
+                        OnMessageReceived(new Log(errors, LogLevel.Error), false);
+                        Match match = Regex.Match(errors, RATELIMIT_PATTERN);
+                        int minutes = 5;
+                        if (match.Success)
+                        {
+                            minutes = int.Parse(match.Groups[1].Value);
+                            OnMessageReceived(new Log($"Waiting for {minutes} minutes before trying again", LogLevel.Info), false);
+                            Thread.Sleep(minutes * 60 * 1000);
+                        }
+                        else
+                        {
+                            OnMessageReceived(new Log($"Failed to find count of minutes before trying again. Waiting for {minutes} minutes", LogLevel.Warn), false);
+                            Thread.Sleep(minutes * 60 * 1000);
+                        }
+                        CreatePost_Link(taskLink, poolSubreddit);
+                    }
+                    else
+                    {
+                        OnMessageReceived(new Log(errors, LogLevel.Error), true);
+                    }
                     return;
                 }
 
