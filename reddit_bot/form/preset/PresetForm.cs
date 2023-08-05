@@ -16,7 +16,6 @@ using System.Drawing;
 using reddit_bor.form.log;
 using System.IO;
 using reddit_bor.domain.logs;
-using Reddit.Models;
 using Reddit.Exceptions;
 
 namespace reddit_bor.form.preset
@@ -87,8 +86,10 @@ namespace reddit_bor.form.preset
         {
             foreach (var preset in _presets)
             {
-                DataGridViewRow dataGridViewRow = new DataGridViewRow();
-                dataGridViewRow.Tag = preset;
+                DataGridViewRow dataGridViewRow = new DataGridViewRow
+                {
+                    Tag = preset
+                };
 
                 dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
                 {
@@ -104,18 +105,18 @@ namespace reddit_bor.form.preset
 
         private void FillSubredditFlairComboBox()
         {
-            comboBox3.SelectedIndexChanged += loadFlair;
-            comboBox3.TextChanged += changeFlairName;
+            comboBox3.SelectedIndexChanged += LoadFlair;
+            comboBox3.TextChanged += ChangeFlairName;
         }
 
         private void FillSubredditComboBox()
         {
-            comboBox2.SelectedIndexChanged += loadFlairs;
-            comboBox2.TextChanged += loadSubreddit;
-            comboBox2.Click += loadValuesToCombobox;
+            comboBox2.SelectedIndexChanged += LoadFlairs;
+            comboBox2.TextChanged += LoadSubreddit;
+            comboBox2.Click += LoadValuesToCombobox;
 
             button10.Click += LoadSubredditsByName;
-            button10.Click += loadFlairs;
+            button10.Click += LoadFlairs;
         }
 
         private void UpdateSubredditDataGrid()
@@ -128,8 +129,10 @@ namespace reddit_bor.form.preset
         {
             foreach (var subreddit in _poolSubreddits)
             {
-                DataGridViewRow dataGridViewRow = new DataGridViewRow();
-                dataGridViewRow.Tag = subreddit;
+                DataGridViewRow dataGridViewRow = new DataGridViewRow
+                {
+                    Tag = subreddit
+                };
 
                 dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
                 {
@@ -176,7 +179,7 @@ namespace reddit_bor.form.preset
         #region Load
 
 
-        private void loadFlair(object sender, EventArgs e)
+        private void LoadFlair(object sender, EventArgs e)
         {
             if (_subreddit == null)
             {
@@ -207,12 +210,12 @@ namespace reddit_bor.form.preset
             }
         }
 
-        private void loadSubreddit(object sender, EventArgs e)
+        private void LoadSubreddit(object sender, EventArgs e)
         {
             _subreddit = _redditClient.Subreddit(comboBox2.Text);
         }
 
-        private void loadFlairs(object sender, EventArgs e)
+        private void LoadFlairs(object sender, EventArgs e)
         {
             if (_subreddit == null)
             {
@@ -222,7 +225,6 @@ namespace reddit_bor.form.preset
             Flairs flairs = _subreddit.Flairs;
 
             comboBox3.Items.Clear();
-
             try
             {
                 label11.Text = "";
@@ -243,7 +245,7 @@ namespace reddit_bor.form.preset
                     label11.Text = "";
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 label11.Text = "Флаєри не знайдено";
             }
@@ -301,7 +303,7 @@ namespace reddit_bor.form.preset
         }
 
 
-        private void loadValuesToCombobox(object sender, EventArgs e)
+        private void LoadValuesToCombobox(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(comboBox2.Text))
             {
@@ -317,7 +319,7 @@ namespace reddit_bor.form.preset
             }
         }
 
-        private void changeFlairName(object sender, EventArgs e)
+        private void ChangeFlairName(object sender, EventArgs e)
         {
             if (_poolSubreddit.PostFlair != null)
             {
@@ -330,7 +332,7 @@ namespace reddit_bor.form.preset
         #endregion
 
         //Add subreddit and flair
-        private void button9_Click(object sender, System.EventArgs e)
+        private void Button9_Click(object sender, System.EventArgs e)
         {
             _poolSubreddit.Name = comboBox2.Text;
             _poolSubreddit.Count = (int)numericUpDown3.Value;
@@ -371,7 +373,7 @@ namespace reddit_bor.form.preset
         }
 
         #region Menu Panel
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             if (_newPublishForm == null)
             {
@@ -381,7 +383,7 @@ namespace reddit_bor.form.preset
             Hide();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void Button4_Click(object sender, EventArgs e)
         {
             AccountInfoForm accountInfoForm = new AccountInfoForm(_redditAccount, _accountsForm);
             accountInfoForm.Show();
@@ -389,13 +391,13 @@ namespace reddit_bor.form.preset
             _newPublishForm?.Close();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Button2_Click(object sender, EventArgs e)
         {
             _accountsForm.Show();
             Close();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Button3_Click(object sender, EventArgs e)
         {
             LogForm logForm = new LogForm(_accountsForm, _redditAccount);
             logForm.Show();
@@ -404,7 +406,7 @@ namespace reddit_bor.form.preset
         }
         #endregion
 
-        private void button6_Click(object sender, EventArgs e)
+        private void Button6_Click(object sender, EventArgs e)
         {
             if (_poolSubreddits.Count == 0)
             {
@@ -412,9 +414,11 @@ namespace reddit_bor.form.preset
                 return;
             }
 
-            Preset preset = new Preset();
-            preset.Subreddits = _poolSubreddits;
-            
+            Preset preset = new Preset
+            {
+                Subreddits = _poolSubreddits
+            };
+
             PresetAddNameDialogForm presetAddNameDialogForm = new PresetAddNameDialogForm();
             if (presetAddNameDialogForm.ShowDialog() != DialogResult.OK)
             {
@@ -511,7 +515,7 @@ namespace reddit_bor.form.preset
         }
         #endregion
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void PictureBox1_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -607,7 +611,7 @@ namespace reddit_bor.form.preset
             }
         }
 
-        private void clear_button_click(object sender, EventArgs e)
+        private void Clear_button_click(object sender, EventArgs e)
         {
             _poolSubreddits.Clear();
             _poolSubreddit = new PoolSubreddit();
@@ -622,13 +626,13 @@ namespace reddit_bor.form.preset
             get
             {
                 CreateParams cp = base.CreateParams;
-                cp.ClassStyle = cp.ClassStyle | CP_DISABLE_CLOSE_BUTTON;
+                cp.ClassStyle |= CP_DISABLE_CLOSE_BUTTON;
                 return cp;
             }
         }
         #endregion
 
-        private void subreddits_datagridview_key_down(object sender, KeyEventArgs e)
+        private void Subreddits_datagridview_key_down(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
             {
@@ -642,7 +646,7 @@ namespace reddit_bor.form.preset
             }
         }
 
-        private void presets_datagridview_key_down(object sender, KeyEventArgs e)
+        private void Presets_datagridview_key_down(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
             {
@@ -662,7 +666,7 @@ namespace reddit_bor.form.preset
             }
         }
 
-        private void presets_dataGridView_DoubleClick(object sender, EventArgs e)
+        private void Presets_dataGridView_DoubleClick(object sender, EventArgs e)
         {
             Preset preset = (Preset)dataGridView1.SelectedRows[0].Tag;
 
@@ -680,7 +684,7 @@ namespace reddit_bor.form.preset
             UpdateSubredditPanel();
         }
 
-        private void subreddits_dataGridView_DoubleClick(object sender, EventArgs e)
+        private void Subreddits_dataGridView_DoubleClick(object sender, EventArgs e)
         {
             PoolSubreddit poolSubreddit = (PoolSubreddit)dataGridView2.SelectedRows[0].Tag;
             PoolSubredditNewCountForm poolSubredditNewCountForm = new PoolSubredditNewCountForm(poolSubreddit);

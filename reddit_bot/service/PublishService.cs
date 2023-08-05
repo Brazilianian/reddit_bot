@@ -76,10 +76,7 @@ namespace reddit_bor.service
         {
             _isWorking = false;
             _isPause = false;
-            if (_workedThread != null)
-            {
-                _workedThread.Abort();
-            }
+            _workedThread?.Abort();
             _workedThread = null;
             FillTaskOrder();
         }
@@ -110,11 +107,11 @@ namespace reddit_bor.service
                     }
                     if (task is RedditPostTaskPost)
                     {
-                        createPost_Post(task as RedditPostTaskPost, poolSubreddit);
+                        CreatePost_Post(task as RedditPostTaskPost, poolSubreddit);
                     }
                     else if (task is RedditPostTaskLink)
                     {
-                        createPost_Link(task as RedditPostTaskLink, poolSubreddit);
+                        CreatePost_Link(task as RedditPostTaskLink, poolSubreddit);
                     }
                     else
                     {
@@ -169,7 +166,7 @@ namespace reddit_bor.service
         }
 
         #region Creation
-        private void createPost_Post(RedditPostTaskPost taskPost, PoolSubreddit poolSubreddit)
+        private void CreatePost_Post(RedditPostTaskPost taskPost, PoolSubreddit poolSubreddit)
         {
             var subreddit = _redditClient.Subreddit(poolSubreddit.Name);
 
@@ -247,7 +244,7 @@ namespace reddit_bor.service
             //TODO OC tag
         }
 
-        private void createPost_Link(RedditPostTaskLink taskLink, PoolSubreddit poolSubreddit)
+        private void CreatePost_Link(RedditPostTaskLink taskLink, PoolSubreddit poolSubreddit)
         {
             var subreddit = _redditClient.Subreddit(poolSubreddit.Name);
 

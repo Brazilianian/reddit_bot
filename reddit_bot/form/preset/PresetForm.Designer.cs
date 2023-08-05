@@ -65,6 +65,8 @@
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -98,7 +100,7 @@
             this.button3.TabIndex = 10;
             this.button3.Text = "Логи / Налаштунки";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.Button3_Click);
             // 
             // button11
             // 
@@ -121,7 +123,7 @@
             this.button1.TabIndex = 6;
             this.button1.Text = "Публікація";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // button4
             // 
@@ -134,7 +136,7 @@
             this.button4.TabIndex = 0;
             this.button4.Text = "Профіль";
             this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.Button4_Click);
             // 
             // button2
             // 
@@ -147,7 +149,7 @@
             this.button2.TabIndex = 4;
             this.button2.Text = "Назад";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
             // panel1
             // 
@@ -176,7 +178,7 @@
             this.button5.TabIndex = 16;
             this.button5.Text = "Очистити";
             this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.clear_button_click);
+            this.button5.Click += new System.EventHandler(this.Clear_button_click);
             // 
             // pictureBox1
             // 
@@ -188,7 +190,7 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 15;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureBox1.Click += new System.EventHandler(this.PictureBox1_Click);
             // 
             // button6
             // 
@@ -200,7 +202,7 @@
             this.button6.TabIndex = 10;
             this.button6.Text = "Добавити пресет";
             this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button6.Click += new System.EventHandler(this.Button6_Click);
             // 
             // label5
             // 
@@ -222,15 +224,16 @@
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.Column2,
-            this.Column3});
+            this.Column3,
+            this.Column4});
             this.dataGridView2.Location = new System.Drawing.Point(3, 284);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView2.Size = new System.Drawing.Size(409, 328);
             this.dataGridView2.TabIndex = 13;
-            this.dataGridView2.DoubleClick += new System.EventHandler(this.subreddits_dataGridView_DoubleClick);
-            this.dataGridView2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.subreddits_datagridview_key_down);
+            this.dataGridView2.DoubleClick += new System.EventHandler(this.Subreddits_dataGridView_DoubleClick);
+            this.dataGridView2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Subreddits_datagridview_key_down);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -395,7 +398,7 @@
             this.button9.TabIndex = 8;
             this.button9.Text = "Додати";
             this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
+            this.button9.Click += new System.EventHandler(this.Button9_Click);
             // 
             // comboBox3
             // 
@@ -444,15 +447,16 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
-            this.Column8});
+            this.Column8,
+            this.Column5});
             this.dataGridView1.Location = new System.Drawing.Point(3, 21);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(735, 241);
             this.dataGridView1.TabIndex = 11;
-            this.dataGridView1.DoubleClick += new System.EventHandler(this.presets_dataGridView_DoubleClick);
-            this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.presets_datagridview_key_down);
+            this.dataGridView1.DoubleClick += new System.EventHandler(this.Presets_dataGridView_DoubleClick);
+            this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Presets_datagridview_key_down);
             // 
             // Column1
             // 
@@ -479,6 +483,18 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "Text Files (*.txt)|*.txt";
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Дод. інфо";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Дод. інфо";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
             // 
             // PresetForm
             // 
@@ -544,5 +560,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
     }
 }

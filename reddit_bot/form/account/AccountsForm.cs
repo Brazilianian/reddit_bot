@@ -46,8 +46,10 @@ namespace reddit_bot
         {
             foreach (var account in _accounts)
             {
-                DataGridViewRow dataGridViewRow = new DataGridViewRow();
-                dataGridViewRow.Tag = account.AccountId;
+                DataGridViewRow dataGridViewRow = new DataGridViewRow
+                {
+                    Tag = account.AccountId
+                };
 
                 RedditClient redditClient = _redditService.GetRedditClient(account, RequestsUtil.GetUserAgent());
                 _accountService.UpdateAccountStatus(account);
@@ -58,7 +60,7 @@ namespace reddit_bot
                     {
                         Value = redditClient.Account.Me.Name
                     });
-                } catch (Exception ex)
+                } catch (Exception)
                 {
                     dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
                     {
@@ -76,7 +78,8 @@ namespace reddit_bot
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        [Obsolete]
+        private void Button2_Click(object sender, EventArgs e)
         {
             var accountAddForm = new AccountAddForm(this);
             accountAddForm.ShowDialog();
@@ -90,7 +93,7 @@ namespace reddit_bot
             FillAccountsDataGrid();
         }
 
-        private void dataGridView1_DoubleClick(object sender, EventArgs e)
+        private void DataGridView1_DoubleClick(object sender, EventArgs e)
         {
             var selectedRow = ((DataGridView)sender).SelectedRows[0];
             
@@ -113,12 +116,12 @@ namespace reddit_bot
             _logService.WriteLog(new Log($"New login to account - {redditClient.Account.Me.Name} - {redditAccount.AccountId}", LogLevel.Info));
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Button3_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        private void DataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
             {

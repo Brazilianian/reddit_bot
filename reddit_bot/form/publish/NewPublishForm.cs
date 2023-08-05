@@ -23,19 +23,17 @@ namespace reddit_bor.form.publish
         private readonly AccountsForm _accountsForm;
         private PresetForm _presetForm;
 
-        private PresetService _presetService;
+        private readonly PresetService _presetService;
         private PublishService _publishService;
         
-        private Pool _pool = new Pool();
-
-        private Subreddit _subreddit;
+        private readonly Pool _pool = new Pool();
 
         private TaskPostType _taskPostType;
 
         private bool _isWorking = false;
         private bool _isPause = false;
 
-        private List<Preset> _presets;
+        private readonly List<Preset> _presets;
 
         private IntervalRange _progress;
 
@@ -73,8 +71,10 @@ namespace reddit_bor.form.publish
         {
             foreach (var preset in _presets)
             {
-                DataGridViewRow dataGridViewRow = new DataGridViewRow();
-                dataGridViewRow.Tag = preset;
+                DataGridViewRow dataGridViewRow = new DataGridViewRow
+                {
+                    Tag = preset
+                };
 
                 dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
                 {
@@ -101,10 +101,10 @@ namespace reddit_bor.form.publish
                             .Select(e => EnumUtil.GetDescription(e))
                             .ToList();
             comboBox1.SelectedIndex = -1;
-            comboBox1.SelectedIndexChanged += fillInputPanel;
+            comboBox1.SelectedIndexChanged += FillInputPanel;
         }
 
-        private void fillInputPanel(object sender, EventArgs e)
+        private void FillInputPanel(object sender, EventArgs e)
         {
             _taskPostType = (TaskPostType)((ComboBox)sender).SelectedIndex;
             panel7.Controls.Clear();
@@ -161,7 +161,7 @@ namespace reddit_bor.form.publish
             };
             createTaskButton.Location = new Point(panel7.Width - createTaskButton.Width - 5, panel7.Height - createTaskButton.Height - 5);
 
-            createTaskButton.Click += createTask;
+            createTaskButton.Click += CreateTask;
 
             panel7.Controls.Add(createTaskButton);
         }
@@ -170,13 +170,13 @@ namespace reddit_bor.form.publish
         {
             Label labelTitle = (Label)Controls.Find("labelTitle", true)[0];
 
-            var checkBoxPanel = new Panel()
+            var checkBoxPanel = new Panel
             {
                 Size = new Size(panel7.Width / 2 - 10, 50),
                 BorderStyle = BorderStyle.FixedSingle,
-                Name = "checkBoxPanel"
+                Name = "checkBoxPanel",
+                Location = new Point(panel7.Width / 2 + 5, labelTitle.Location.Y)
             };
-            checkBoxPanel.Location = new Point(panel7.Width / 2 + 5, labelTitle.Location.Y);
 
             var checkBoxOc = new CheckBox()
             {
@@ -284,26 +284,28 @@ namespace reddit_bor.form.publish
         {
             foreach (var task in _pool._tasks)
             {
-                DataGridViewRow dataGridViewRow = new DataGridViewRow();
-                dataGridViewRow.Tag = task;
-                
+                DataGridViewRow dataGridViewRow = new DataGridViewRow
+                {
+                    Tag = task
+                };
+
                 dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
                 {
                    Value = task.PostTask.Title
                 });
 
-                if (task.PostTask is RedditPostTaskPost)
+                if (task.PostTask is RedditPostTaskPost post)
                 {
                     dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
                     {
-                        Value = ((RedditPostTaskPost)task.PostTask).Text
+                        Value = post.Text
                     });
                 }
-                else if (task.PostTask is RedditPostTaskLink)
+                else if (task.PostTask is RedditPostTaskLink link)
                 {
                     dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
                     {
-                        Value = ((RedditPostTaskLink)task.PostTask).Link
+                        Value = link.Link
                     });
                 }
                 else
@@ -333,7 +335,7 @@ namespace reddit_bor.form.publish
         }
         #endregion
 
-        private void createTask(object sender, EventArgs e)
+        private void CreateTask(object sender, EventArgs e)
         {
             string title = Controls.Find("textBoxTitle", true)[0].Text;
 
@@ -375,7 +377,7 @@ namespace reddit_bor.form.publish
             }
         }
 
-        private void getLogs(Log log, bool isIncrement)
+        private void GetLogs(Log log, bool isIncrement)
         {
             if (isIncrement)
             {
@@ -385,7 +387,7 @@ namespace reddit_bor.form.publish
             UpdateProgress(log);
         }
 
-        private void finishThePublishing()
+        private void FinishThePublishing()
         {
             _isWorking = false;
             _isPause = false;
@@ -396,7 +398,7 @@ namespace reddit_bor.form.publish
         }
 
         #region Publish Control
-        private void button_start_Click(object sender, EventArgs e)
+        private void Button_start_Click(object sender, EventArgs e)
         {
             if (_isWorking)
             {
@@ -434,8 +436,8 @@ namespace reddit_bor.form.publish
 
             _publishService = new PublishService(_pool, _redditAccount);
 
-            _publishService.MessageReceived += getLogs;
-            _publishService.ProccessFinishing += finishThePublishing;
+            _publishService.MessageReceived += GetLogs;
+            _publishService.ProccessFinishing += FinishThePublishing;
 
             int count = GetMaximumOfProgress();
 
@@ -469,7 +471,7 @@ namespace reddit_bor.form.publish
             return Math.Min(subMax, postMax);
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void Button7_Click(object sender, EventArgs e)
         {
             if (!_isWorking)
             {
@@ -481,9 +483,9 @@ namespace reddit_bor.form.publish
             _isPause = true;
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void Button8_Click(object sender, EventArgs e)
         {
-            finishThePublishing();
+            FinishThePublishing();
         }
         #endregion
 
@@ -554,7 +556,7 @@ namespace reddit_bor.form.publish
         #endregion
 
         #region Menu Panel
-        private void button4_Click(object sender, System.EventArgs e)
+        private void Button4_Click(object sender, System.EventArgs e)
         {
             AccountInfoForm accountInfoForm = new AccountInfoForm(_redditAccount, _accountsForm);
             accountInfoForm.Show();
@@ -563,7 +565,7 @@ namespace reddit_bor.form.publish
             _presetForm?.Close();
         }
 
-        private void button11_Click(object sender, EventArgs e)
+        private void Button11_Click(object sender, EventArgs e)
         {
             if (_presetForm == null)
             {
@@ -573,13 +575,13 @@ namespace reddit_bor.form.publish
             Hide();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Button2_Click(object sender, EventArgs e)
         {
             _accountsForm.Show();
             Close();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Button3_Click(object sender, EventArgs e)
         {
             LogForm logForm = new LogForm(_accountsForm, _redditAccount);
             logForm.Show();
@@ -590,7 +592,7 @@ namespace reddit_bor.form.publish
         #endregion
 
         //Add Preset
-        private void dataGridView3_DoubleClick(object sender, EventArgs e)
+        private void DataGridView3_DoubleClick(object sender, EventArgs e)
         {
             if (((DataGridView)sender).SelectedRows.Count == 0)
             {
@@ -619,8 +621,10 @@ namespace reddit_bor.form.publish
         {
             foreach (PoolSubreddit subreddit in _pool._subreddits)
             {
-                DataGridViewRow dataGridViewRow = new DataGridViewRow();
-                dataGridViewRow.Tag = subreddit;
+                DataGridViewRow dataGridViewRow = new DataGridViewRow
+                {
+                    Tag = subreddit
+                };
 
                 dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
                 {
@@ -707,13 +711,13 @@ namespace reddit_bor.form.publish
             get
             {
                 CreateParams cp = base.CreateParams;
-                cp.ClassStyle = cp.ClassStyle | CP_DISABLE_CLOSE_BUTTON;
+                cp.ClassStyle |= CP_DISABLE_CLOSE_BUTTON;
                 return cp;
             }
         }
         #endregion
 
-        private void subreddits_dataGridView_KeyDown(object sender, KeyEventArgs e)
+        private void Subreddits_dataGridView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
             {
@@ -727,7 +731,7 @@ namespace reddit_bor.form.publish
             }
         }
 
-        private void tasks_dataGridView_KeyDown(object sender, KeyEventArgs e)
+        private void Tasks_dataGridView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
             {
@@ -741,7 +745,7 @@ namespace reddit_bor.form.publish
             }
         }
 
-        private void dataGridView1_DoubleClick(object sender, EventArgs e)
+        private void DataGridView1_DoubleClick(object sender, EventArgs e)
         {
             PoolSubreddit poolSubreddit = (PoolSubreddit)dataGridView1.SelectedRows[0].Tag;
             PoolSubredditNewCountForm poolSubredditNewCountForm = new PoolSubredditNewCountForm(poolSubreddit);
