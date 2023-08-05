@@ -136,7 +136,7 @@
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView2.Size = new System.Drawing.Size(711, 326);
             this.dataGridView2.TabIndex = 1;
-            this.dataGridView2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tasks_KeyDown);
+            this.dataGridView2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tasks_dataGridView_KeyDown);
             // 
             // Column3
             // 
@@ -412,7 +412,7 @@
             this.button6.TabIndex = 20;
             this.button6.Text = "Старт";
             this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button6.Click += new System.EventHandler(this.button_start_Click);
             // 
             // panel4
             // 

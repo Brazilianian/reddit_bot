@@ -347,7 +347,6 @@ namespace reddit_bor.form.publish
             bool isNsfw = ((CheckBox)Controls.Find("checkBoxNsfw", true)[0]).Checked;
             int count = (int)((NumericUpDown)Controls.Find("numericCount", true)[0]).Value;
 
-            _pool.IsRandom = checkBox1.Checked;
             _pool.Range = new IntervalRange((int)numericUpDown1.Value, (int)numericUpDown2.Value);
 
             switch (_taskPostType)
@@ -397,7 +396,7 @@ namespace reddit_bor.form.publish
         }
 
         #region Publish Control
-        private void button6_Click(object sender, EventArgs e)
+        private void button_start_Click(object sender, EventArgs e)
         {
             if (_isWorking)
             {
@@ -716,16 +715,30 @@ namespace reddit_bor.form.publish
 
         private void subreddits_dataGridView_KeyDown(object sender, KeyEventArgs e)
         {
-            int number = ((DataGridView)sender).SelectedRows[0].Index;
-            _pool._subreddits.RemoveAt(number);
-            UpdateSubredditsDataGrid();
+            if (e.KeyCode == Keys.Delete)
+            {
+                DataGridView dataGridView = (DataGridView)sender;
+                if (dataGridView.SelectedRows.Count > 0)
+                {
+                    int number = dataGridView.SelectedRows[0].Index;
+                    _pool._subreddits.RemoveAt(number);
+                    UpdateSubredditsDataGrid();
+                }
+            }
         }
 
-        private void tasks_KeyDown(object sender, KeyEventArgs e)
+        private void tasks_dataGridView_KeyDown(object sender, KeyEventArgs e)
         {
-            int number = ((DataGridView)sender).SelectedRows[0].Index;
-            _pool._tasks.RemoveAt(number);
-            UpdateTaskDataGrid();
+            if (e.KeyCode == Keys.Delete)
+            {
+                DataGridView dataGridView = (DataGridView)sender;
+                if (dataGridView.SelectedRows.Count > 0)
+                {
+                    int number = dataGridView.SelectedRows[0].Index;
+                    _pool._tasks.RemoveAt(number);
+                    UpdateTaskDataGrid();
+                }
+            }
         }
 
         private void dataGridView1_DoubleClick(object sender, EventArgs e)

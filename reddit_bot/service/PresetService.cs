@@ -49,16 +49,11 @@ namespace reddit_bor.service
 
         internal void UpdatePresetByName(Preset preset)
         {
-            List<Preset> presets = FindAllPresets();
+            List<Preset> presets = FindAllPresets()
+                .Where(p => !p.Name.Equals(preset.Name))
+                .ToList();
 
-            Preset oldPreset = presets.Where(p => p.Name.Equals(preset.Name))
-                .FirstOrDefault();
-            
-            if (oldPreset != null) 
-            {
-                oldPreset = preset;
-            }
-
+            presets.Add(preset);
             WriteAll(presets);
         }
     }
