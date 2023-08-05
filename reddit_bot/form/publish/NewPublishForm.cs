@@ -14,7 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Media;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace reddit_bor.form.publish
@@ -37,6 +38,7 @@ namespace reddit_bor.form.publish
 
         private bool _isWorking = false;
         private bool _isPause = false;
+        private bool _isSound = true;
 
         private List<Preset> _presets;
 
@@ -396,12 +398,29 @@ namespace reddit_bor.form.publish
 
         private void FinishThePublishing()
         {
+            if (_isSound)
+            {
+                MakeSound();
+            }
+
             _isWorking = false;
             _isPause = false;
             _progress.From = 0;
             UpdateProgressControls();
 
             _publishService.Stop();
+        }
+
+        private void MakeSound()
+        {
+            Thread thread = new Thread(() =>
+            {
+                using (SoundPlayer player = new SoundPlayer(Properties.Resources.success))
+                {
+                    player.Play();
+                }
+            });
+            thread.Start();
         }
 
         #region Publish Control
@@ -770,6 +789,13 @@ namespace reddit_bor.form.publish
                     UpdateSubredditsDataGrid();
                 }
             }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            _isSound = !_isSound;
+
+            pictureBox1.Image = _isSound ? Properties.Resources.sound : Properties.Resources.no_sound;
         }
     }
 }
