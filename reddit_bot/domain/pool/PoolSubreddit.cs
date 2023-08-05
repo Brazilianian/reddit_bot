@@ -9,6 +9,7 @@ namespace reddit_bor.domain.pool
         public PostFlair PostFlair { get; set; }
         public int Count { get; set; }
         public Trigger Trigger { get; set; }
+        public string AdditionalInfo { get; set; }
 
         public PoolSubreddit() 
         {

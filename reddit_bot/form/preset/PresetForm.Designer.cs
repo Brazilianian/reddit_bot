@@ -44,6 +44,7 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel4 = new System.Windows.Forms.Panel();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
@@ -61,12 +62,10 @@
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -259,6 +258,12 @@
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
             // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Дод. інфо";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -447,8 +452,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
-            this.Column8,
-            this.Column5});
+            this.Column8});
             this.dataGridView1.Location = new System.Drawing.Point(3, 21);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -457,18 +461,6 @@
             this.dataGridView1.TabIndex = 11;
             this.dataGridView1.DoubleClick += new System.EventHandler(this.Presets_dataGridView_DoubleClick);
             this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Presets_datagridview_key_down);
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Назва пресету";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Кількість сабредітів";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
             // 
             // label1
             // 
@@ -484,17 +476,17 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "Text Files (*.txt)|*.txt";
             // 
-            // Column4
+            // Column1
             // 
-            this.Column4.HeaderText = "Дод. інфо";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
+            this.Column1.HeaderText = "Назва пресету";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
             // 
-            // Column5
+            // Column8
             // 
-            this.Column5.HeaderText = "Дод. інфо";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
+            this.Column8.HeaderText = "Кількість сабредітів";
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
             // 
             // PresetForm
             // 
@@ -531,8 +523,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label15;
@@ -561,6 +551,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
     }
 }

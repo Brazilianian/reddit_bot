@@ -71,8 +71,6 @@ namespace reddit_bor.form.preset
         {
             FillSubredditPanel();
             FillSubredditDataGrid();
-
-            //FillPresetsDataGrid();
         }
 
         #region Fill Forms
@@ -149,6 +147,10 @@ namespace reddit_bor.form.preset
                 dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
                 {
                     Value = subreddit.Trigger == null ? "" : subreddit.Trigger.ToString()
+                });
+                dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
+                {
+                    Value = subreddit.AdditionalInfo
                 });
                 dataGridView2.Rows.Add(dataGridViewRow);
             }
@@ -285,7 +287,7 @@ namespace reddit_bor.form.preset
                     subredditToSearch.About();
                     label10.Text = "";
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     label10.Text = "Жодних сабреддітів не знайдено";
                 }
@@ -379,6 +381,7 @@ namespace reddit_bor.form.preset
             {
                 _newPublishForm = new NewPublishForm(_redditAccount, _accountsForm, this);
             }
+            _newPublishForm.UpdatePresetsDataGrid();
             _newPublishForm.Show();
             Hide();
         }
@@ -687,12 +690,11 @@ namespace reddit_bor.form.preset
         private void Subreddits_dataGridView_DoubleClick(object sender, EventArgs e)
         {
             PoolSubreddit poolSubreddit = (PoolSubreddit)dataGridView2.SelectedRows[0].Tag;
-            PoolSubredditNewCountForm poolSubredditNewCountForm = new PoolSubredditNewCountForm(poolSubreddit);
+            PoolSubredditChangeInfoForm poolSubredditNewCountForm = new PoolSubredditChangeInfoForm(poolSubreddit, _redditClient);
 
             if (poolSubredditNewCountForm.ShowDialog() == DialogResult.OK)
             {
-                poolSubreddit.Count = poolSubredditNewCountForm._count;
-                _presetService.WriteAll(_presets);
+                poolSubreddit = poolSubredditNewCountForm._poolSubreddit;
                 UpdateSubredditDataGrid();
             }
         }

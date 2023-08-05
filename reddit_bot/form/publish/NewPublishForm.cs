@@ -1,4 +1,4 @@
-﻿using Reddit.Controllers;
+﻿using Reddit;
 using reddit_bor.domain.logs;
 using reddit_bor.domain.pool;
 using reddit_bor.domain.task;
@@ -8,11 +8,13 @@ using reddit_bor.service;
 using reddit_bot;
 using reddit_bot.domain;
 using reddit_bot.domain.task;
+using reddit_bot.service;
 using reddit_bot.util;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace reddit_bor.form.publish
@@ -21,6 +23,9 @@ namespace reddit_bor.form.publish
     {
         private readonly RedditAccount _redditAccount;
         private readonly AccountsForm _accountsForm;
+        private readonly RedditClient _redditClient;
+        private readonly RedditService _redditService;
+
         private PresetForm _presetForm;
 
         private readonly PresetService _presetService;
@@ -33,7 +38,7 @@ namespace reddit_bor.form.publish
         private bool _isWorking = false;
         private bool _isPause = false;
 
-        private readonly List<Preset> _presets;
+        private List<Preset> _presets;
 
         private IntervalRange _progress;
 
@@ -45,7 +50,9 @@ namespace reddit_bor.form.publish
             _redditAccount = redditAccount;
             _accountsForm = accountsForm;
 
+            _redditService = new RedditService();
             _presetService = new PresetService();
+            _redditClient = _redditService.GetRedditClient(redditAccount, RequestsUtil.GetUserAgent());
 
             _presets = _presetService.FindAllPresets();
 
@@ -511,7 +518,7 @@ namespace reddit_bor.form.publish
                 try
                 {
                     progressBar1.Value = (int)((double)_progress.From / (double)_progress.To * 100);
-                } catch(Exception ex)
+                } catch(Exception)
                 {
                     progressBar1.Value = 0;
                 }
@@ -605,9 +612,10 @@ namespace reddit_bor.form.publish
             UpdatePresetsDataGrid();
         }
 
-        private void UpdatePresetsDataGrid()
+        public void UpdatePresetsDataGrid()
         {
             dataGridView3.Rows.Clear();
+            _presets = _presetService.FindAllPresets();
             FillPresetDataGrid();
         }
 
@@ -642,7 +650,10 @@ namespace reddit_bor.form.publish
                 {
                     Value = subreddit.Trigger == null ? "" : subreddit.Trigger.ToString()
                 });
-
+                dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell()
+                {
+                    Value = subreddit.AdditionalInfo
+                });
                 dataGridView1.Rows.Add(dataGridViewRow);
             }
         }
@@ -745,16 +756,19 @@ namespace reddit_bor.form.publish
             }
         }
 
-        private void DataGridView1_DoubleClick(object sender, EventArgs e)
+        private void Subreddits_DoubleClick(object sender, EventArgs e)
         {
-            PoolSubreddit poolSubreddit = (PoolSubreddit)dataGridView1.SelectedRows[0].Tag;
-            PoolSubredditNewCountForm poolSubredditNewCountForm = new PoolSubredditNewCountForm(poolSubreddit);
-
-            if (poolSubredditNewCountForm.ShowDialog() == DialogResult.OK)
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (dataGridView.SelectedRows.Count > 0)
             {
-                PoolSubreddit oldPoolSubreddit = _pool._subreddits.Where(ps => ps.Equals(poolSubreddit)).FirstOrDefault();
-                oldPoolSubreddit.Count = poolSubredditNewCountForm._count;
-                UpdateSubredditsDataGrid();
+                PoolSubreddit poolSubreddit = (PoolSubreddit)dataGridView.SelectedRows[0].Tag;
+                PoolSubredditChangeInfoForm poolSubredditNewCountForm = new PoolSubredditChangeInfoForm(poolSubreddit, _redditClient);
+
+                if (poolSubredditNewCountForm.ShowDialog() == DialogResult.OK)
+                {
+                    poolSubreddit = poolSubredditNewCountForm._poolSubreddit;
+                    UpdateSubredditsDataGrid();
+                }
             }
         }
     }
